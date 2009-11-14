@@ -879,28 +879,9 @@ is_root_shell() { [[ $USER == root ]] }
 
   if [[ ! -z $ON_LAPTOP ]] then
     alias Y='yacpi -s 5'
-    #alias Hibernate='sudo su -c "echo 4 > /proc/acpi/sleep"'
-
-    # kismet() {
-    #   sudo ifconfig eth0 up && echo Bringing up eth0...
-    #   sudo ifconfig eth0 promisc && echo Setting promiscous mode on eth0...
-    #   echo Starting kismet...\\n
-    #   sudo kismet $*
-    #   echo
-    #   sudo ifconfig eth0 -promisc && echo Leaving promiscous mode on eth0...
-    #   sudo ifconfig eth0 down && echo Bringing down eth0...
-    #   # sudo rmmod orinoco_pci && echo Removing orinoco_pci...
-    #   # sudo modprobe orinoco_pci && echo Loading orinoco_pci...
-    # }
-
-    # alias  encmount="encfs /home/julius/stuff/.encfs /home/julius/stuff/encfs"
-    # alias encumount="fusermount -u /home/julius/stuff/encfs"
-
-    # alias  sshmount="sshfs berlin: /home/julius/stuff/sshfs"
-    # alias sshumount="fusermount -u /home/julius/stuff/sshfs"
-
+    alias ipt='tail -n 0 -f /var/log/debug | ccze -A -c host=bold\ yellow'
+    alias wake-deepthought='sudo etherwake -i eth1 00:0a:e4:c5:e7:36'
     Backup() {
-      # sudo cryptsetup luksOpen /dev/sdb1 backup
       sudo cryptsetup luksOpen /dev/disk/by-uuid/1875ac5f-083b-4801-a00c-be913bebd414 backup
       mount /mnt/backup
       cmd=(rsync -avhx --progress / /mnt/backup/$(hostname))
@@ -927,6 +908,9 @@ is_root_shell() { [[ $USER == root ]] }
   alias top10='print -l -- ${(o)history%% *} | uniq -c | sort -nr | head -10'
   alias checkinstall='sudo checkinstall -D' # rule tool ;D
   alias svnup='svn up'
+
+# 2009-11-14: git config versioning
+  alias conf='git --git-dir=$HOME/.configs.git --work-tree=.'
 # }}}
 
 # modules {{{
@@ -1553,8 +1537,8 @@ compdef _cowsay cowsay cowthink
 # }}}
 
 # tanzania resize
-  trs() { command convert $1 -geometry 160x120 ${1:r}_small.${1:e} }
-  RR() { command convert $1 -rotate ${2:-90} ${1:r}_trans.${1:e} }
+# trs() { command convert $1 -geometry 160x120 ${1:r}_small.${1:e} }
+# RR() { command convert $1 -rotate ${2:-90} ${1:r}_trans.${1:e} }
 
 # youtube!
   YT() { 
@@ -1565,10 +1549,6 @@ compdef _cowsay cowsay cowthink
     print -s "ffmpeg -i $download -acodec copy ${download:r}.mp3 " # store in history
   }
   alias YT=noglob\ YT
-
-  alias ipt='tail -n 0 -f /var/log/debug | ccze -A -c host=bold\ yellow'
-  alias wake-deepthought='sudo etherwake -i eth1 00:0a:e4:c5:e7:36'
-  alias conf='git --git-dir=$HOME/.configs.git --work-tree=.'
 
 # clean up
   print -n ${(l:$COLUMNS-1:: :)}'\r'
