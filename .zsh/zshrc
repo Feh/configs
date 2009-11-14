@@ -1568,6 +1568,7 @@ compdef _cowsay cowsay cowthink
 
   alias ipt='tail -n 0 -f /var/log/debug | ccze -A -c host=bold\ yellow'
   alias wake-deepthought='sudo etherwake -i eth1 00:0a:e4:c5:e7:36'
+  alias conf='git --git-dir=$HOME/.configs.git --work-tree=.'
 
 # clean up
   print -n ${(l:$COLUMNS-1:: :)}'\r'
