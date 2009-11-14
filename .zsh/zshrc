@@ -299,6 +299,28 @@ is_root_shell() { [[ $USER == root ]] }
   RPROMPT='%1(j.%B(%j%)%b.)'
   is_root_shell && PROMPT="%{$fg[red]%}$PROMPT%{$fg[red]%}"
 
+  is_git_repo() {
+    git rev-parse --git-dir &>/dev/null
+  }
+  git_project_name() {
+    if is_git_repo; then
+      __git_project_name="${${$(readlink -f $(git rev-parse --git-dir 2>|/dev/null)):h}##*/}"
+    else
+      __git_project_name=
+    fi
+  }
+  parse_git_branch() {
+    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) -- /'
+  }
+  git_branch_name() {
+    .
+  }
+  git_prompt_info() {
+    is_git_repo || return
+    .
+  }
+
+
 # }}}
 
 # functions {{{
