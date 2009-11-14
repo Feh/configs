@@ -1,0 +1,234 @@
+! XTerm*showBlinkAsBold: true
+! XTerm*background: white
+! XTerm*foreground: black
+! XTerm*internalBorder: 1
+! XTerm*font: 9x15
+! XTerm*eightBitInput: false
+! XTerm*metaSendsEscape: true
+
+!Aterm*loginShell: true
+!Aterm*saveLines: 1000
+!Aterm*title: aterm
+!Aterm*font: 6x13
+!Aterm*font: -*-terminus-medium-*-*-*-12-*-*-*-*-*-iso10646-*
+!Aterm*bildFont: 6x13
+!Aterm*font: -bitstream-bitstream vera sans mono-medium-r-normal-*-*-85-*-*-m-*-iso8859-15
+!Aterm*font: -monotype-andale mono-medium-r-normal-*-*-80-*-*-m-*-iso8859-15
+!Aterm*font: -monotype-andale mono-medium-r-normal-*-*-120-*-*-m-*-iso8859-15
+
+!Aterm*boldFont: -monotype-andale mono-medium-r-normal-*-*-80-*-*-m-*-iso8859-15
+!Aterm*boldFont: -monotype-andale mono-medium-r-normal-*-*-120-*-*-m-*-iso8859-15
+! ...as <20040226231820.GA3007@moo.holy.cow> said :)
+
+URxvt*background: black
+URxvt*foreground: white
+URxvt*inheritPixmap:true
+URxvt*saveLines:5000
+URxvt*font: -windows-dina-medium-r-normal--13-80-96-96-c-70-microsoft-cp1252
+!URxvt*font: xft:dina-8:antialias=false
+!URxvt*boldFont: terminus-bold-12
+urxvt*urlLauncher: iceweasel
+URxvt*urgentOnBell:True
+URxvt*internalBorder:4
+URxvt*scrollBar:false
+URxvt*fading:35
+!URxvt*fadeColor:Green
+
+XTerm*font: -windows-dina-medium-r-normal--13-80-96-96-c-70-microsoft-cp1252
+
+!  !Aterm*background: black
+!  !Aterm*foreground: white
+!  !Aterm*transparent: true
+!  !Aterm*shading: 100
+!  !Aterm*fading: 60
+!  !Aterm*shading: 35
+!  !Aterm*shading: 70
+!  !Aterm*scrollBar: false
+!  !XTerm*cursorColor: yellow
+!  !XTerm*cursorColor: red
+!  !XTerm*color0:      black
+!  !XTerm*color1:      #9e1828
+!  !XTerm*color2:      #aece92
+!  !XTerm*color3:      #968a38
+!  !XTerm*color4:      #414171
+!  !XTerm*color5:      #963c59
+!  !XTerm*color6:      #418179
+!  !XTerm*color7:      gray
+!  !XTerm*color8:      gray40
+!  !XTerm*color9:      #cf6171
+!  !XTerm*color10:     #c5f779
+!  !XTerm*color11:     #fff796
+!  !XTerm*color12:     #4186be
+!  !XTerm*color13:     #cf9ebe
+!  !XTerm*color14:     #71bebe
+!  !XTerm*color15:     white
+!  XTerm*color0:#000000
+!  XTerm*color1:#b21818
+!  XTerm*color2:#18b218
+!  !XTerm*color3:#BE5F00
+!  XTerm*color3:#ffff00
+!  !XTerm*color4:#6D85BA
+!  !XTerm*color4:CornflowserBlue
+!  !XTerm*color4:#6495ED
+!  XTerm*color4:Blue
+!  XTerm*color5:#b218b2
+!  XTerm*color6:#18b2b2
+!  !XTerm*color7:#b2b2b2
+!  !XTerm*color7:SteelBlue1
+!  XTerm*color7:white
+!  XTerm*color8:#686868
+!  XTerm*color9:#FF5454
+!  XTerm*color10:#54FF54
+!  XTerm*color11:#FFFF54
+!  XTerm*color12:#73A5FF
+!  XTerm*color13:#FF54FF
+!  XTerm*color14:#54FFFF
+!  XTerm*color15:#FFFFFF
+
+
+
+!urxvt*color0:#000000
+!urxvt*color1:#b21818
+!urxvt*color2:#18b218
+!urxvt*color3:#ffff00
+!urxvt*color4:Blue
+!urxvt*color5:#b218b2
+!urxvt*color6:#18b2b2
+!urxvt*color7:white
+!urxvt*color8:#686868
+!urxvt*color9:#FF5454
+!urxvt*color10:#54FF54
+!urxvt*color11:#FFFF54
+!urxvt*color12:#73A5FF
+!urxvt*color13:#FF54FF
+!urxvt*color14:#54FFFF
+!urxvt*color15:#FFFFFF
+
+
+! ATerm defaults:
+! urxvt*color0:Black
+! urxvt*color1:Red3
+! urxvt*color2:Green3
+! urxvt*color3:Yellow3
+! urxvt*color4:Blue3
+! urxvt*color5:Magenta3
+! urxvt*color6:Cyan3
+! urxvt*color7:AntiqueWhite
+! urxvt*color8:Grey25
+! urxvt*color9:Red
+! urxvt*color10:Green
+! urxvt*color11:Yellow
+! urxvt*color12:Blue
+! urxvt*color13:Magenta
+! urxvt*color14:Cyan
+! urxvt*color15:White
+
+! URxvt*color0:Black
+! URxvt*color1:Red3
+! URxvt*color2:Green3
+! URxvt*color3:Yellow3
+! URxvt*color4:Blue3
+! URxvt*color5:Magenta3
+! URxvt*color6:Cyan3
+! URxvt*color7:AntiqueWhite
+! URxvt*color8:Grey25
+! URxvt*color9:Red
+! URxvt*color10:Green
+! URxvt*color11:Yellow
+! URxvt*color12:Blue
+! URxvt*color13:Magenta
+! URxvt*color14:Cyan
+! URxvt*color15:White
+! URxvt*boldColors: True
+! URxvt*highlightColor: #ffffff
+! URxvt*disableMacros: True
+!
+! ! Aterm*color0:Black
+! ! Aterm*color1:Red3
+! ! Aterm*color2:Green3
+! ! Aterm*color3:Yellow3
+! ! Aterm*color4:Blue3
+! ! Aterm*color5:Magenta3
+! ! Aterm*color6:Cyan3
+! ! Aterm*color7:AntiqueWhite
+! ! Aterm*color8:Grey25
+! ! Aterm*color9:Red
+! ! Aterm*color10:Green
+! ! Aterm*color11:Yellow
+! ! Aterm*color12:Blue
+! ! Aterm*color13:Magenta
+! ! Aterm*color14:Cyan
+! ! Aterm*color15:White
+!
+! !Mrxvt*saveLines: 1000
+! !Mrxvt*title: mrxvt
+! !Mrxvt*font: -*-terminus-medium-*-*-*-12-*-*-*-*-*-iso10646-*
+! !Mrxvt*scrollBar:false
+! !Mrxvt*scrollTtyOutput:false
+! !Mrxvt*scrollKeypress:false
+!
+! !Mrxvt*background: black
+! !Mrxvt*foreground: white
+! !Mrxvt*transparent: True
+! !Mrxvt*shading: 0
+! !Mrxvt*fading: 40
+! !Mrxvt*textShadowMode: botright
+! !Mrxvt*hideTabbar: True
+!
+! Mrxvt*color0:Black
+! Mrxvt*color1:Red3
+! Mrxvt*color2:Green3
+! Mrxvt*color3:Yellow3
+! Mrxvt*color4:Blue3
+! Mrxvt*color5:Magenta3
+! Mrxvt*color6:Cyan3
+! Mrxvt*color7:AntiqueWhite
+! Mrxvt*color8:Grey25
+! Mrxvt*color9:Red
+! Mrxvt*color10:Green
+! Mrxvt*color11:Yellow
+! Mrxvt*color12:Blue
+! Mrxvt*color13:Magenta
+! Mrxvt*color14:Cyan
+! Mrxvt*color15:White
+! Mrxvt*boldColors: True
+! !Mrxvt*veryBright: True
+! Mrxvt*highlightColor: #ffffff
+! Mrxvt*disableMacros: True
+
+!URxvt.cursorColor:  #dc74d1
+!URxvt.pointerColor: #dc74d1
+!URxvt.background:   #0e0e0e
+!URxvt.foreground:   #4ad5e1
+!URxvt.color0:       #000000
+!URxvt.color8:       #8b8f93
+!URxvt.color1:       #dc74d1
+!URxvt.color9:       #dc74d1
+!URxvt.color2:       #0eb8c7
+!URxvt.color10:      #0eb8c7
+!URxvt.color3:       #dfe37e
+!URxvt.color11:      #dfe37e
+!URxvt.color5:       #9e88f0
+!URxvt.color13:      #9e88f0
+!URxvt.color6:       #73f7ff
+!URxvt.color14:      #73f7ff
+!URxvt.color7:       #e1dddd
+!URxvt.color15:      #e1dddd
+
+
+URxvt*color0:Black
+URxvt*color1:Red3
+URxvt*color2:Green3
+URxvt*color3:Yellow3
+URxvt*color4:Blue3
+URxvt*color5:Magenta3
+URxvt*color6:Cyan3
+URxvt*color7:AntiqueWhite
+URxvt*color8:Grey25
+URxvt*color9:Red
+URxvt*color10:Green
+URxvt*color11:Yellow
+URxvt*color12:Blue
+URxvt*color13:Magenta
+URxvt*color14:Cyan
+URxvt*color15:White

@@ -1,0 +1,16 @@
+remove lock = Caps_Lock
+!keycode 49 = dead_diaeresis asciitilde
+keycode 49 = grave  asciitilde
+keycode 115 = Alt_L
+! skip back
+keycode 144 = XF86LaunchA
+! pause
+keycode 162 = XF86LaunchB
+! skip forward
+keycode 153 = XF86LaunchC
+! vol -
+keycode 174 = XF86LaunchD
+! mute
+keycode 160 = XF86LaunchE
+! vol +
+keycode 176 = XF86LaunchF

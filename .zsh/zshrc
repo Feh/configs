@@ -1,0 +1,1583 @@
+######################################################################
+# $HOME/.zshrc of Julius Plenz, zshrc/plenz/com
+######################################################################
+# Feel free to copy stuff from this config (some lines are also copied
+# from other people's configs), but I do not advise you to use this
+# file as your ~/.zshrc without modification, it might mess around
+# with your system too much (but, if you are fearless, try it out
+# ;-)). Also, there are some really strange key bindings defined.
+######################################################################
+# $Id: zshrc,v d923d567ba82 2009/11/02 10:39:34 feh $
+######################################################################
+
+# if a minimal zsh is requested, give it one! (via min-zsh alias)
+# below is the minimal setup used from ~/.zshrc.minimal:
+#
+# : setopt nobeep noclobber autocd completeinword correct rmstarwait
+# : eval `dircolors`
+# : PROMPT='%B%Umin%u>%b '
+# : bindkey -e
+# : autoload -U compinit && compinit
+#
+# I cannot think of another way to do this. Sadly, zsh doesnt provide an
+# command line option to override the user configuration file...
+if [[ $0 == "min-zsh" ]]; then
+    if [[ -f $HOME/.zshrc.minimal ]]; then
+        . $HOME/.zshrc.minimal && return
+    else
+        print "Warning: cannot find ~/.zshrc.minimal file."
+        print "Loading default configuration instead!"
+    fi
+fi
+
+# helper functions (will be unfunctioned later)
+loading() { print -n ${(r:$COLUMNS-2-$#1:: :):-loading $1...}'\r' }
+is_root_shell() { [[ $USER == root ]] }
+
+# host-based settings {{{
+######################################################################
+# Verschiedene Rechner, verschiedene Paths, versch. Umgebungsvariablen
+# - Generelle Einstellungen, die evtl. überschrieben werden:
+######################################################################
+
+  loading hosts
+  [[ $SHELL == "/bin/zsh-static" ]] || zmodload -i zsh/zprof
+
+  add-to-path() { path+=("$@") }
+  local hostname=$(hostname)
+  [[ $(hostname --fqdn) == *.(mi|imp).fu-berlin.de ]] && hostname="mi/$(hostname)"
+
+  export HOME=${HOME:-/home/julius}
+  export PATH=${PATH:-/usr/local/bin:/usr/bin:/bin}
+  export TMPDIR=${TMPDIR:-/tmp}
+  export CDPATH=.:..
+  [[ ! -z "$SSH_TTY" ]] && export SSH_HOSTNAME=$hostname
+
+  local greeting_message
+
+  case "$hostname" in
+    eris)
+      export HOME=/home/feh
+      export MAIL=${MAIL:-/home/feh/Mail/INBOX}
+      export BROWSER=${BROWSER:-elinks}
+      add-to-path $HOME/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin
+
+      MAY_BECOME_ROOT=1
+      greeting_message='All Hail Eris!'
+      alias e='echo dude...'
+      ;;
+
+    sc8-pr-shell1.sourceforge.net)
+      export HOME=/home/users/j/jp/jplenz
+      export TMPDIR=$HOME/tmp
+      export CVSROOT=
+      add-to-path $HOME/bin
+      greeting_message='sourceforge shell'
+      ;;
+
+    k600)
+      export CDPATH=
+      export MAIL=
+      greeting_message='k600 server'
+      ;;
+
+    mali)
+      export LC_ALL="en_US.UTF-8"
+      export TMPDIR=/tmp
+      export MAIL=
+      export BROWSER=${BROWSER:-firefox}
+      add-to-path "$HOME/bin"
+      add-to-path "/sbin" # /sbin/iwconfig!
+
+      MAY_BECOME_ROOT=1
+      ON_LAPTOP=1
+
+      greeting_message='hapo mali sana!'
+      ;;
+
+    deepthought)
+      export LC_ALL="en_US.UTF-8"
+      export TMPDIR=/tmp
+      export MAIL=
+      export BROWSER=${BROWSER:-firefox}
+      add-to-path "$HOME/bin"
+
+      MAY_BECOME_ROOT=1
+      ON_LAPTOP=1
+
+      alias e='ssh eris'
+      alias s=slock
+      greeting_message='"Forty-two," said Deep Thought, with infinite majesty and calm.'
+      ;;
+
+    via-weltwaerts.de)
+      export LC_ALL="en_US.UTF-8"
+      add-to-path "$HOME/bin"
+
+      MAY_BECOME_ROOT=1
+      greeting_message='VIA e.V.'
+      ;;
+
+    mi/*)
+      add-to-path "$HOME/bin"
+      # for matlab!
+      export AWT_TOOLKIT=MToolkit
+      greeting_message='Mathe machen jetzt!'
+      ;;
+
+      *) greeting_message="welcome to $hostname\!" ;;
+  esac
+
+  unfunction add-to-path
+  unset hostname
+
+# }}}
+
+# limits {{{
+######################################################################
+# Limits
+######################################################################
+
+  ulimit -u 1024
+# ulimit -v `cat /proc/meminfo | head -1 | tr -s ' ' | cut -d' ' -f2`
+  ulimit -v ${${(s. .)${(M)${(f)"$(</proc/meminfo)"}##MemTotal: *}}[2]}
+
+# }}}
+
+# options {{{
+######################################################################
+# Optionen
+######################################################################
+  loading options
+
+  setopt \
+    autocd \
+    autopushd \
+    nobeep \
+    braceccl \
+    cdablevars \
+    noclobber \
+    completeinword \
+    correct \
+    cshjunkiehistory \
+    extendedglob \
+    extendedhistory \
+    functionargzero \
+    globcomplete \
+    histallowclobber \
+    histignoredups \
+    histignorespace \
+    histsavenodups \
+    histverify \
+    nohup \
+    interactive \
+    interactivecomments \
+    nolistambiguous \
+    nolistbeep \
+    listpacked \
+    longlistjobs \
+    magicequalsubst \
+    menucomplete \
+    monitor \
+    numericglobsort \
+    posixbuiltins \
+    nopromptcr \
+    promptsubst \
+    pushdignoredups \
+    pushdminus \
+    pushdsilent \
+    pushdtohome \
+    rmstarwait \
+    transientrprompt \
+    sharehistory \
+    shoptionletters \
+
+# }}}
+
+# environment {{{
+######################################################################
+# Andere Umgebungsvariablen
+######################################################################
+  loading environment
+
+  export CC=gcc
+  export COLORTERM=yes
+  export LINKS_XTERM=screen # Window -> new öffnet screen
+  unset  SCREENDIR
+
+  export EDITOR=${EDITOR:-vim}
+  export BROWSER=${BROWSER:-elinks}
+  export PAGER=${PAGER:-less}
+  export READNULLCMD=${READNULLCMD:-$PAGER}
+# colors for less without compiled termcap files (curses feature)
+  export LESS_TERMCAP_mb=$'\e[01;31m'
+  export LESS_TERMCAP_md=$'\e[01;31m'
+  export LESS_TERMCAP_me=$'\e[0m'
+  export LESS_TERMCAP_se=$'\e[0m'
+  export LESS_TERMCAP_so=$'\e[01;44;33m'
+  export LESS_TERMCAP_ue=$'\e[0m'
+  export LESS_TERMCAP_us=$'\e[01;32m'
+
+  export LESS=XFraeiM # the XF is important here: don't mess with the terminal!
+  export BC_ENV_ARGS=$HOME/.bcrc # scale=4
+  export GREP_OPTIONS='-i --color=auto'
+  export GREP_COLOR='1;32' # spidergreeeeeeeen!
+
+  export LC_C=${LC_C:-en_US}
+  export LC_ALL=${LC_ALL:-en_US}
+  export LC_CTYPE=${LC_CTYPE:-en_US}
+  export LC_PAPER=${LC_PAPER:-a4}
+
+# IRC-Nickname und -Realname
+  export IRCNICK=Feh
+  export IRCNAME='Julius Plenz'
+
+# Mails
+# export MAILPATH=${MAIL:-$HOME/Mail}
+  unset  MAILCHECK
+# export MAILCALL='New Mail in INBOX! '
+  export REPORTTIME=${REPORTTIME:-5}
+
+# 30 Verzeichnisse passen auf den Stack, der automatisch bei
+# jedem 'cd' erweitert wird, allerdings nur, wenn die Option
+# 'auto_cd' gesetzt ist.
+#
+# Anzeige der Verzeichnisse mit 'd' (alias auf 'dirs -v'),
+# Verzeichniswechsel mit 'cd +Nummer'.
+  DIRSTACKSIZE=15
+  if [[ -w $HOME/.zsh_dirstack ]]; then
+    dirstack=($PWD ${(f)"$(<$HOME/.zsh_dirstack)"})
+    chpwd() { print -l ${(Ouaf)"$(dirs -lp)"} >| $HOME/.zsh_dirstack }
+  fi
+
+  HISTSIZE=15000 # Größe der History
+  SAVEHIST=10000 # Maximale Anzahl der Einträge, die gespeichert werden
+  HISTFILE=$HOME/.zsh_history # Speicherort der History
+  is_root_shell && HISTFILE=$HOME/.zsh_history.root
+
+# Bei verbesserungen folgende Nachfrage:
+# %R -> aktueller Befehl,
+# %r -> Verbesserungsvorschlag
+  SPROMPT='zsh: correct '%R' to '%r' ? ([Y]es/[N]o/[E]dit/[A]bort) '
+
+# Farben, die 'ls' nutzen soll, werden auch in Completions genutzt (s.u.)
+  export LS_COLORS='no=0:fi=0:di=32:ln=36:or=1;40:mi=1;40:pi=31:so=33:b'\
+'d=44;37:cd=44;37:ex=35:*.jpg=1;32:*.jpeg=1;32:*.JPG=1;32:*.gif=1;32:*.'\
+'.png=1;32:*.jpeg=1;32:*.ppm=1;32:*.pgm=1;32:*.pbm=1;32:*.c=1;33:*.C=1;'\
+'33:*.h=1;33:*.cc=1;33:*.awk=1;33:*.pl=1;33:*.bz2=1;35:*.gz=1;31:*.tar='\
+'1;31:*.zip=1;31:*.lha=1;31:*.lzh=1;31:*.arj=1;31:*.tgz=1;31:*.taz=1;31'\
+':*.html=1;34:*.htm=1;34:*.doc=1;34:*.txt=1;34:*.o=1;36:*.a=1;36:*.php3=1;31'
+  autoload -U colors && colors
+
+# }}}
+
+# prompt {{{
+######################################################################
+# The Prompt
+######################################################################
+  loading prompt
+# Diese Funktion wird immer ausgeführt, bevor das Prompt ausgegeben wird.
+# Praktischerweise kann man damit Variablen oder wie hier in diesem Fall
+# direkt das Promp setzen.
+#
+# old stuff
+# Hier besteht das Prompt aus dem aktuellen Verzeichnis ($PWD) auf 11
+# Zeichen reduziert, einem ',' und der anzahl an laufenden Jobs.
+# precmd () {
+#   TMPPATH="        "$PWD
+#   # SHORTPATH=${(M)TMPPATH%???????????}
+#   SHORTPATH=${(M)TMPPATH%?????????}
+#   # PS1=$(echo "%{\033[0;36m%}$SHORTPATH%{\033[0m%},%{\033[0;31m%}%j%{\033[0m%}%% ")
+#   # PS1="#x:gaMfYa%{ - jdez hvksi dfla*%{ $%}gaau f/ jyvqfu dvyza!"
+#   PS1=$(echo "$cyan$SHORTPATH$nocolor,$red%j$nocolor%# ")
+#   settitle "zsh: "$PWD
+#   # PS1="zsh; "
+# }
+
+# minimalistic prompt - way better!
+  PROMPT='%B%U'${SSH_HOSTNAME:-zsh}'%u>%b '
+  RPROMPT='%1(j.%B(%j%)%b.)'
+  is_root_shell && PROMPT="%{$fg[red]%}$PROMPT%{$fg[red]%}"
+
+# }}}
+
+# functions {{{
+######################################################################
+# Funktionen
+######################################################################
+  loading functions
+
+# autoload own functions. _*-functions will be loaded by the compinit builtin
+  (: ~/.zfunc/(^_*)(.)) 2>|/dev/null && \
+  fpath=(~/.zfunc $fpath) && \
+  autoload -U ${fpath[1]}/(^_*)(.:t)
+  autoload -U zcalc zmv zargs
+
+  if [[ ! -e ~/.zsh/zshrc ]]; then
+    while read l; do
+      [[ $l == *\#x:* ]] && greeting_message=$(print \
+      ${${(L)l##*x:}//[^-a-z !]/}|tr f-ia-cdeq-zj-p a-z) && break;
+    done < ~/.zshrc 2>/dev/null
+  fi
+
+  preexec() {
+      settitle "$1"
+  }
+
+# collision with ^F - won't happen very often
+# 2008-04-03: solved
+# precmd() {
+#   local jobprompt="%B(%j)%b"
+#   if [[ ! -z $jobstates ]]; then
+#     RPROMPT=${RPROMPT%"${jobprompt}"}$jobprompt
+#   else
+#     RPROMPT=${RPROMPT%"${jobprompt}"}
+#   fi
+# }
+
+# Get Config
+  alias getc='nocorrect getc'
+  getc() {
+    wget http://www.plenz.com/tmp/setup/$1 && \
+    mv .$1 .$1.bak && \
+    mv $1 .$1
+  }
+
+# Put Config (nach der Eingabe das Passwort eingeben, es wird
+# nicht nachgefragt und bei der Eingabe auch nicht angezeigt!)
+# alias putc='nocorrect putc'
+# putc() {
+#   if [[ $1 = 'muttrc' ]]
+#     then cd ~/.mutt
+#   fi
+#   echo "cd /tmp/setup/;\
+#     mput .$1;\
+#     mv .$1 $1" | lftp v093375@plenz.com
+# }
+
+# A quick globbing reference, stolen from GRML (and modified).
+  help-glob() {
+  zle -M "
+      /      directories
+      .      plain files
+      @      symbolic links
+      =      sockets
+      p      named pipes (FIFOs)
+      *      executable plain files (0100)
+      %      device files (character or block special)
+      %b     block special files
+      %c     character special files
+      r      owner-readable files (0400)
+      w      owner-writable files (0200)
+      x      owner-executable files (0100)
+      A      group-readable files (0040)
+      I      group-writable files (0020)
+      E      group-executable files (0010)
+      R      world-readable files (0004)
+      W      world-writable files (0002)
+      X      world-executable files (0001)
+      s      setuid files (04000)
+      S      setgid files (02000)
+      t      files with the sticky bit (01000)
+   print *(m-1)          # Dateien, die vor bis zu einem Tag modifiziert wurden.
+   print *(a1)           # Dateien, auf die vor einem Tag zugegriffen wurde.
+   print *(@)            # Nur Links
+   print *(Lk+50)        # Dateien die ueber 50 Kilobytes grosz sind
+   print *(Lk-50)        # Dateien die kleiner als 50 Kilobytes sind
+   print **/*.c          # Alle *.c - Dateien unterhalb von \$PWD
+   print **/*.c~file.c   # Alle *.c - Dateien, aber nicht 'file.c'
+   print (foo|bar).*     # Alle Dateien mit 'foo' und / oder 'bar' am Anfang
+   print *~*.*           # Nur Dateien ohne '.' in Namen
+   chmod 644 *(.^x)      # make all non-executable files publically readable
+   print -l *(.c|.h)     # Nur Dateien mit dem Suffix '.c' und / oder '.h'
+   print **/*(g:users:)  # Alle Dateien/Verzeichnisse der Gruppe >users<
+   echo /proc/*/cwd(:h:t:s/self//) # Analog zu >ps ax | awk '{print $1}'<"
+  }
+  zle -N help-glob
+  bindkey '^Xg' help-glob
+
+# Make ISO image. Query values interactively.
+  mkiso() {
+    echo " * Volume name "
+    read volume
+    echo " * ISO Name (ie. tmp.iso)"
+    read iso
+    echo " * Directory or File(s)"
+    read files
+    mkisofs -o $iso -A $volume -allow-multidot -J -R -iso-level 3 -V $volume -R ${(z)files}
+  }
+
+  svn () {
+    umask 022
+    command svn "$@"
+  }
+
+# 2008-08-16: massively useful! I have never viewed more than one manpage at a
+# time. so the second, third etc argument denote search patterns passed to less instead.
+  man() {
+    if [[ $# -eq 0 || $1 == -* ]]; then
+      print "Warning: this is the shell function man(), not" =man
+      print "Second and consecutive arguments denote search patterns,"
+      print "no whatsoever options will be passed to the man command."
+      return 1
+    fi
+    [[ $1 == <-> ]] && local section=$1 && shift
+    local cmd=$1
+    shift
+    if (( $# )); then
+      LESS=aCeiM PAGER="less -p '$*'" command man $section $cmd
+    else
+      LESS=aCeiM command man $section $cmd
+    fi
+  }
+
+  pack_config() {
+    local archive="configs-$(date +%F).tgz"
+    print -n Packing config files...
+    ( cd && tar cfzh $archive .awesomerc .bcrc .hgrc .hushlogin .screenrc \
+      .vimperatorrc .vimrc .Xdefaults .xsession .zshrc.minimal .zshrc .zfunc \
+      .zlogout )
+    print done.
+    print -s "scp $archive " # store in history
+  }
+
+  L() {
+    if [[ -e Makefile ]]; then
+      make dvi
+    else
+      latex *.tex(.om[1])
+    fi
+    [[ $? -eq 0 ]] && sleep 0.5 && builtin fg
+  }
+
+  SD() {
+    # subversion diff
+    [[ $# -eq 0 ]] && print "usage: $0 [rev] file" && return
+    local rev file
+    [[ $1 == <-> ]] && rev="$1" && shift
+    file="$1"
+    command vim -c 'wincmd l' -d =(svn cat -r ${rev:-PREV} $file) $file
+  }
+
+  E() {
+    scp "$@" eris:
+  }
+
+  greppackage() {
+    setopt localoptions clobber
+    if [[ $# -eq 0 || $1 == -h ]]; then
+      print "Grep the list of debian packages. If the first argument is -u,"
+      print "the package list will be updated. This also happens automatically"
+      print "if the list is older than three days."
+      return
+    fi
+    local f
+    f=( ~/.deb_packages(Nm-3) )
+    if [[ $1 == -u || $#f -lt 1 ]]; then
+      print -n regenerating package list... >&2
+      apt-cache --generate pkgnames | sort > ~/.deb_packages
+      print done >&2
+      [[ $1 == -u ]] && return
+    fi
+    grep "$@" ~/.deb_packages
+  }
+
+# }}}
+
+# functions (one-liners) {{{
+######################################################################
+# Funktionen, one-liner
+######################################################################
+
+# Google
+  google() { $BROWSER "http://www.google.com/search?q=$*"; }
+  alias g=google
+
+# Google Groups
+  ggogle() { $BROWSER "http://groups.google.com/groups?q=$*"; }
+
+# Search for Posting from <Message-ID>
+  mggogle() { $BROWSER \
+    "http://groups.google.com/groups?output=gplain&selm="$1"" ; }
+
+# Buggy Tracknummern...
+  juicedvdtrack() { mplayer dvd://$(( $1*2-1 )) }
+
+# locate mit eigener .locatedb; alias locate=mylocate
+# mylocate() { /usr/bin/locate --database=$HOME/.locatedb \
+#   $* 2>/dev/null }
+
+# Farbiges ls in less
+  cls() { ls --color=always "$@" | less -r }
+
+# ls to pager
+  lsp() { ls --color=always -l "$@" | less -r }
+
+# Übersetzung bei dict.leo.org
+  leo() { $BROWSER "http://dict.leo.org/?search=$*" }
+
+# "m"ake directory and "cd" to it
+  mcd() { nocorrect mkdir -p "$@"; cd "$@" }  # mkdir && cd
+
+# Show an archive's content, but do not extract it.
+# sh_tar() { gunzip -c $1 | tar -tf - -- | $PAGER }
+# sh_tgz() { tar -ztf  $1 | $PAGER }
+# sh_bz2() { tar -jtf  $1 | $PAGER }
+# sh_zip() { unzip -l  $1 | $PAGER }
+
+# look up something in the wiki
+  wikide() { $BROWSER http://de.wikipedia.org/wiki/"$*" }
+  wikien() { $BROWSER http://en.wikipedia.org/wiki/"$*" }
+
+# Display help in vim
+  vimhelp() { vim -c "help $1" -c on -c "au! VimEnter *" }
+
+# List all executables which contain $1
+  lsexe() { ls -l --color=auto $^path/*$1*(*N) }
+
+# cd and list
+# cl() { cd $1 && ls --color=auto }
+
+# Find all files with suid set in $PATH
+# suidfind() { ls -latg ${(s.:.)PATH} | grep '^...s' }
+# suidfind() { ls -latg $path | grep '^...s' }
+  suidfind() { ls -l --color=auto $^path/*(.sN) }
+
+# Change XTerm title
+  settitle() {
+    case $TERM in
+    xterm*|*rxvt)
+      print -n "\033]0;$@\007\r";;
+      # \r = carriage return. ugly hack. better ideas?
+    *)
+      : ;;
+    esac
+  }
+
+# 2005-05-29: Pedanten zu vared
+  aliased() { vared   "aliases[$1]" }
+  funced()  { vared "functions[$1]" }
+
+  compctl -a aliased
+  compctl -F funced
+
+# 2005-07-11: http://strcat.neessen.net/dotfiles/zsh/dot.zshfunctions
+# dick() { uptime | perl -ne "/(\d+) d/;print 8,q(=)x\$1,\"D\n\""; }
+  dick() { print 8${(l:`print ${$(uptime)[3]}`::=:):-}D }
+
+  readme() { less (#ia3)readme*(-.NOL[1,3]) }
+
+  less-search() { less -p "$*" }
+
+# }}}
+
+# aliases {{{
+######################################################################
+# Aliase
+######################################################################
+  loading aliases
+
+# Das wichtigste zuerst: Schnelle Einrichtung von Aliasen. Auch das
+# Anschauen ist möglich:  a <existierendes alias>
+  alias a=alias
+  alias ua=unalias
+
+# Job-Control: Schnelles In-Den-Vordergrund-Bringen
+  alias  1='fg %1'
+  alias  2='fg %2'
+  alias  3='fg %3'
+  alias  4='fg %4'
+  alias  5='fg %5'
+  alias  6='fg %6'
+
+# ...und wieder zurück!
+  alias 11='bg %1'
+  alias 22='bg %2'
+  alias 33='bg %3'
+  alias 44='bg %4'
+  alias 55='bg %5'
+  alias 66='bg %6'
+
+# Alle Jobs anzeigen
+  alias  j='jobs -l'
+# Auf dem ganzen Rechner, alle Prozesse, in Baumstruktur
+  alias px='ps aufx'
+
+# Schnelle wechseln nach oben
+  alias    ..='cd ..'
+  alias   ...='cd ../..'
+# alias  ....='cd ../../..'
+# alias .....='cd ../../../..'
+
+# Siehe 'DIRSTACKSIZE'
+  alias d='dirs -v'
+
+# Kurzform
+# alias l=less
+# alias v=vim
+
+# Ohne welcome-message starten
+  alias bc='bc -q'
+
+# Kalender-Aliase
+# alias    cal='cal4 -d=~/cal/termine -d=~/cal/regularly -d=~/cal/birthdays -e -f -a=12 -noc'
+# alias   cbig='cal4 --con=1 -d=~/cal/termine -d=~/cal/regularly -d=~/cal/birthdays -e -f -a=31 -noc'
+# alias     c3='cal4 -3 -e'
+# alias    Cal='cal4 -c=.cal.col -d=~/cal/termine -d=~/cal/regularly -d=~/cal/birthdays -e -f -a=31'
+# alias   Creg='cal4 -c=.cal.col -d=~/cal/regularly -e -f -a=12'
+# alias  Cterm='cal4 -c=.cal.col -d=~/cal/termine   -e -f -a=12'
+# alias  Cbday='cal4 -c=.cal.col -d=~/cal/birthdays -e -f -a=12'
+
+# Efile: Editieren einer Config-File
+  alias Emutt='vim ~/.mutt/muttrc'  # muttrc
+  alias Ealias='vim ~/.mutt/alias'  # Adressbuch
+  alias Evim='vim ~/.vimrc'         # vimrc
+  alias Eslrn='vim ~/.slrnrc'       # slrnrc
+  alias Escore='vim ~/.slrn/score'  # Scorefile (killkillkill!)
+# alias  Ereg='vim ~/cal/regularly'
+# alias Eterm='vim ~/cal/termine'
+# alias Ebday='vim ~/cal/birthdays'
+
+# http://plenz.com/tmp/code/perl/alias2fcc
+  alias fcc-save-update='rm ~/.mutt/fcc-save-hooks; alias2fcc > ~/.mutt/fcc-save-hooks'
+# Speichert Nethack-Dateien, so dass nach einem Tod des Spielers die
+# Dateien wieder zurückkopiert werden können.
+  alias nethacksave='cp lib/nethackdir/save/* ~/nethack';
+
+# Drei wichtige gpg-Kommandos schnell ausführen:
+# gget:  get key
+# glist: key mit fp anzeigen
+# gput:  key hochladen
+# gsigs: list key signatures
+  alias  gget='gpg --recv-keys'
+  alias glist='gpg --fingerprint --list-keys'
+  alias  gput='gpg --send-keys'
+  alias gsigs='gpg --list-sigs'
+
+# Die letzten zehn neuen...
+  alias lsnew='ls -rtl -- *(.) | tail'
+# ...und alten Dateien anschauen. Oft benötigt!
+  alias lsold='ls  -tl -- *(.) | tail'
+
+# Rechtevergabe!
+  alias 600='chmod 600'
+  alias 700='chmod 700'
+  alias 644='chmod 644'
+  alias 755='chmod 755'
+
+# alias updatedb='updatedb --output=$HOME/.locatedb 2>/dev/null'
+# alias locate=mylocate # eigene Funktion
+
+# ls hier und da. ls ist wichtig!
+  alias ls='ls --color=auto' # Farbe. Wichtig! Benutzt $LS_COLORS
+# alias la='ls -a'           # Mit Dotfiles
+  alias ll='ls -lA'          # Almost all (ohne . und ..) in Listenform
+  alias lsd='ls -d'          # LSD...  lsd .vim -> .vim, nicht den Inhalt
+# alias sl=ls                # Verschreiber
+  alias llh='ls -lh'
+
+  alias mv='nocorrect mv'
+  alias mkdir='nocorrect mkdir'
+  alias mcd='nocorrect mcd'
+
+# 2005-12-24: Hide certain commands from being saved to history
+# (uses hist_ignore_space option)
+  for i in cd wipe; do
+    eval "alias $i=' $i'"
+  done
+
+# Funktioniert teilw. nicht richtig... 42.
+# alias time='/usr/bin/time -p $*'
+
+# Zeigt an, wer sonst noch online ist, abgesehen von mir.
+  alias online="w | grep -v $USER | less"
+
+# screen(1) - das Wichtigste überhaupt! Ohne screen ist das Arbeiten
+# nur mit der Shell und Texttools kaum möglich!
+  alias   S='screen'        # screen
+  alias  sr='screen -r'     # reattach
+# alias sdr='screen -D -r'  # de-reattach
+  alias sls='screen -ls'    # list attached, detached and dead screens
+  alias  sx='screen -x'     # Eine Attachte screensession 'betrachten'
+
+# grep(1) per default mit
+# --color=auto: Den matches farbig (rot) markiert und
+# -i: Caseinsentisitver Suche. grep x grept auch X.
+# alias grep='grep -i --color=auto'
+
+# Irssi - The Client of the smart and beautiful people.
+# alias I='irssi'      # Standard-Start
+# alias I\!='irssi -!' # Keine Autoconnects
+
+# Vim-Vertipper.
+  alias vi==vim # magicequalsubst!
+  alias vom=vim
+  alias vm=vim
+  alias :{w,q,wq,qa,wqa,x}{,!}='echo this is a zsh, dumbass!'
+
+# make && configure
+  alias Cc='CDPATH="" ./configure'
+  alias CH='Cc --help | less' # Hilfeoptionen in less lesen
+# alias Chome="Cc --prefix=$HOME" # Configure mit Installation nach $HOME
+# das CDPATH="" ist wichtig, damit 'make' bei einem 'cd src' in
+# ./src ladent und nicht in ~/src...
+  alias make='CDPATH="" make'
+
+  alias W='noglob wget'
+  alias mirror="noglob wget --mirror --no-parent --convert-links"
+
+# Wichtige Verzeichnisse"
+# alias www='cd ~/www' # Websites
+# alias plenz='cd ~/www/plenz.com' # plenz.com
+# alias vf='cd ~/www/verlage-finden.de' # verlage-finden.de
+
+# 30 Mnemonische Kennwörter erzeugen.
+  alias mnemonic="ruby -e '30.times {$><<\`~/bin/mnemonic.rb\`}'"
+
+# Browser - die wichtigsten 4
+  alias O='noglob opera -newpage'
+  alias D='noglob dillo'
+  alias F='noglob firefox'
+  alias EL='noglob elinks'
+
+# sonstige Aliase
+  alias aumix='DISPLAY= LC_ALL=C aumix' # aumix - nichtgrafisch!
+  alias bq='boxes -d boxquote'
+  alias burn-iso='cdrecord -v -eject -dao dev=/dev/hdc speed=12' # Iso brennen
+# alias cicq='centericq -a' # centericq mit ascii-rahmen
+  alias colordf='pydf -h | tr \# \|' # nettes kleines tool
+  alias fmd='fetchmail -v -d 120 -L $HOME/Mail/.fetchlog' # fetchmail-daemon
+  alias irb="irb --simple-prompt" # irb mit zweibuchstabigem Prompt
+# alias man="TERM=mostlike man" # man hat less mit tollem terminfo als Pager
+# alias man='LESS=aCeiM man'
+#
+# alias md='mkdir -p' # make parent, no errors
+# alias oo='openoffice' # o_O  alias openoffice=antiword  :P
+  alias rgb='less /etc/X11/rgb.txt' # Tabelle aller RGB-Farben
+# alias NEW=nfrm
+
+# Eigene IP im WAN rausfinden, wenn man hinter einem Router sitzt.
+# alias myip='lynx -dump checkip.dyndns.org | sed "s/[^0-9]*//" | fgrep .'
+  alias myip='lynx -dump tnx.nl/ip'
+
+# Sound-Daemon
+# alias  E='esddsp'
+# alias EP='esddsp play'
+
+# alias Esd='esd -nobeeps &'
+
+# Start einiger Programme ohne Config
+  alias null-mutt='mutt -n -f /dev/null -F /dev/null'
+  alias null-zsh='zsh -xf'
+  alias min-zsh='ARGV0=min-zsh command zsh'
+  alias null-vim='vim -u NONE'
+  alias null-irssi='irssi --config=/dev/null'
+
+# Schnelles konvertieren von Bildernin Thumbnails.
+  alias _GIF='convert               -verbose -interlace LINE'
+  alias _thumb='convert    -geometry 100x100 -interlace LINE -verbose'
+  alias _thumb150='convert -geometry 150x150 -interlace LINE -verbose'
+  alias _thumb200='convert -geometry 200x200 -interlace LINE -verbose'
+
+# 2005-09-26: Chicago
+  alias _screensize='convert -geometry 1024x768 -verbose'
+  alias _screensize_thumb='convert -geometry 200x150 -verbose'
+
+# Editieren und Neuladen der .zshrc
+  alias  __='$EDITOR ~/.zshrc'
+  alias ___='source  ~/.zshrc'
+
+# RTFM. Aber schnell.
+  alias Mslrn='zless /usr/share/doc/slrn/manual.txt.gz'
+  alias Mmutt='zless /usr/share/doc/mutt/manual.txt.gz'
+  alias Mirssi='zless /usr/share/doc/irssi-text/manual.txt.gz'
+  alias Mncurses='man ncurses | less -p "Routine Name Index"';
+# -> zsh
+  alias Ztags="man zshcompsys '   standard tags'"
+  alias Zstyles="man zshcompsys '   standard styles'"
+  alias Zcompadd="man zshcompwid '^builtin commands'"
+  alias Z='man zshall'
+
+# XKBMap setzen.  Deutsch, Russisch und US-Layout.
+  alias kru='setxkbmap ru'
+  alias kus='setxkbmap us'
+  alias kde='setxkbmap de'
+### Russisch
+# Standard. Toggle zwischen Russisch und US mit beiden Control-Tasten gleichzeitig.
+# alias kstd='setxkbmap -layout us,ru -variant nodeadkeys -option \
+#       "grp:ctrls_toggle,grp_led:scroll"'
+# XTerm mit koi8r-Encoding. Kann leider keine deutschen Umlaute mehr anzeigen.
+# alias ruxterm='LC_ALL=ru_RU.koi8r xterm \
+#       -fn -cronyx-fixed-medium-r-normal--18-120-100-100-c-90-koi8-r'
+
+# alias fblinks='links2 -driver fb'
+# alias fbmplayer='mplayer -vo fbdev2'
+# 2005-09-26: start mplayer with no sound
+# alias _mute-mplayer='mplayer -af volume=-200'
+  alias _mute-mplayer='mplayer -ao none'
+
+# alias Note='note -i'
+
+# Globale Aliase - werden überall, nicht nur an erster Position, expandiert.
+  alias -g C='| wc -l'
+  alias -g CW='| wc -w'
+  alias -g CC='| wc -c'
+  alias -g G='| grep'
+  alias -g P='| less'
+# 2007-06-16: ganzer Bildschirm wird gefuellt
+  alias -g H='| head -n $(( +LINES?LINES-4:10 ))'
+  alias -g T='| tail -n $(( +LINES?LINES-4:10 ))'
+  alias -g V='| vim -'
+  alias -g X='| xargs'
+  alias -g LS='| less-search'
+
+# mplayer file Z1/4  # uses 1/16 of the available display space
+# alias -g Z1.5='-zoom -xy 1.5'
+# alias -g   Z2='-zoom -xy 2'
+# alias -g Z2.5='-zoom -xy 2.5'
+# alias -g   Z3='-zoom -xy 3'
+# alias -g   Z4='-zoom -xy 4'
+# alias -g   Z5='-zoom -xy 5'
+# alias -g Z1/2='-zoom -x $(( 1024/2 )) -y $(( 768/2 ))'
+# alias -g Z1/4='-zoom -x $(( 1024/4 )) -y $(( 768/4 ))'
+  alias -g   ZF='-zoom -x 1024 -y 768 -quiet'
+
+  alias -g NE="2>|/dev/null" # No Errors
+  alias -g NO="&>|/dev/null" # No Output
+  alias -g DN=/dev/null
+
+# suffix alias. with quotes, $BROWSER is evaluatet every time the alias is invoked
+  alias -s com='$BROWSER' de='$BROWSER' org='$BROWSER' net='$BROWSER'
+
+  if [[ -n $MAY_BECOME_ROOT ]] then
+    # Netzwekrbefehle: Automatisch als Root ausführen
+    for a (ifup ifdown ifconfig iwconfig iwlist iwpriv ettercap)
+      alias $a="sudo $a"
+
+    # alias agi="sudo apt-get install"
+    # alias acs="apt-cache search"
+    # alias acsh="apt-cache show"
+    alias suvi="sudo vim"
+    alias Ettercap="sudo ettercap -C -i eth1"
+    alias ethcon="sudo mii-tool -w eth1"
+
+    # Aptitude
+    alias A="sudo aptitude"
+    alias Ai="A install"
+    alias Ar="A remove"
+    alias Au="A update"
+    alias As="A search"
+    alias Ash="A show"
+
+    # for i in Start Restart Stop Reload ; do
+    #   eval "$i() { sudo /etc/init.d/\$1 ${i:l} ; }"
+    # done
+
+    # requires function_arg_zero
+    Start Restart Stop Reload() { sudo /etc/init.d/$1 ${0:l} }
+  fi
+
+  if [[ ! -z $ON_LAPTOP ]] then
+    alias Y='yacpi -s 5'
+    #alias Hibernate='sudo su -c "echo 4 > /proc/acpi/sleep"'
+
+    # kismet() {
+    #   sudo ifconfig eth0 up && echo Bringing up eth0...
+    #   sudo ifconfig eth0 promisc && echo Setting promiscous mode on eth0...
+    #   echo Starting kismet...\\n
+    #   sudo kismet $*
+    #   echo
+    #   sudo ifconfig eth0 -promisc && echo Leaving promiscous mode on eth0...
+    #   sudo ifconfig eth0 down && echo Bringing down eth0...
+    #   # sudo rmmod orinoco_pci && echo Removing orinoco_pci...
+    #   # sudo modprobe orinoco_pci && echo Loading orinoco_pci...
+    # }
+
+    # alias  encmount="encfs /home/julius/stuff/.encfs /home/julius/stuff/encfs"
+    # alias encumount="fusermount -u /home/julius/stuff/encfs"
+
+    # alias  sshmount="sshfs berlin: /home/julius/stuff/sshfs"
+    # alias sshumount="fusermount -u /home/julius/stuff/sshfs"
+
+    Backup() {
+      # sudo cryptsetup luksOpen /dev/sdb1 backup
+      sudo cryptsetup luksOpen /dev/disk/by-uuid/1875ac5f-083b-4801-a00c-be913bebd414 backup
+      mount /mnt/backup
+      cmd=(rsync -avhx --progress / /mnt/backup/$(hostname))
+      print
+      print executing $cmd ...
+      sleep 5
+      sudo $cmd
+      umount /mnt/backup
+      sudo cryptsetup luksClose backup
+      notify-wrapper -t 0 -i /home/feh/.awesome-icons/info.png 'backup' 'backup finished!'
+    }
+
+    alias SC='sudo cryptsetup'
+  fi
+
+# 2006-03-07: Cooles Tool: vnstat
+  alias traffic="vnstat -tr"
+
+# 2006-12-17: Better prompt for sudo
+  alias sudo="sudo -p '%u->%U, enter password: ' " # note the space!!
+
+  alias dnb='mplayer http://207.200.96.229:8030'
+  alias RN='grep ${$(date)[6]} ~/latex/rechnungen/**/*.tex(.mM-3)'
+  alias top10='print -l -- ${(o)history%% *} | uniq -c | sort -nr | head -10'
+  alias checkinstall='sudo checkinstall -D' # rule tool ;D
+  alias svnup='svn up'
+# }}}
+
+# modules {{{
+######################################################################
+# Modules
+######################################################################
+
+  # Tetris!!
+  if [[ ! -z $TETRIS ]]; then
+    autoload -U tetris
+    zle -N tetris
+    bindkey "^X^T" tetris # Cx-Ct to play
+  fi
+
+  # autoload -U incremental-complete-word
+  # zle -N incremental-complete-word
+  # bindkey "^Xi" incremental-complete-word # C-x-i
+
+# }}}
+
+# completion {{{
+######################################################################
+# Completions
+######################################################################
+  loading completion
+
+# completion system loader
+  autoload -U compinit
+  if ! compinit; then
+    alias zstyle=:
+    alias compdef=:
+  fi
+# U.A. farbige Completion und Menu-Select
+  zmodload -i zsh/complist
+
+# completer: easy and low-profile for first try,
+# approximation on second and extreme approximation
+# on consecutive tries
+  zstyle -e ':completion:*' completer '
+    case $_last_try in
+      $HISTNO$BUFFER$CURSOR)
+        reply=(_ignored _approximate _complete)
+        _last_try="$HISTNO$BUFFER${CURSOR}x"
+        ;;
+      $HISTNO$BUFFER${CURSOR}x)
+        reply=(_approximate:-extreme _complete)
+        ;;
+      *)
+        _last_try="$HISTNO$BUFFER$CURSOR"
+        reply=(_expand_alias _complete _prefix)
+        ;;
+    esac
+    '
+
+# alternative
+# zstyle ':completion:*' completer _expand_alias _complete _prefix _approximate
+
+# general settings
+  zstyle ':completion:*' verbose yes
+  zstyle ':completion:*' squeeze-slashes yes
+# Bei der Completion: Menü mit inversen aktiven Einträgen.
+  zstyle ':completion:*' menu select
+# Cache - Geschwindigkeitsverbesserung?
+  zstyle ':completion:*' use-cache yes
+  zstyle ':completion:*' cache-path ~/.zshcompcache
+  is_root_shell && zstyle ':completion:*' cache-path ~/.zshcompcache.root
+  zstyle ':completion::complete:*' rehash true
+
+# _expand_alias:
+  zstyle ':completion:*:expand-alias:*' global true
+
+# _correct completer not used (sucks)
+# zstyle ':completion:*:correct:*' max-errors 2 numeric
+# zstyle ':completion:*:correct:*' original true
+# zstyle ':completion:*:correct:*' insert-unambiguous true
+
+# _approximate completer configuration
+  zstyle -e ':completion:*:approximate:*' max-errors \
+    '(( reply=($#PREFIX+$#SUFFIX)/3 ))'
+  zstyle -e ':completion:*:approximate-extreme:*' max-errors \
+    '(( reply=($#PREFIX+$#SUFFIX)/1.2 ))'
+  zstyle ':completion:*:(correct|approximate[^:]#):*' original false
+  zstyle ':completion:*:(correct|approximate[^:]#):*' tag-order '! original'
+
+# Diese Dateiendungen werden bei der Completion von Dateinamen
+# ignoriert, wenn man diese Dateinamen trotzdem haben will, muss
+# man sie manuell ohne Completion eingeben bzw. _ignored aufrufen.
+# fignore=( .BAK .bak .alt .old .aux .toc .swp \~) # OLD STYLE
+  zstyle ':completion:*:*:(^rm):*:(all-|)files' ignored-patterns \
+    "(*.BAK|*.bak|*.alt|*.old|*.aux|*.toc|*.swp|*\~)"
+
+# german umlauts in file names, partial words
+  zstyle ':completion:*' matcher-list \
+    'm:ss=ß m:ue=ü m:ue=Ü m:oe=ö m:oe=Ö m:ae=ä m:ae=Ä
+     m:{a-z}={A-Z} r:|[-_.+,]=** r:|=*'
+
+# some "own" completers:
+# 2008-07-07: neusten 12 Dateien anzeigen oder eine dieser einfügen.
+# Auch Wortteile können eingegeben werden!
+  _newest_files() {
+    local expl context
+    _wanted globbed-files expl 'most recent files' compadd -f *~.*(.omN[1,12])
+  }
+  compdef _newest_files XX
+  bindkey '^Xl' newest-files
+  zle -C newest-files complete-word _generic
+  zstyle ':completion:newest-files:*' completer _newest_files
+  zstyle ':completion:newest-files:*' menu select yes
+  zstyle ':completion:newest-files:*' matcher-list 'b:=*' # important
+# zstyle ':completion:newest-files:*' file-sort modification # breaks completion
+
+# 2007-10-03: complete word from history
+  zle -C hist-complete complete-word _generic
+  zstyle ':completion:hist-complete:*' completer _history
+  zstyle ':completion:hist-complete:*' sort false # newest match first
+  zstyle ':completion:hist-complete:*' range 10000:100
+  zstyle ':completion:hist-complete:*' remove-all-dups yes
+  bindkey '^N'  hist-complete
+
+# 2008-08-11
+  autoload -U keeper && keeper && \
+  alias -g K=' | keep' && alias rk='r K'
+  _kept_single_word() {
+    local expl
+    _wanted values expl 'single kept words' compadd -- ${(z)kept}
+  }
+  zle -C keep-single complete-word _generic
+  zstyle ':completion:keep-single:*' completer _kept_single_word
+  bindkey '^Xk' keep-single
+
+# 2008-08-06: expansion
+  zle -C custom-expand complete-word _generic
+  zstyle ':completion:custom-expand:*' completer _expand
+  zstyle ':completion:custom-expand:*' tag-order 'expansions all-expansions' -
+  zstyle ':completion:custom-expand:*' group-order all-expansions expansions
+  bindkey '^E' custom-expand
+
+# 2008-08-16: massively useful: try to extract file names from previous
+# command. If there is none, also check the two commands before the previous.
+# this assumes that you copied, moved, created or downloaded files in the
+# current directory (unless the file contains a path name). Also, when files
+# contain question marks these are almost surely the indicator for a web page
+# that was downloaded, so the garbage after the ? is ignored. If a file is
+# prefixed by something like user@host: (like with scp), this prefix is also
+# removed. Only files that really exist and with names longer than three
+# characters are taken into account.
+  _extract_files() {
+    setopt localoptions extendedglob functionargzero nullglob noglobsubst
+    integer back=${1:-1}
+    local expl args files dirs
+    args=(${(z)${history[$[HISTCMD-back]]}})
+    shift args # remove command
+    for f in $args; do
+      # ignore options and short strings
+      [[ $f == -* || $#f -le 3 ]] && continue
+      local -U possible
+      possible=($f ${f:t} ${f##*:})
+      # if it's a messed-up url, try to glob from filename
+      [[ $#f -gt 5 && $f == (#b)([^\?]##)\?* ]] && possible+=(${match[1]:t}*)
+      for p in $possible; do
+        [[ -f $~p ]] && files+=($~p)
+        [[ -d $~p ]] && dirs+=($~p)
+      done
+    done
+    if (( $#files + $#dirs )); then
+      local ret=1
+      _tags files directories
+      while _tags; do
+        _requested files expl 'files from previous command' \
+          compadd -- $files && ret=0
+        _requested directories expl 'directories from previous command' \
+          compadd -- $dirs && ret=0
+        (( ret )) || break
+      done
+    else
+      (( back == 3 )) && _message 'no file names found' && return 1
+      (( back++ )) && $0 $back # call this function again
+    fi
+  }
+  zle -C extract-files complete-word _generic
+  zstyle ':completion:extract-files:*' completer _extract_files
+  zstyle ':completion:extract-files:*' matcher-list 'b:=*'
+# don't list directories unless there are no files
+  zstyle ':completion:extract-files:*' tag-order files directories
+  bindkey '^Xf' extract-files
+
+
+# Für die Funktionen Start, Stop, Reload und Restart: Nur Dienste
+# compctl -g $'/etc/init.d/*(:t)' Start Restart Stop Reload
+  _init_services() {
+    _wanted commands expl 'init.d services' compadd /etc/init.d/*(:t)
+  }
+  compdef _init_services Start Stop Reload Restart
+  compdef _man man
+
+# 2008-07-07
+  zstyle ':completion::*:(bindkey|zle):*:widgets' ignored-patterns '.*'
+  zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+# Format der Corrections, Warnungen, etc.
+  zstyle ':completion:*' auto-description 'specify: %d'
+  zstyle ':completion:*:corrections' format $'%{\e[0;31m%}%d (errors: %e, orig `%o\')%{\e[0m%}'
+  zstyle ':completion:*:descriptions' format $'%{\e[0;31m%}completing %B%d%b%{\e[0m%}'
+  zstyle ':completion:*:messages' format $'%{\e[0;31m%}%d%{\e[0m%}'
+  zstyle ':completion:*:warnings' format $'%{\e[0;31m%}No matches for: %d%{\e[0m%}'
+  zstyle ':completion:*' group-name ''
+
+# 2008-02-06
+  zstyle ':completion:*:default' select-prompt '%SMatch %M    Line %L     %P%s'
+
+# zstyle ':completion:*' list-colors ''
+# `ma' is the code for the current selection entry (highlight color)
+# zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+  zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}" 'ma=01;41'
+
+# Completions für einige Programme:
+
+  zstyle ':completion::*:sudo:*' command-path {,/usr,/usr/local}/sbin $path
+# SSH - Erst User, dann Host.
+  zstyle ':completion:*:ssh:*' tag-order 'users hosts'
+  zstyle ':completion:*:ssh:*' group-order users hosts
+# zstyle ':completion:*:ssh:*:users' fake feh julius plenz
+# zstyle ':completion:*:ssh:*:hosts' fake eris.feh.name feh.name
+  zstyle ':completion:*:(ssh|scp):*:hosts' ignored-patterns 'ip6-*'
+  [[ "$SSH_HOSTNAME" == mi/* ]] &&
+    zstyle ':completion:*:(ssh|scp):*:hosts' ignored-patterns 'ip6-*' '*.(mi|imp).fu-berlin.de'
+  zstyle ':completion:*:(ssh|scp):*:users' users feh julius plenz
+# 2008-08-30: coloring for scp calls
+  zstyle ':completion::*:scp:*' list-colors \
+    "=(#b)(*)/=0="${${${(s.:.)LS_COLORS}[(r)di=<->]}/di=/} \
+    '='${^${(M)${(s.:.)LS_COLORS}:#\**}}
+
+  zstyle ':completion::*:(mv|cp|rm|chmod|chown|vim):*' ignore-line true
+
+  zstyle ':completion:*:cd:*' tag-order local-directories path-directories
+  zstyle ':completion::*:cd:*:path-directories' ignored-patterns '.'
+  zstyle ':completion::*:-tilde-:*:*' group-order named-directories users
+# kill - unglaubliche Completions!
+  zstyle ':completion:*:kill:*' command 'ps xf -u $USER -o pid,%cpu,cmd'
+# zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+  zstyle ':completion:*:*:kill:*:processes' list-colors \
+    '=(#b) #(<->) #<->.<->[ |\_]#([-/_[:alnum:][:digit:]]#)*=0=01;31=01;32'
+# zstyle ':completion:*:kill:*' insert-ids single # wrrooooong! -> menu!
+# zstyle ':completion:*:*:kill:*' menu yes select
+# zstyle ':completion:*:kill:*' force-list always
+
+# less uns mutt: direkt ins Menü
+  zstyle ':completion:*:*:less:*' menu yes select
+  zstyle ':completion:*:*:mutt:*' menu yes select
+
+  zstyle ':completion:*:manuals' separate-sections true
+  zstyle ':completion:*:manuals.(^1*)' insert-sections true
+
+# 2005-07-25: Completion für Aptitude-Aliase
+# compdef _aptitude A
+# compdef '_deb_packages avail' Ai As Ash # Alle Pakete
+# compdef '_deb_packages installed' Ar    # Nur installierte Pakete
+
+# 2008-07-07
+  compdef _gnu_generic head feh cp mv df uname zsh uname
+
+# 2008-07-06: if there is an alias of function name the same as a command name
+# prefer the command name! otherwise, two identical matches appear in the
+# completion menu *gnah* (meaning: try everything but aliases and functions; if
+# there's no match, try everything else)
+  zstyle ':completion::*:-command-:*:*' tag-order '! aliases functions'
+
+# noglob zstyle ':completion:*:*:scp:*' list-colors ${(s.:.)LS_COLORS}
+
+# Make: Completion für die gängigen Aktionen.
+# _make() {
+#   local expl
+#   _wanted targets expl targets \
+#     compadd install clean remove uninstall deinstall
+# }
+# compdef _make make
+
+# }}}
+
+# key bindings {{{
+######################################################################
+# Keybindings. Vi rules!
+######################################################################
+  loading keys
+# Standardmäßige vi-Keybindings.
+  bindkey -v
+# Home- und End-Keys.
+  bindkey '\e[1~' beginning-of-line
+  bindkey '\e[4~' end-of-line
+# ^B fügt den Inhalt von !$ (letztes Argument) ein.
+# (Bei Standard-Emacs-Bindings ist das auf Esc-_ oder Esc-.)
+  bindkey '^B' insert-last-word # -> _extract_files
+# autoload smart-insert-last-word
+# zle -N insert-last-word smart-insert-last-word
+# zstyle :insert-last-assignment match '*[[:alnum:]]*'
+# Eingabe eines Kommandos und Drücken der Pfeil-nach-oben-Taste veranlasst
+# die Zsh, eine hostory-Suche zu starten.
+  bindkey "^[[A"   up-line-or-search
+  bindkey "^[[B" down-line-or-search
+# 2005-04-13: Aus der GRML-Zshrc: ^P fügt das letzte Wort ein.
+  insert-last-typed-word() { zle insert-last-word -- 0 -1 }; \
+  zle -N insert-last-typed-word
+  bindkey "^P" insert-last-typed-word
+
+# bindkey "^I" complete-word
+  bindkey '^Z' accept-and-infer-next-history
+
+# 2005-02-27: Navigation im Completion-Menü.
+# Navigation in der Completion-Liste (Tab-Tab): hjkl wählt aus, Return fügt ein
+# und beendet das Menü (wobei es weiterhin angezeigt wird) und i fügt ein und
+# lässt das Menü offen, um eine weitere Vervollständigung einzufügen.
+# Die Befehle funktionieren nur, *nachdem* zsh/complist geladen wurde!
+  bindkey -M menuselect 'h' vi-backward-char                # links
+  bindkey -M menuselect 'j' vi-down-line-or-history         # unten
+  bindkey -M menuselect 'k' vi-up-line-or-history           # oben
+  bindkey -M menuselect 'l' vi-forward-char                 # rechts
+# Fügt die Completion auf der Kommandozeile ein, lässt aber das Menü
+# für eine Weitere Vervollständigung offen.
+  bindkey -M menuselect 'i' accept-and-menu-complete
+# Fügt die Completion auf der Kommandozeile ein und zeigt dann ein
+# Menü mit weiterhin möglichen Completions. "Engere Auswahl"
+# bindkey -M menuselect 'o' accept-and-infer-next-history
+  bindkey -M menuselect 'u' undo
+
+# 2008-07-05: zwischen den Kategorien springen
+  bindkey -M menuselect 'n' vi-forward-blank-word
+  bindkey -M menuselect 'b' vi-backward-blank-word
+
+# 2005-07-10
+# setopt globs_complete: Completionmenü statt einfügen aller Möglichkeiten
+# Expansion von *.txt -> file1.txt, file2.txt... mit ^E
+# bindkey '^E' expand-word
+# obsolete, see `custom-expand'
+
+# 2005-07-11: ^F is short for "ls"
+# bindkey -s "^F" "ls\n"
+
+# 2005-09-14: caphusos Tip
+  run-with-sudo () { LBUFFER="sudo $LBUFFER" }
+  zle -N run-with-sudo
+  bindkey '^Xs' run-with-sudo
+
+# 2005-10-28: push line to buffer
+  bindkey '^K' push-line
+
+# 2008-07-05: undo ohne command mode
+  bindkey '^_' undo
+  bindkey -M vicmd u undo
+
+  bindkey '^XH' run-help
+
+# 2008-07-07: insert date
+  insert-date() { LBUFFER+="$(date +%F)" }
+  zle -N insert-date
+  bindkey '^Xd' insert-date
+
+# 2007-04-08: EH07, nice idea! (tcsh-like)
+# When Tab is pressed on an empty(!) command line,
+# the contents of the directory are printed (`ls`)
+# instead of a menu list of all executables:
+# % cd /usr/src/
+# % <Tab>
+# linux-2.6.14.3        9p
+# fuse.tar.bz2          thinkpad.tar.gz
+  complete-or-list() {
+    [[ $#BUFFER != 0 ]] && { zle complete-word ; return 0 }
+    echo
+    ls
+    zle reset-prompt
+  }
+  zle -N complete-or-list
+  bindkey '^I' complete-or-list
+
+# 2008-08-02: replace global aliases as they are typed.
+# good behaviour? don't think so. I switched to _expand_alias
+# global-alias-space() {
+#   local ga="$LBUFFER[(w)-1]"
+#   # (( ${+galiases[$ga]} )) && LBUFFER[(w)-1]="$galiases[$ga]"
+#   [[ -n $ga ]] && LBUFFER[(w)-1]="${${galiases[$ga]}:-$ga}"
+#   zle self-insert
+# }
+# zle -N global-alias-space
+# bindkey ' ' global-alias-space
+
+# 2008-08-14: if line end with two spaces, pipe output to $PAGER
+accept-line() {
+  [[ $BUFFER[-2,-1] == '  ' ]] && BUFFER[-1]='P'
+  zle .accept-line
+}
+zle -N accept-line
+
+# 2007-10-03: temporarily display $PWD
+  display-pwd() {
+    if [[ ${(M)RPROMPT#??} == "%/" ]]; then
+      RPROMPT=${RPROMPT#%/}
+    else
+      RPROMPT="%/"$RPROMPT # <- PWD
+    fi
+    zle reset-prompt
+  }
+  zle -N display-pwd
+  bindkey '^F' display-pwd
+
+# }}}
+
+# hashes {{{
+######################################################################
+# Hashs
+######################################################################
+
+# hash -d B=~/bin
+# hash -d M=~/.mutt
+# hash -d W=~/www
+# hash -d irc=~/.irclogs
+# hash -d ruby=~/src/ruby
+# hash -d perl=~/src/perl
+# hash -d N=~/News
+# hash -d T=~/tmp
+  hash -d m=~/musik
+
+# hash -d video=~/stuff/videos
+# hash -d papers=~/stuff/papers
+# hash -d audio=~/stuff/audio
+
+  hash -d lighty=/var/log/lighttpd
+  hash -d doc=/usr/share/doc
+  hash -d log=/var/log
+  hash -d p=~/www/plenz.com
+  hash -d zsh=/usr/share/zsh/functions
+  hash -d z=~/zsh/zsh_de_1ed
+
+# }}}
+
+# misc {{{
+######################################################################
+# Sonstiges
+######################################################################
+  loading misc
+# Startup: Läuft screen? Wenn ja, dann de-re-attach. So wird screen
+# immer automatisch gestartet, aber nicht, wenn eine Shell *innerhalb*
+# screens gestartet wird...
+#  #if [[ $(screen -ls | wc -l) == 4 && `hostname` == "feh" ]]
+#  if [[ `hostname` == "feh" ]]
+#    then
+#      # if [[ $(echo $STY | grep -c `hostname` ) == 0 ]]
+#      #   then
+#      if [[ -z $STY ]]; then
+#          sleep 1 # Willkommensnachricht lesen...
+#          /usr/bin/screen -d -r
+#      fi
+#  fi
+
+# if [[ -z "$STY" ]]; then /usr/bin/screen -d -r main >/dev/null; fi
+  [[ -z "$STY" ]] && /usr/bin/screen -d -r >/dev/null
+
+# Umask: Wird für gewöhmlich bei der Erstellung von Dateien von 0777 bzw. 0666
+# abgezogen. 0666-066 = 0600 -> -rw-------; 0777-066 = 0711 -> -rwx--x--x
+  umask 066
+
+# Benachrichtigung darüber, wer Shells öffnet und schließt. Nervig.  ;)
+# watch=(notme)
+# LOGCHECK=120
+# WATCHFMT='%n %a %l from %m at %t.'
+
+compdef _wlan wlan
+_wlan() {
+  local expl context state line opt_args
+  _arguments '1:action:(on off dhcp profile home)' ':profile:->prof'
+  if [[ -n $state && $words[2] = "profile" ]]; then
+    _wanted values expl 'select WLAN profile' compadd ~/wlan/*(.:t)
+  else
+    [[ -n $state ]] && _message 'no more arguments'
+  fi
+}
+
+compdef _echo echo
+_echo() {
+  local expl context state line ret=1
+  typeset -A opt_args
+  _arguments '-n' '-e' '-E' '--help' '--version' ':string to enter:->string' && ret=0
+  [[ -n $state ]] && _files
+  # if [[ -n $state ]] && (( ${+opt_args[-e]} )); then
+  #   local escapes
+  #   escapes=('\\\\:regular backslash' '\\a:alert' '\\b:backspace' \
+  #     '\\c:supress trainling newline' '\\f:form feed' '\\n:new line' \
+  #     '\\r:carriage return' '\\t:horizontal tab' '\\v:vertical tab' \
+  #     '\\0:(followed by up to three digits) octal ascii code')
+  #   compset -P '*\\'
+  #   _describe 'escape sequences' escapes
+  # fi
+  # return ret
+}
+
+_cowsay() {
+  _arguments '-e[Use given characters as eyes]' \
+    '-T[Use given characters as tounge]' \
+    '-W[Set width where text is to be rewrapped]' \
+    '-b[Borg mode]' \
+    '-d[Deadlike]' \
+    '-g[Greedy]' \
+    '-p[Paranoia]' \
+    '-s[Stoned]' \
+    '-t[Tired]' \
+    '-w[Weird]' \
+    '-y[Youthful]' \
+    '-l[List possible cowfiles]' \
+    '-h[Print out help message]' \
+    '-f[Specify Cowfile to use]:Cowfile to use:_cowsay_files'
+}
+_cowsay_files() {
+  _wanted files expl 'cowsay file' compadd \
+    ${=${(f)"$($service -l 2>/dev/null)"}:#*\:}
+}
+compdef _cowsay cowsay cowthink
+
+# 2005-09-26: Chicago
+# _chicago_resize_rename() {
+#   cp $1 ~/chicago/$2
+#   cd ~/chicago
+#   _screensize_thumb $2 ${2:r}_thumb.jpg
+#   _screensize $2 $2
+# }
+
+# 2005-12-21: temporary fix because of
+# broken glibc/mplayer/esd...
+# mplayer() {
+#   if [[ -S /tmp/.esd/socket ]]; then
+#     killall esd
+#     echo Killed ESD\!
+#     sleep 1
+#   fi
+#   /usr/bin/mplayer $@
+# }
+
+# 2006-04-24: 
+  flv2mpeg() {
+    if [[ -z "$1" || ! -e "$1" ]]; then
+      echo Usage: $0 VideoFile.flv
+      echo Use http://keepvid.com to download the FLV file.
+    else
+      ffmpeg -i $1 -ab 56 -ar 22050 -b 500 -s 320x240 ${1:r}.mpeg
+    fi
+  }
+
+# 2006-08-24: Derive für den Mathe-LK... :-(
+# Funktioniert nur mit einem Update auf 6.1!
+  derive() {
+    ulimit -v unlimited
+    ulimit -n unlimited
+    wine $HOME/.wine/drive_c/Programme/Derive\ 6/Derive6.exe
+  }
+
+# 2007-07-17: YouTube FLV download
+  yt() {
+    echo -n "Name des Videos: "
+    read name
+    wget -O "${name}.flv" \
+      http://cache.googlevideo.com/get_video?video_id=$1
+  }
+
+# 2007-08-28: list videos
+  lsvid() {
+    for t in flv avi wmv mpeg; do
+      echo -e -- "$bg[red]${t:u}$reset_color" ------------------------------------------------------------
+      ls *.${t}(.N)
+    done
+  }
+
+# vortrags-xterm
+  alias VX="xterm -fg white -bg black -font '-*-terminus-medium-*-*-*-20-*-*-*-*-*-iso10646-*'"
+
+# 2008-03-05
+  histgrep () { fc -fl -m "*(#i)$1*" 1 | grep -i --color $1 }
+
+# 2008-03-26: ^O expands "vim txt" to "vim *txt<Tab>"
+# very useful if you only remember a fragment of the
+# file name and want to show the matches
+# expand-to-starword () {
+#   # lastword=${"${=LBUFFER}"[-1]}
+#   # LBUFFER=${LBUFFER/%$lastword/*$lastword}
+#   LBUFFER[(w)-1]="*$LBUFFER[(w)-1]"
+#   zle complete-word
+# }
+# zle -N expand-to-starword
+# bindkey '^O' expand-to-starword
+# 2008-09-04: cleaner and better solution:
+  zle -C match-arbitrary-position complete-word _generic
+  zstyle ':completion:match-arbitrary-position:*' completer _complete
+  zstyle ':completion:match-arbitrary-position:*' matcher-list 'm:{A-Za-z}={a-zA-Z} l:|=* r:|=*'
+  bindkey '^O' match-arbitrary-position
+
+# alias xdvi=xdvi-xaw.bin
+
+  xdvi() { command xdvi ${*:-*.dvi(om[1])} }
+  feh()  { print displaying ${*:-*(om[1])}; command feh ${*:-*(om[1])} }
+
+# list-choices at almost every key stroke - annoying!
+# self-insert() {
+#   zle .self-insert
+#   if [[ $LBUFFER[-3,-1] == [-[:alnum:]_.](#c3) ]]; then
+#     zle forward-char
+#     zle list-choices
+#   fi
+# }
+# zle -N self-insert
+
+# from stract's config
+  function makepasswords()
+  {
+    perl <<-EOPERL
+    my @a = ("a".."z","A".."Z","0".."9",(split //, q{#@,.<>$%&()*^}));
+    for (1..10) { 
+        print join "", map { \$a[rand @a] } (1..rand(3)+7);
+        print qq{\n} 
+    }
+# the following line has to start with a regular tab charater! :(
+	EOPERL
+  }
+
+  zle -N match-brackets
+  bindkey '^X^X' match-brackets
+  bindkey -M vicmd ',' match-brackets
+
+# }}}
+
+# tanzania resize
+  trs() { command convert $1 -geometry 160x120 ${1:r}_small.${1:e} }
+  RR() { command convert $1 -rotate ${2:-90} ${1:r}_trans.${1:e} }
+
+# youtube!
+  YT() { 
+    youtube-dl -tb "$@"
+    local download
+    download=( *.(flv|mp4)(om[1]) )
+    #print -s "ffmpeg -i $download -ar 44100 -ab 192k -ac 2 ${download:r}.mp3 " # store in history
+    print -s "ffmpeg -i $download -acodec copy ${download:r}.mp3 " # store in history
+  }
+  alias YT=noglob\ YT
+
+  alias ipt='tail -n 0 -f /var/log/debug | ccze -A -c host=bold\ yellow'
+  alias wake-deepthought='sudo etherwake -i eth1 00:0a:e4:c5:e7:36'
+
+# clean up
+  print -n ${(l:$COLUMNS-1:: :)}'\r'
+  print -n $greeting_message
+  if (( $#greeting_message + 35 < COLUMNS )); then
+    print "   ($(uname -rom))"
+  else
+    print
+  fi
+  unset greeting_message
+  unfunction loading is_root_shell
+
+# vim:set sw=2 fdm=marker nowrap: EOF

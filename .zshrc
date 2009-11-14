@@ -1,0 +1,1 @@
+/home/feh/.zsh/zshrc

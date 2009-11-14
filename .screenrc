@@ -1,0 +1,104 @@
+# $HOME/.screenrc of Julius Plenz, <screenrc@plenz.com>
+# Version: Mo Feb 14 19:50:11 CET 2005
+
+ defscrollback 1000 # default: 100
+ deflogin off #def: on
+ startup_message off
+ silencewait 15
+ msgwait 2
+ vbell on
+ nethack on # extended, nethack-like messages
+ shell /bin/zsh
+#sorendition kG # black on green
+ sorendition kR # black on red
+
+ termcapinfo linux "ve=\E[?25h\E[?17;0;64c" # red cursor
+
+ backtick 1 0 0 current_traffic.sh
+
+#caption always "%{= Yr}%c  %{= Y0}%-w%{= RY}%50>%n-%t%{-}%+w%<"
+ caption always "%{= Yr}%c  %{= Y0}%-w%{= RY}%50>%n-%t%{-}%+w%{= Y0}%-38=%1` | %l"
+ shelltitle 'zsh'
+
+#caption string "%1n~%t"
+#caption always "%-w%{= Gb}%50>%n-%t%{-}%+w%<"
+#caption always "%-Lw%{= Gb}%50>%n%f* %t%{-}%+Lw%<"
+#caption always "%3n %t%? @%u%?%? [%h]%?"
+#caption always "%{rk}%H %{gk}%c %{yk}%M%d %{wk}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{wk}%?%+Lw%?"
+#caption always "%{kG}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{kG}%?%+Lw%?"
+
+ # <number>: <program name>
+ defhstatus "^EH/^En: ^Et"
+#hardstatus alwayslastline "%w"
+
+ activity              "%C -> %n%f %t activity!"
+ bell                  "%C -> %n%f %t bell!"
+ vbell_msg             " *beep* "
+
+ escape ^aa
+
+ bind K # not killing windows accidental
+ bind P paste . # Pasting
+
+# quick navigating
+#bindkey -k k7 prev
+#bindkey -k k8 next
+
+# Often used programs
+ bind I screen -t 'irssi'    1 irssi
+ bind i screen -t 'mutt'     0 mutt -f!
+ bind m screen -t 'mutt'     2 mutt -y
+ bind s screen -t 'slrn'     3 slrn -h news.individual.de   -k0 -i .slrn/slrnrc
+ bind N screen -t 'slrn'     3 slrn -h snews://news.cvmx.de -k0 -i .slrn/slrnrc-cvmx
+ bind g screen -t 'slrn'     3 slrn -h news.gmane.org       -k0 -i .slrn/slrnrc-gmane
+ bind K screen -t 'slrn'     3 slrn -h news.sunsite.dk      -k0 -i .slrn/slrnrc
+ bind C screen -t 'cicq'     4 centericq -a
+
+# Some important pages
+ bind e screen -t 'elinks'   6 links
+ bind E screen -t 'elinks'   6 links
+ bind p screen -t 'plenz'    6 links http://www.plenz.com/
+ bind G screen -t 'google'   6 links http://google.de/search
+ bind H screen -t 'heise'    7 links http://www.heise.de/newsticker/pda/data/paket4.html
+#bind g screen -t 'gebote'   6 links http://hh.html-q.net/\#gebote
+#bind o screen -t 'orkut'    7 links http://www.orkut.com/
+ bind W screen -t 'Wiki'     8 links http://www.htmlwiki.de/
+
+ bind r screen -t 'irb'      5  irb --simple-prompt
+ bind R screen -t 'raggle'   5  raggle
+ bind v screen -t 'VIM'      3  vim
+#bind F screen -t 'fml'      11 fm.sh
+ bind f screen -t 'ftp'      9  lftp v093375@plenz.com
+ bind F screen -t 'ftp'      9  lftp
+
+# two hosts i ssh to regularly
+ bind L screen -t 'life.de'  0 ssh -2 -l julius -p 2222 k600.life.de
+ bind O screen -t 'Orakel'   0 ssh    -l orakel meldron.org
+#bind O screen -t 'Orakel'   0 ssh    -l orakel lotus-network.de
+
+# NetHack!!
+ bind T screen -t 'nethack'  2 nethack
+
+# Umlaute einfach eingeben (ohne ^A^V)
+ bindkey -t `a stuff "ä" # Mit dem US-Layout trotzdem
+ bindkey -t `A stuff "Ä" # Umlaute eingeben geht mit
+ bindkey -t `o stuff "ö" # screen recht gut. Auch wenn
+ bindkey -t `O stuff "Ö" # ein bisschen Eingewöhnungs-
+ bindkey -t `u stuff "ü" # Zeit nötig ist.  :-)
+ bindkey -t `U stuff "Ü"
+ bindkey -t `s stuff "ß"
+ bindkey -t `` stuff "`"
+
+# Homepage
+ bind q stuff "http://www.plenz.com/"
+ bind d exec .!. zsh -c 'print -Pn %D{%F}'
+
+#hardstatus alwayslastline "%?%{yk}%-Lw%?%{wb}%n*%f %t%?(%u)%?%?%{yk}%+Lw%?"
+#hardstatus alwayslastline " %c | %Y%m%d |  %w"
+#hardstatus alwayslastline "%{rw}%H%{wk}|%c|%M%d|%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{wk}%?%+Lw%?"
+#hardstatus alwayslastline "%{rk}%H %{gk}%c %{yk}%M%d %{wk}%?%-Lw%?%{bw}%n*%f %t%?(%u)%?%{wk}%?%+Lw%?"
+#hardstatus alwayslastline "%{bw}%1`%= "
+#hardstatus alwayslastline "%{BW}www.guckes.net/screen/%50=%{RY}host: %H %85=%{YR}%M%d %92=%{Gb}%c%="
+#hardstatus alwayslastline "%{Gb}%c:%s, %d %M%=Host: %H%?%=LoadAvg: %l%?"
+
+#EOF
