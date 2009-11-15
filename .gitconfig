@@ -9,3 +9,7 @@
 	df = diff
 	lg = log -p
 	tree = log --pretty=format:'%Cgreen%h%Creset : %s (%cr)' --graph --all
+[color]
+	branch = auto
+	diff = auto
+	status = auto
