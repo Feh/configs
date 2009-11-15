@@ -1,14 +1,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[11pt,            % Schriftgrˆﬂe {{{
+\documentclass[11pt,            % Schriftgr√∂√üe {{{
                a4paper,         % A4
                oneside,         % Einseitig
-               DIV12,           % Papiergrˆﬂe
-             % DIV15,           % Grˆﬂer
+               DIV12,           % Papiergr√∂√üe
+             % DIV15,           % Gr√∂√üer
              % draft,           % Entwurf
-               fleqn,           % Linksb¸ndige Gleichungen
+               fleqn,           % Linksb√ºndige Gleichungen
              % headsepline,     % Trennlinie oben
              % footsepline,     % -""-       unten
-             % smallheadings,   % Kleine ‹berschriften
+             % smallheadings,   % Kleine √úberschriften
              % pointlessnumbers,% Keine Punkte
              % halfparskip,     % Halbe Zeile Absatz statt Einzug
                nochapterprefix, % Kein "Kapitel"
@@ -22,7 +22,7 @@
 %%% Pakete {{{
 \usepackage[utf8]{inputenc}         % Umlaute etc.
 \usepackage[T1]{fontenc}            % T1-kodierte Fonts
-\usepackage{ae,aecompl}             % Kodierung f¸r PDF
+\usepackage{ae,aecompl}             % Kodierung f√ºr PDF
 \usepackage{ngerman}                % Deutsche Trennungen,
                                     % dt. Begriffe
 \usepackage{setspace}               % Single- oder Onehalfspacing
@@ -43,11 +43,11 @@
   \usepackage{textcomp}             % Spezielle Zeichen
   \usepackage{gensymb}              % Spezielle Zeichen
 % \usepackage{eurosym}              % Euro-Symbol
-% \usepackage{currvita}             % Befehle f¸r CVs
+% \usepackage{currvita}             % Befehle f√ºr CVs
   \usepackage{ifpdf}                % Wird ein PDF erstellt?
 
 %%% Layout
-\usepackage{scrpage2}               % KOMA-‹berschriften und -Fuﬂzeilen.
+\usepackage{scrpage2}               % KOMA-√úberschriften und -Fu√üzeilen.
 %%% }}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -118,7 +118,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Seitenkopf- und -Fuﬂzeilen {{{
+%%% Seitenkopf- und -Fu√üzeilen {{{
  \automark[subsection]{section} % \left- und \rightmark bekommen Inhalt
 %%% Oben: Links, Mitte, Rechts
  \ihead[]{\rightmark}
@@ -137,14 +137,14 @@
 % \setlength{\parskip}{2pt}         % keine Leerzeilen.
 
 % \textwidth      127mm             % Textbreite
-% \textheight     235mm             % Texthˆhe
+% \textheight     235mm             % Texth√∂he
 % \topmargin     -5mm               % Abstand oben
 % \oddsidemargin  7mm               % Abstand Links, onepage
 
 %\onehalfspacing                    % Zeilenabstand: Bei korrektur,
  \singlespacing                     % bei Abgabe
 
-% Punkt- und Komma Abst‰nde bei Tausendern/
+% Punkt- und Komma Abst√§nde bei Tausendern/
 % Dezimalzahlen ans deutsche anpassen!
  \mathcode`,="013B
  \mathcode`.="613A
@@ -152,9 +152,9 @@
  \setlength{\emergencystretch}{2em} % Notfallsstreckung
  \addtolength{\voffset}{10pt}
 
-% Kommando‰nderungen
+% Kommando√§nderungen
  \renewcommand{\figurename}{Abb.} % Bildunterschriften: Abb. anstatt Fig.
-%\renewcommand*{\cvheadingfont}{\raggedleft\Huge\bfseries} % CV: ‹berschriften
+%\renewcommand*{\cvheadingfont}{\raggedleft\Huge\bfseries} % CV: √úberschriften
 %%% }}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -162,8 +162,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Titelseite {{{
-%\pagenumbering{none}                % F¸r die Titelseite: Keine Seitennummern,
-%\thispagestyle{empty}               % keine Kopf- und Fuﬂzeilen.
+%\pagenumbering{none}                % F√ºr die Titelseite: Keine Seitennummern,
+%\thispagestyle{empty}               % keine Kopf- und Fu√üzeilen.
 %
 %\begin{center}
 %
@@ -176,7 +176,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Inhaltsverzeichnis {{{
   \pagenumbering{arabic}            % Arabische Nummerierung
-% \pagenumbering{roman}             % Kleine, rˆmische Nummerierung
+% \pagenumbering{roman}             % Kleine, r√∂mische Nummerierung
 % \tableofcontents                  % Das Inhaltsverzeichnis
 % \listoffigures                    % Verzeichnis aller Abbildungen
 % \listoftables                     % Verzeichnis aller Tabellen
