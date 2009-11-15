@@ -8,4 +8,4 @@
 	co = checkout
 	df = diff
 	lg = log -p
-	tree = log --pretty=oneline --graph --all
+	tree = log --pretty=oneline --graph --all --color
