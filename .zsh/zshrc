@@ -296,28 +296,35 @@ is_root_shell() { [[ $USER == root ]] }
 
 # minimalistic prompt - way better!
   PROMPT='%B%U'${SSH_HOSTNAME:-zsh}'%u>%b '
-  RPROMPT='%1(j.%B(%j%)%b.)'
+  RPROMPT='%1(j.%B(%j%)%b.)$(__git_prompt_info)'
   is_root_shell && PROMPT="%{$fg[red]%}$PROMPT%{$fg[red]%}"
 
-  is_git_repo() {
+# 2009-11-16: add some git info on right side when entering a git directory
+#             if inside git-controlled dir, check branch name every command!
+  chpwd() {
+    __git_info
+  }
+  __is_git_repo() { # check return value
     git rev-parse --git-dir &>/dev/null
   }
-  git_project_name() {
-    if is_git_repo; then
-      __git_project_name="${${$(readlink -f $(git rev-parse --git-dir 2>|/dev/null)):h}##*/}"
+  __git_info() {
+    if __is_git_repo ; then
+      __git_repo=1
+      __git_project_name=${__git_project_name:-${${$(readlink \
+        -f $(git rev-parse --git-dir 2>|/dev/null)):h}##*/}}
     else
+      __git_repo=0
       __git_project_name=
     fi
   }
-  parse_git_branch() {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) -- /'
+  __git_branch_name() {
+    print ${${${${(f)"$(git branch --no-color \
+      2>/dev/null)"}:#[^*]*}##\* }:-no branch}
   }
-  git_branch_name() {
-    .
-  }
-  git_prompt_info() {
-    is_git_repo || return
-    .
+  __git_prompt_info() {
+    [[ __git_repo -eq 1 ]] || return
+    [[ -z "$__git_project_name" ]] && __git_info
+    print " %B${__git_project_name}%b on %B$(__git_branch_name)%b"
   }
 
 
