@@ -940,7 +940,7 @@ is_root_shell() { [[ $USER == root ]] }
   alias svnup='svn up'
 
 # 2009-11-14: git config versioning
-  alias conf='git --git-dir=$HOME/.configs.git --work-tree=.'
+  alias conf='GIT_DIR=$HOME/.configs.git GIT_WORK_TREE=$HOME git'
 # }}}
 
 # modules {{{
