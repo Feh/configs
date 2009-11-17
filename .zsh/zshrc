@@ -122,6 +122,7 @@ is_root_shell() { [[ $USER == root ]] }
       add-to-path "$HOME/bin"
       # for matlab!
       export AWT_TOOLKIT=MToolkit
+      export LC_ALL="en_US.UTF-8"
       greeting_message='Mathe machen jetzt!'
       ;;
 
