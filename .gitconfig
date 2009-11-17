@@ -1,6 +1,6 @@
 [user]
 	name = Julius Plenz
-	email = feh@mi-fub
+	email = feh@hostname
 [alias]
 	st = status
 	ci = commit
