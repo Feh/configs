@@ -1570,6 +1570,10 @@ compdef _cowsay cowsay cowthink
 # trs() { command convert $1 -geometry 160x120 ${1:r}_small.${1:e} }
 # RR() { command convert $1 -rotate ${2:-90} ${1:r}_trans.${1:e} }
 
+dubarchive() {
+  command dog http://dubstep.fm/archive.xml | grep link | sed 's/..link>//g'
+}
+
 # youtube!
   YT() { 
     youtube-dl -tb "$@"
