@@ -1,0 +1,5 @@
+setopt nobeep noclobber autocd completeinword correct rmstarwait
+eval `dircolors`
+PROMPT='%B%Umin%u>%b '
+bindkey -e
+autoload -U compinit && compinit
