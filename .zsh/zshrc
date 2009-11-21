@@ -50,6 +50,7 @@ is_root_shell() { [[ $USER == root ]] }
   export HOME=${HOME:-/home/julius}
   export PATH=${PATH:-/usr/local/bin:/usr/bin:/bin}
   export TMPDIR=${TMPDIR:-/tmp}
+  export LC_ALL=${LC_ALL:-en_US.UTF-8}
   export CDPATH=.:..
   [[ ! -z "$SSH_TTY" ]] && export SSH_HOSTNAME=$hostname
 
@@ -60,6 +61,7 @@ is_root_shell() { [[ $USER == root ]] }
       export HOME=/home/feh
       export MAIL=${MAIL:-/home/feh/Mail/INBOX}
       export BROWSER=${BROWSER:-elinks}
+      export LC_ALL="en_US.UTF-8"
       add-to-path $HOME/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin
 
       MAY_BECOME_ROOT=1
