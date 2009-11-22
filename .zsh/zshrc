@@ -1,16 +1,15 @@
-######################################################################
+########################################################################
 # $HOME/.zshrc of Julius Plenz, zshrc/plenz/com
-######################################################################
-# Feel free to copy stuff from this config (some lines are also copied
-# from other people's configs), but I do not advise you to use this
-# file as your ~/.zshrc without modification, it might mess around
-# with your system too much (but, if you are fearless, try it out
-# ;-)). Also, there are some really strange key bindings defined.
-######################################################################
-# $Id: zshrc,v d923d567ba82 2009/11/02 10:39:34 feh $
-######################################################################
+########################################################################
+# Feel free to  copy stuff from this config (some  lines are also copied
+# from other people's configs), but I do not advise you to use this file
+# as your ~/.zshrc without modification,  it might mess around with your
+# system too  much. But, if  you are fearless, try  it out and  see what
+# happens! Also, there are some really strange key bindings defined. :-)
+########################################################################
 
-# if a minimal zsh is requested, give it one! (via min-zsh alias)
+# minimal zsh {{{
+# if a minimal zsh is requested, provide one! (via min-zsh alias)
 # below is the minimal setup used from ~/.zshrc.minimal:
 #
 # : setopt nobeep noclobber autocd completeinword correct rmstarwait
@@ -29,10 +28,12 @@ if [[ $0 == "min-zsh" ]]; then
         print "Loading default configuration instead!"
     fi
 fi
+# }}}
 
-# helper functions (will be unfunctioned later)
+# helper functions (will be unfunctioned later) {{{
 loading() { print -n ${(r:$COLUMNS-2-$#1:: :):-loading $1...}'\r' }
 is_root_shell() { [[ $USER == root ]] }
+# }}}
 
 # host-based settings {{{
 ######################################################################
@@ -47,7 +48,7 @@ is_root_shell() { [[ $USER == root ]] }
   local hostname=$(hostname)
   [[ $(hostname --fqdn) == *.(mi|imp).fu-berlin.de ]] && hostname="mi/$(hostname)"
 
-  export HOME=${HOME:-/home/julius}
+  export HOME=${HOME:-/home/feh}
   export PATH=${PATH:-/usr/local/bin:/usr/bin:/bin}
   export TMPDIR=${TMPDIR:-/tmp}
   export LC_ALL=${LC_ALL:-en_US.UTF-8}
@@ -77,23 +78,15 @@ is_root_shell() { [[ $USER == root ]] }
       greeting_message='sourceforge shell'
       ;;
 
-    k600)
-      export CDPATH=
-      export MAIL=
-      greeting_message='k600 server'
-      ;;
-
     mali)
       export LC_ALL="en_US.UTF-8"
       export TMPDIR=/tmp
       export MAIL=
       export BROWSER=${BROWSER:-firefox}
-      add-to-path "$HOME/bin"
-      add-to-path "/sbin" # /sbin/iwconfig!
-
+      add-to-path $HOME/bin /sbin
       MAY_BECOME_ROOT=1
       ON_LAPTOP=1
-
+      alias s=slock
       greeting_message='hapo mali sana!'
       ;;
 
@@ -103,11 +96,8 @@ is_root_shell() { [[ $USER == root ]] }
       export MAIL=
       export BROWSER=${BROWSER:-firefox}
       add-to-path "$HOME/bin"
-
       MAY_BECOME_ROOT=1
       ON_LAPTOP=1
-
-      alias e='ssh eris'
       alias s=slock
       greeting_message='"Forty-two," said Deep Thought, with infinite majesty and calm.'
       ;;
@@ -226,9 +216,9 @@ is_root_shell() { [[ $USER == root ]] }
   export GREP_OPTIONS='-i --color=auto'
   export GREP_COLOR='1;32' # spidergreeeeeeeen!
 
-  export LC_C=${LC_C:-en_US}
-  export LC_ALL=${LC_ALL:-en_US}
-  export LC_CTYPE=${LC_CTYPE:-en_US}
+  export LC_C=${LC_C:-en_US.UTF-8}
+  export LC_ALL=${LC_ALL:-en_US.UTF-8}
+  export LC_CTYPE=${LC_CTYPE:-en_US.UTF-8}
   export LC_PAPER=${LC_PAPER:-a4}
 
 # IRC-Nickname und -Realname
@@ -236,9 +226,7 @@ is_root_shell() { [[ $USER == root ]] }
   export IRCNAME='Julius Plenz'
 
 # Mails
-# export MAILPATH=${MAIL:-$HOME/Mail}
   unset  MAILCHECK
-# export MAILCALL='New Mail in INBOX! '
   export REPORTTIME=${REPORTTIME:-5}
 
 # 30 Verzeichnisse passen auf den Stack, der automatisch bei
@@ -248,9 +236,10 @@ is_root_shell() { [[ $USER == root ]] }
 # Anzeige der Verzeichnisse mit 'd' (alias auf 'dirs -v'),
 # Verzeichniswechsel mit 'cd +Nummer'.
   DIRSTACKSIZE=15
+  __update_dirstack() { : }
   if [[ -w $HOME/.zsh_dirstack ]]; then
     dirstack=($PWD ${(f)"$(<$HOME/.zsh_dirstack)"})
-    chpwd() { print -l ${(Ouaf)"$(dirs -lp)"} >| $HOME/.zsh_dirstack }
+    __update_dirstack() { print -l ${(Ouaf)"$(dirs -lp)"} >| $HOME/.zsh_dirstack }
   fi
 
   HISTSIZE=15000 # Größe der History
@@ -279,10 +268,6 @@ is_root_shell() { [[ $USER == root ]] }
 # The Prompt
 ######################################################################
   loading prompt
-# Diese Funktion wird immer ausgeführt, bevor das Prompt ausgegeben wird.
-# Praktischerweise kann man damit Variablen oder wie hier in diesem Fall
-# direkt das Promp setzen.
-#
 # old stuff
 # Hier besteht das Prompt aus dem aktuellen Verzeichnis ($PWD) auf 11
 # Zeichen reduziert, einem ',' und der anzahl an laufenden Jobs.
@@ -305,6 +290,7 @@ is_root_shell() { [[ $USER == root ]] }
 # 2009-11-16: add some git info on right side when entering a git directory
 #             if inside git-controlled dir, check branch name every command!
   chpwd() {
+    __update_dirstack
     __git_info
   }
   __is_git_repo() { # check return value
@@ -356,35 +342,12 @@ is_root_shell() { [[ $USER == root ]] }
       settitle "$1"
   }
 
-# collision with ^F - won't happen very often
-# 2008-04-03: solved
-# precmd() {
-#   local jobprompt="%B(%j)%b"
-#   if [[ ! -z $jobstates ]]; then
-#     RPROMPT=${RPROMPT%"${jobprompt}"}$jobprompt
-#   else
-#     RPROMPT=${RPROMPT%"${jobprompt}"}
-#   fi
-# }
-
 # Get Config
-  alias getc='nocorrect getc'
-  getc() {
-    wget http://www.plenz.com/tmp/setup/$1 && \
-    mv .$1 .$1.bak && \
-    mv $1 .$1
-  }
-
-# Put Config (nach der Eingabe das Passwort eingeben, es wird
-# nicht nachgefragt und bei der Eingabe auch nicht angezeigt!)
-# alias putc='nocorrect putc'
-# putc() {
-#   if [[ $1 = 'muttrc' ]]
-#     then cd ~/.mutt
-#   fi
-#   echo "cd /tmp/setup/;\
-#     mput .$1;\
-#     mv .$1 $1" | lftp v093375@plenz.com
+# alias getc='nocorrect getc'
+# getc() {
+#   wget http://www.plenz.com/tmp/setup/$1 && \
+#   mv .$1 .$1.bak && \
+#   mv $1 .$1
 # }
 
 # A quick globbing reference, stolen from GRML (and modified).
@@ -457,20 +420,10 @@ is_root_shell() { [[ $USER == root ]] }
     local cmd=$1
     shift
     if (( $# )); then
-      LESS=aCeiM PAGER="less -p '$*'" command man $section $cmd
+      PAGER="less -p '$*'" command man $section $cmd
     else
-      LESS=aCeiM command man $section $cmd
+      command man $section $cmd
     fi
-  }
-
-  pack_config() {
-    local archive="configs-$(date +%F).tgz"
-    print -n Packing config files...
-    ( cd && tar cfzh $archive .awesomerc .bcrc .hgrc .hushlogin .screenrc \
-      .vimperatorrc .vimrc .Xdefaults .xsession .zshrc.minimal .zshrc .zfunc \
-      .zlogout )
-    print done.
-    print -s "scp $archive " # store in history
   }
 
   L() {
@@ -480,15 +433,6 @@ is_root_shell() { [[ $USER == root ]] }
       latex *.tex(.om[1])
     fi
     [[ $? -eq 0 ]] && sleep 0.5 && builtin fg
-  }
-
-  SD() {
-    # subversion diff
-    [[ $# -eq 0 ]] && print "usage: $0 [rev] file" && return
-    local rev file
-    [[ $1 == <-> ]] && rev="$1" && shift
-    file="$1"
-    command vim -c 'wincmd l' -d =(svn cat -r ${rev:-PREV} $file) $file
   }
 
   E() {
@@ -567,9 +511,6 @@ is_root_shell() { [[ $USER == root ]] }
 # List all executables which contain $1
   lsexe() { ls -l --color=auto $^path/*$1*(*N) }
 
-# cd and list
-# cl() { cd $1 && ls --color=auto }
-
 # Find all files with suid set in $PATH
 # suidfind() { ls -latg ${(s.:.)PATH} | grep '^...s' }
 # suidfind() { ls -latg $path | grep '^...s' }
@@ -586,7 +527,7 @@ is_root_shell() { [[ $USER == root ]] }
     esac
   }
 
-# 2005-05-29: Pedanten zu vared
+# 2005-05-29: Pendants zu vared
   aliased() { vared   "aliases[$1]" }
   funced()  { vared "functions[$1]" }
 
@@ -594,8 +535,9 @@ is_root_shell() { [[ $USER == root ]] }
   compctl -F funced
 
 # 2005-07-11: http://strcat.neessen.net/dotfiles/zsh/dot.zshfunctions
-# dick() { uptime | perl -ne "/(\d+) d/;print 8,q(=)x\$1,\"D\n\""; }
-  dick() { print 8${(l:`print ${$(uptime)[3]}`::=:):-}D }
+  dick() { uptime | perl -ne "/(\d+) d/;print 8,q(=)x\$1,\"D\n\""; }
+# dick() { print 8${(l:`print ${$(uptime)[3]}`::=:):-}D }
+# fails for uptime=0 days
 
   readme() { less (#ia3)readme*(-.NOL[1,3]) }
 
@@ -957,10 +899,6 @@ is_root_shell() { [[ $USER == root ]] }
     bindkey "^X^T" tetris # Cx-Ct to play
   fi
 
-  # autoload -U incremental-complete-word
-  # zle -N incremental-complete-word
-  # bindkey "^Xi" incremental-complete-word # C-x-i
-
 # }}}
 
 # completion {{{
@@ -1210,16 +1148,6 @@ is_root_shell() { [[ $USER == root ]] }
 # there's no match, try everything else)
   zstyle ':completion::*:-command-:*:*' tag-order '! aliases functions'
 
-# noglob zstyle ':completion:*:*:scp:*' list-colors ${(s.:.)LS_COLORS}
-
-# Make: Completion für die gängigen Aktionen.
-# _make() {
-#   local expl
-#   _wanted targets expl targets \
-#     compadd install clean remove uninstall deinstall
-# }
-# compdef _make make
-
 # }}}
 
 # key bindings {{{
@@ -1327,7 +1255,7 @@ is_root_shell() { [[ $USER == root ]] }
 # zle -N global-alias-space
 # bindkey ' ' global-alias-space
 
-# 2008-08-14: if line end with two spaces, pipe output to $PAGER
+# 2008-08-14: if line ends with two spaces, pipe output to $PAGER
 accept-line() {
   [[ $BUFFER[-2,-1] == '  ' ]] && BUFFER[-1]='P'
   zle .accept-line
@@ -1353,26 +1281,13 @@ zle -N accept-line
 # Hashs
 ######################################################################
 
-# hash -d B=~/bin
-# hash -d M=~/.mutt
-# hash -d W=~/www
-# hash -d irc=~/.irclogs
-# hash -d ruby=~/src/ruby
-# hash -d perl=~/src/perl
-# hash -d N=~/News
-# hash -d T=~/tmp
+  hash -d p=~/www/plenz.com
   hash -d m=~/musik
-
-# hash -d video=~/stuff/videos
-# hash -d papers=~/stuff/papers
-# hash -d audio=~/stuff/audio
 
   hash -d lighty=/var/log/lighttpd
   hash -d doc=/usr/share/doc
   hash -d log=/var/log
-  hash -d p=~/www/plenz.com
   hash -d zsh=/usr/share/zsh/functions
-  hash -d z=~/zsh/zsh_de_1ed
 
 # }}}
 
@@ -1407,76 +1322,6 @@ zle -N accept-line
 # LOGCHECK=120
 # WATCHFMT='%n %a %l from %m at %t.'
 
-compdef _wlan wlan
-_wlan() {
-  local expl context state line opt_args
-  _arguments '1:action:(on off dhcp profile home)' ':profile:->prof'
-  if [[ -n $state && $words[2] = "profile" ]]; then
-    _wanted values expl 'select WLAN profile' compadd ~/wlan/*(.:t)
-  else
-    [[ -n $state ]] && _message 'no more arguments'
-  fi
-}
-
-compdef _echo echo
-_echo() {
-  local expl context state line ret=1
-  typeset -A opt_args
-  _arguments '-n' '-e' '-E' '--help' '--version' ':string to enter:->string' && ret=0
-  [[ -n $state ]] && _files
-  # if [[ -n $state ]] && (( ${+opt_args[-e]} )); then
-  #   local escapes
-  #   escapes=('\\\\:regular backslash' '\\a:alert' '\\b:backspace' \
-  #     '\\c:supress trainling newline' '\\f:form feed' '\\n:new line' \
-  #     '\\r:carriage return' '\\t:horizontal tab' '\\v:vertical tab' \
-  #     '\\0:(followed by up to three digits) octal ascii code')
-  #   compset -P '*\\'
-  #   _describe 'escape sequences' escapes
-  # fi
-  # return ret
-}
-
-_cowsay() {
-  _arguments '-e[Use given characters as eyes]' \
-    '-T[Use given characters as tounge]' \
-    '-W[Set width where text is to be rewrapped]' \
-    '-b[Borg mode]' \
-    '-d[Deadlike]' \
-    '-g[Greedy]' \
-    '-p[Paranoia]' \
-    '-s[Stoned]' \
-    '-t[Tired]' \
-    '-w[Weird]' \
-    '-y[Youthful]' \
-    '-l[List possible cowfiles]' \
-    '-h[Print out help message]' \
-    '-f[Specify Cowfile to use]:Cowfile to use:_cowsay_files'
-}
-_cowsay_files() {
-  _wanted files expl 'cowsay file' compadd \
-    ${=${(f)"$($service -l 2>/dev/null)"}:#*\:}
-}
-compdef _cowsay cowsay cowthink
-
-# 2005-09-26: Chicago
-# _chicago_resize_rename() {
-#   cp $1 ~/chicago/$2
-#   cd ~/chicago
-#   _screensize_thumb $2 ${2:r}_thumb.jpg
-#   _screensize $2 $2
-# }
-
-# 2005-12-21: temporary fix because of
-# broken glibc/mplayer/esd...
-# mplayer() {
-#   if [[ -S /tmp/.esd/socket ]]; then
-#     killall esd
-#     echo Killed ESD\!
-#     sleep 1
-#   fi
-#   /usr/bin/mplayer $@
-# }
-
 # 2006-04-24: 
   flv2mpeg() {
     if [[ -z "$1" || ! -e "$1" ]]; then
@@ -1489,19 +1334,11 @@ compdef _cowsay cowsay cowthink
 
 # 2006-08-24: Derive für den Mathe-LK... :-(
 # Funktioniert nur mit einem Update auf 6.1!
-  derive() {
-    ulimit -v unlimited
-    ulimit -n unlimited
-    wine $HOME/.wine/drive_c/Programme/Derive\ 6/Derive6.exe
-  }
-
-# 2007-07-17: YouTube FLV download
-  yt() {
-    echo -n "Name des Videos: "
-    read name
-    wget -O "${name}.flv" \
-      http://cache.googlevideo.com/get_video?video_id=$1
-  }
+#   derive() {
+#     ulimit -v unlimited
+#     ulimit -n unlimited
+#     wine $HOME/.wine/drive_c/Programme/Derive\ 6/Derive6.exe
+#   }
 
 # 2007-08-28: list videos
   lsvid() {
@@ -1534,8 +1371,6 @@ compdef _cowsay cowsay cowthink
   zstyle ':completion:match-arbitrary-position:*' matcher-list 'm:{A-Za-z}={a-zA-Z} l:|=* r:|=*'
   bindkey '^O' match-arbitrary-position
 
-# alias xdvi=xdvi-xaw.bin
-
   xdvi() { command xdvi ${*:-*.dvi(om[1])} }
   feh()  { print displaying ${*:-*(om[1])}; command feh ${*:-*(om[1])} }
 
@@ -1562,12 +1397,6 @@ compdef _cowsay cowsay cowthink
 	EOPERL
   }
 
-  zle -N match-brackets
-  bindkey '^X^X' match-brackets
-  bindkey -M vicmd ',' match-brackets
-
-# }}}
-
 # tanzania resize
 # trs() { command convert $1 -geometry 160x120 ${1:r}_small.${1:e} }
 # RR() { command convert $1 -rotate ${2:-90} ${1:r}_trans.${1:e} }
@@ -1577,7 +1406,7 @@ dubarchive() {
 }
 
 # youtube!
-  YT() { 
+  YT() {
     youtube-dl -tb "$@"
     local download
     download=( *.(flv|mp4)(om[1]) )
@@ -1586,7 +1415,9 @@ dubarchive() {
   }
   alias YT=noglob\ YT
 
-# clean up
+# }}}
+
+# clean up {{{
   print -n ${(l:$COLUMNS-1:: :)}'\r'
   print -n $greeting_message
   if (( $#greeting_message + 35 < COLUMNS )); then
@@ -1596,5 +1427,6 @@ dubarchive() {
   fi
   unset greeting_message
   unfunction loading is_root_shell
+# }}}
 
 # vim:set sw=2 fdm=marker nowrap: EOF
