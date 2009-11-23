@@ -87,6 +87,7 @@ is_root_shell() { [[ $USER == root ]] }
       MAY_BECOME_ROOT=1
       ON_LAPTOP=1
       alias s=slock
+      alias susp='sudo -v && sudo s2ram -f -a 3 -p & slock'
       greeting_message='hapo mali sana!'
       ;;
 
