@@ -87,9 +87,24 @@ end
 -- awful.tag.viewonly(tags[1][1])
 -- }}}
 
--- XXX
--- Tag-Zuordnung basiert auf a) namen oder b) Indizes in der Table?!
--- => b)! s = tag.screen, i = tag_id(tag)
+-- {{{ Rules
+tagrules = {
+    { rule = { class = "gimp" }, tag = "gimp" },
+    { rule = { class = "Iceweasel" }, tag = "www" }
+}
+
+-- simplerules = 
+--     -- All clients will match this rule.
+--     { rule = { class = "MPlayer" },
+--       properties = { floating = true } },
+--     { rule = { class = "gimp" },
+--       properties = { floating = true } },
+--     -- Set Firefox to always map on tags number 2 of screen 1.
+--     { rule = { class = "Iceweasel" },
+--       properties = { tag = tags[1][6] } },
+--     -- XXX
+-- }
+-- }}}
 
 function find_by_name(name)
     local s = client.focus and client.focus.screen or mouse.screen
@@ -219,6 +234,21 @@ function move_tag(tag, pos)
         -- awful.client.focus.byidx(0) -- re-focus current client
         -- client.focus:redraw()
     end
+end
+function tag_update()
+    renumber_tag_names()
+    rewrite_rules()
+end
+function rewrite_rules()
+    tr = {}
+    for i=1,#tagrules do
+        local t = find_by_name(tagrules[i].tag)
+        if t then
+            tr = awful.util.table.join(tr, { rule = tagrules[i].rule, properties = { tag=t } } )
+            dbg("wrote rule: " .. tagrules[i].tag)
+        end
+    end
+    awful.rules.rules = awful.util.table.join(alwaysrules, tr)
 end
 function renumber_tag_names()
     for s=1,screen.count() do
@@ -605,25 +635,16 @@ clientbuttons = awful.util.table.join(
 root.keys(globalkeys)
 -- }}}
 
--- {{{ Rules
-awful.rules.rules = {
-    -- All clients will match this rule.
+alwaysrules = {
     { rule = { },
       properties = { border_width = beautiful.border_width,
                      border_color = beautiful.border_normal,
                      focus = true,
                      keys = clientkeys,
                      buttons = clientbuttons } },
-    { rule = { class = "MPlayer" },
-      properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    { rule = { class = "Iceweasel" },
-      properties = { tag = tags[1][6] } },
-    -- XXX
 }
--- }}}
+awful.rules.rules = alwaysrules
+
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
