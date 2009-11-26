@@ -1430,4 +1430,7 @@ dubarchive() {
   unfunction loading is_root_shell
 # }}}
 
+# Quickfix: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=558171
+ssh() { command env -u LC_CTYPE ssh "$@" }
+
 # vim:set sw=2 fdm=marker nowrap: EOF
