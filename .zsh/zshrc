@@ -459,6 +459,13 @@ is_root_shell() { [[ $USER == root ]] }
     grep "$@" ~/.deb_packages
   }
 
+  cdtemp() {
+    local t
+    t=`mktemp -d`
+    echo $t
+    builtin cd $t
+  }
+
 # }}}
 
 # functions (one-liners) {{{
