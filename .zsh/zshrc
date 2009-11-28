@@ -285,15 +285,27 @@ is_root_shell() { [[ $USER == root ]] }
 
 # minimalistic prompt - way better!
   PROMPT='%B%U'${SSH_HOSTNAME:-zsh}'%u>%b '
-  RPROMPT='%1(j.%B(%j%)%b.)$(__git_prompt_info)'
+  RPROMPT='%1(j.%B(%j%)%b.)$(__git_prompt_info)$(__dir_is_writable)'
   is_root_shell && PROMPT="%{$fg[red]%}$PROMPT%{$fg[red]%}"
+
+  chpwd() {
+    __update_dirstack
+    __update_dir_is_writable
+    __git_info
+  }
+
+# 2009-11-28: display a small exclamation mark at in prompt if
+#             $PWD is not writable!
+  __update_dir_is_writable() {
+    [[ -w $PWD ]]
+    __dir_writable=$?
+  }
+  __dir_is_writable() {
+    [[ $__dir_writable -eq 1 ]] && print -n '!'
+  }
 
 # 2009-11-16: add some git info on right side when entering a git directory
 #             if inside git-controlled dir, check branch name every command!
-  chpwd() {
-    __update_dirstack
-    __git_info
-  }
   __is_git_repo() { # check return value
     git rev-parse --git-dir &>/dev/null
   }
