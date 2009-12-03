@@ -4,8 +4,8 @@ set defsearch=google
 set showstatuslinks
 set ssli=2
 
-se nextpattern=\\bnext\\b,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b,\\bNäch,\\bweiter\\b,\\bvor\\b
-se previouspattern=\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$,\\bVorh,\\bZurück
+se nextpattern=\\bnext\\b,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b,\\bweiter\\b,\\bvor\\b,\\bNäch
+se previouspattern=\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$,\\bVorhe,\\bZurück
 
 set editor='urxvt -e vim '
 echo ".vimperatorrc sourced!"
