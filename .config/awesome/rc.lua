@@ -118,7 +118,7 @@ function find_by_name(name)
 end
 function add_tag()
     local s = client.focus and client.focus.screen or mouse.screen
-    local t = awful.tag({ " " }, s, awful.layout.suit.fair)[1]
+    local t = awful.tag({ " " }, s, layouts[1])[1]
     tags[s] = screen[s]:tags()
     auto_place_tag(t)
     -- awful.tag.viewonly(t)
