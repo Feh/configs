@@ -1452,7 +1452,16 @@ dubarchive() {
 # Quickfix: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=558171
 ssh() { command env -u LC_CTYPE ssh "$@" }
 
-2mp3() { ffmpeg -i $1 -ac 2 -ar 44100 -ab 192k ${1:r}.mp3 }
+2mp3() {
+  if [[ $1 == '--help' || $1 == '-h' || -z $1 ]]; then
+    print "usage: $0 <audio-video-file>"
+    print "\twill create a mp3 file with the same name but .mp3 extension"
+    print "available files:"
+    command ls --color=auto *.(^mp3)(.e_'[[ ! -e $REPLY:r.mp3 ]]'_) | nl
+    return 0
+  fi
+  ffmpeg -i $1 -ac 2 -ar 44100 -ab 192k ${1:r}.mp3
+}
 extract-audio() { ffmpeg -i $1 -acodec copy ${1:r}.audio }
 
 # vim:set sw=2 fdm=marker nowrap: EOF
