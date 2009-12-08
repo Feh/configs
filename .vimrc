@@ -58,7 +58,7 @@ set incsearch
 " no Visual Bells
 set novb
 " That's _really_ cool, try it!
-set list listchars=tab:»·,trail:~,eol:$
+set list listchars=extends:>,precedes:<,tab:»·,trail:~,eol:$
 " set list listchars=tab:»·,trail:~
 set tabstop=4
 set smarttab
