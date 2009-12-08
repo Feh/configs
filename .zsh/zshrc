@@ -1452,4 +1452,7 @@ dubarchive() {
 # Quickfix: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=558171
 ssh() { command env -u LC_CTYPE ssh "$@" }
 
+2mp3() { ffmpeg -i $1 -ac 2 -ar 44100 -ab 192k ${1:r}.mp3 }
+extract-audio() { ffmpeg -i $1 -acodec copy ${1:r}.audio }
+
 # vim:set sw=2 fdm=marker nowrap: EOF
