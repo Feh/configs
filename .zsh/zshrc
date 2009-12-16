@@ -1316,23 +1316,6 @@ zle -N accept-line
 # Sonstiges
 ######################################################################
   loading misc
-# Startup: Läuft screen? Wenn ja, dann de-re-attach. So wird screen
-# immer automatisch gestartet, aber nicht, wenn eine Shell *innerhalb*
-# screens gestartet wird...
-#  #if [[ $(screen -ls | wc -l) == 4 && `hostname` == "feh" ]]
-#  if [[ `hostname` == "feh" ]]
-#    then
-#      # if [[ $(echo $STY | grep -c `hostname` ) == 0 ]]
-#      #   then
-#      if [[ -z $STY ]]; then
-#          sleep 1 # Willkommensnachricht lesen...
-#          /usr/bin/screen -d -r
-#      fi
-#  fi
-
-# if [[ -z "$STY" ]]; then /usr/bin/screen -d -r main >/dev/null; fi
-  [[ -z "$STY" ]] && /usr/bin/screen -d -r >/dev/null
-
 # Umask: Wird für gewöhmlich bei der Erstellung von Dateien von 0777 bzw. 0666
 # abgezogen. 0666-066 = 0600 -> -rw-------; 0777-066 = 0711 -> -rwx--x--x
   umask 066
@@ -1463,5 +1446,10 @@ ssh() { command env -u LC_CTYPE ssh "$@" }
   ffmpeg -i $1 -ac 2 -ar 44100 -ab 192k ${1:r}.mp3
 }
 extract-audio() { ffmpeg -i $1 -acodec copy ${1:r}.audio }
+
+# autostart.bat {{{
+  [[ -z "$STY" ]] && /usr/bin/screen -d -r >/dev/null
+  [[ $TTY == '/dev/tty1' ]] && exec startx
+# }}}
 
 # vim:set sw=2 fdm=marker nowrap: EOF
