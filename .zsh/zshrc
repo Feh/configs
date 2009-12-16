@@ -83,6 +83,7 @@ is_root_shell() { [[ $USER == root ]] }
       export TMPDIR=/tmp
       export MAIL=
       export BROWSER=${BROWSER:-firefox}
+      export TERM=rxvt # 'rxvt-unicode' is broken, key binding won't work in zsh
       add-to-path $HOME/bin /sbin
       MAY_BECOME_ROOT=1
       ON_LAPTOP=1
