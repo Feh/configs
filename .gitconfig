@@ -18,3 +18,5 @@
 	status = auto
 [merge]
 	tool = vimdiff
+[rerere]
+	enabled = true
