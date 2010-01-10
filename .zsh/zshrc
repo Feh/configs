@@ -479,6 +479,27 @@ is_root_shell() { [[ $USER == root ]] }
     builtin cd $t
   }
 
+# 2010-01-10: if a process eats too much resources...
+  degrade() {
+    if [[ -z $1 ]]; then
+      print "usage: $0 <pid>, where <pid> can also be a shell job like %1"
+      return 1
+    else
+      local pid=$1
+    fi
+    # if internal job id, resolve to global pid
+    [[ $pid[1] == '%' ]] && pid=${${(s.:.)jobstates[$pid[2]]}[3]%%\=*}
+    if [[ $USER != $(ps --no-headers o ruser= $pid) ]]; then
+      print "The process $pid does not run with your (=$USER) user privileges."
+      print "I therefore will prepend sudo calls to the (io/re)nice commands."
+      sudo==sudo
+    else
+      sudo=''
+    fi
+    command $sudo ionice -c3 -p$pid
+    command $sudo renice 19 -p $pid
+  }
+
 # }}}
 
 # functions (one-liners) {{{
