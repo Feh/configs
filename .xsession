@@ -11,6 +11,6 @@ else
   xrandr --output VGA --off --output LVDS --auto
 fi
 # feh --bg-scale ~/wallpaper/zz_big.jpg
-# urxvtd &
+urxvtd -q -f -o
 synergys
 awesome
