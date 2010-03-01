@@ -6,7 +6,8 @@
 	ci = commit
 	br = branch
 	co = checkout
-	df = diff --color-words
+	df = diff
+	dfc = diff --cached
 	lg = log -p
 	tree = log --pretty=format:'%Cgreen%h%Creset : %s (%cr)' --graph --all
 	k = ! gitk --all
