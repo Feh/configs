@@ -176,7 +176,7 @@ is_root_shell() { [[ $USER == root ]] }
     monitor \
     numericglobsort \
     posixbuiltins \
-    nopromptcr \
+    promptcr \
     promptsubst \
     pushdignoredups \
     pushdminus \
