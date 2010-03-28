@@ -503,6 +503,17 @@ is_root_shell() { [[ $USER == root ]] }
     command $sudo renice 19 -p $pid
   }
 
+# 2010-03-28: search for symbol in static libs
+  findsym() {
+    [[ -z $1 ]] && return 1
+
+    SYMBOL=$1
+    LIBDIR=${2:-/usr/lib}
+
+    for lib ($LIBDIR/*.a) nm $lib &>/dev/null | grep -q $SYMBOL && \
+        print "symbol found in $lib\n -L$LIBDIR -l${${lib:t:r}#lib}"
+  }
+
 # }}}
 
 # functions (one-liners) {{{
