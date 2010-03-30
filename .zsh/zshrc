@@ -1482,7 +1482,7 @@ ssh() { command env -u LC_CTYPE ssh "$@" }
 extract-audio() { ffmpeg -i $1 -acodec copy ${1:r}.audio }
 
 # autostart.bat {{{
-  [[ -z "$STY" ]] && /usr/bin/screen -d -r >/dev/null
+  [[ -z "$STY" && ! -z "$SSH_CONNECTION" ]] && /usr/bin/screen -d -r >/dev/null
   [[ $TTY == '/dev/tty1' ]] && exec startx
 # }}}
 
