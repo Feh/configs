@@ -260,7 +260,7 @@ is_root_shell() { [[ $USER == root ]] }
 '.png=1;32:*.jpeg=1;32:*.ppm=1;32:*.pgm=1;32:*.pbm=1;32:*.c=1;33:*.C=1;'\
 '33:*.h=1;33:*.cc=1;33:*.awk=1;33:*.pl=1;33:*.bz2=1;35:*.gz=1;31:*.tar='\
 '1;31:*.zip=1;31:*.lha=1;31:*.lzh=1;31:*.arj=1;31:*.tgz=1;31:*.taz=1;31'\
-':*.html=1;34:*.htm=1;34:*.doc=1;34:*.txt=1;34:*.o=1;36:*.a=1;36:*.php3=1;31'
+':*.html=1;32:*.htm=1;32:*.doc=1;32:*.txt=1;32:*.o=1;36:*.a=1;36:*.php3=1;31'
   autoload -U colors && colors
 
 # Default keymap is set up beforehand:
