@@ -37,91 +37,30 @@ is_root_shell() { [[ $USER == root ]] }
 
 # host-based settings {{{
 ######################################################################
-# Verschiedene Rechner, verschiedene Paths, versch. Umgebungsvariablen
-# - Generelle Einstellungen, die evtl. überschrieben werden:
+# source local zshrc if available
 ######################################################################
 
-  loading hosts
-  [[ $SHELL == "/bin/zsh-static" ]] || zmodload -i zsh/zprof
+  loading "local zshrc"
+  # [[ $SHELL == "/bin/zsh-static" ]] || zmodload -i zsh/zprof
 
   add-to-path() { path+=("$@") }
   local hostname=$(hostname)
-  [[ $(hostname --fqdn) == *.(mi|imp).fu-berlin.de ]] && hostname="mi/$(hostname)"
 
-  export HOME=${HOME:-/home/feh}
+  [[ ! -z "$SSH_TTY" ]] && export SSH_HOSTNAME=$hostname
+
+  [[ -z $HOME ]] && print 'I AM HOMELESS!!!'
+
   export PATH=${PATH:-/usr/local/bin:/usr/bin:/bin}
   export TMPDIR=${TMPDIR:-/tmp}
   export LC_ALL=${LC_ALL:-en_US.UTF-8}
-  export CDPATH=.:..
-  [[ ! -z "$SSH_TTY" ]] && export SSH_HOSTNAME=$hostname
+  export CDPATH=${CDPATH:-.:..}
 
-  local greeting_message
+  local greeting_message="welcome to $hostname\!"
 
-  case "$hostname" in
-    eris)
-      export HOME=/home/feh
-      export MAIL=${MAIL:-/home/feh/Mail/INBOX}
-      export BROWSER=${BROWSER:-elinks}
-      export LC_ALL="en_US.UTF-8"
-      add-to-path $HOME/bin /sbin /usr/sbin /usr/local/bin /usr/local/sbin
-
-      MAY_BECOME_ROOT=1
-      greeting_message='All Hail Eris!'
-      alias e='echo dude...'
-      ;;
-
-    sc8-pr-shell1.sourceforge.net)
-      export HOME=/home/users/j/jp/jplenz
-      export TMPDIR=$HOME/tmp
-      export CVSROOT=
-      add-to-path $HOME/bin
-      greeting_message='sourceforge shell'
-      ;;
-
-    mali)
-      export LC_ALL="en_US.UTF-8"
-      export TMPDIR=/tmp
-      export MAIL=
-      export BROWSER=${BROWSER:-firefox}
-      export TERM=rxvt # 'rxvt-unicode' is broken, key binding won't work in zsh
-      add-to-path $HOME/bin /sbin
-      MAY_BECOME_ROOT=1
-      ON_LAPTOP=1
-      alias s=slock
-      alias susp='sudo -v && sudo s2ram -f -a 3 -p & slock'
-      greeting_message='hapo mali sana!'
-      ;;
-
-    deepthought)
-      export LC_ALL="en_US.UTF-8"
-      export TMPDIR=/tmp
-      export MAIL=
-      export BROWSER=${BROWSER:-firefox}
-      add-to-path "$HOME/bin"
-      MAY_BECOME_ROOT=1
-      ON_LAPTOP=1
-      alias s=slock
-      greeting_message='"Forty-two," said Deep Thought, with infinite majesty and calm.'
-      ;;
-
-    via-weltwaerts.de)
-      export LC_ALL="en_US.UTF-8"
-      add-to-path "$HOME/bin"
-
-      MAY_BECOME_ROOT=1
-      greeting_message='VIA e.V.'
-      ;;
-
-    mi/*)
-      add-to-path "$HOME/bin"
-      # for matlab!
-      export AWT_TOOLKIT=MToolkit
-      export LC_ALL="en_US.UTF-8"
-      greeting_message='Mathe machen jetzt!'
-      ;;
-
-      *) greeting_message="welcome to $hostname\!" ;;
-  esac
+  if [[ -r $HOME/.zsh/zshrc.local ]]; then
+    # may use/set: add-to-path, greeting_message
+    source $HOME/.zsh/zshrc.local
+  fi
 
   unfunction add-to-path
   unset hostname
@@ -1480,6 +1419,12 @@ ssh() { command env -u LC_CTYPE ssh "$@" }
   ffmpeg -i $1 -ac 2 -ar 44100 -ab 192k ${1:r}.mp3
 }
 extract-audio() { ffmpeg -i $1 -acodec copy ${1:r}.audio }
+
+# {{{ If there's something else to clean up locally...
+  if [[ -r $HOME/.zsh/zshrc.local.end ]]; then
+    source $HOME/.zsh/zshrc.local.end
+  fi
+# }}}
 
 # autostart.bat {{{
   [[ -z "$STY" && ! -z "$SSH_CONNECTION" ]] && /usr/bin/screen -d -r >/dev/null
