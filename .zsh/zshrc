@@ -453,6 +453,23 @@ is_root_shell() { [[ $USER == root ]] }
         print "symbol found in $lib\n -L$LIBDIR -l${${lib:t:r}#lib}"
   }
 
+  2mp3() {
+    if [[ $1 == '--help' || $1 == '-h' || -z $1 ]]; then
+      print "usage: $0 <audio-video-file>"
+      print "\twill create a mp3 file with the same name but .mp3 extension"
+      print "available files:"
+      command ls --color=auto *.(^mp3)(.e_'[[ ! -e $REPLY:r.mp3 ]]'_) | nl
+      return 0
+    fi
+    ffmpeg -i $1 -ac 2 -ar 44100 -ab 192k ${1:r}.mp3
+
+  }
+  extract-audio() {
+    print "Dumping audio to ${1:r}.audio ..."
+    ffmpeg -i $1 -acodec copy ${1:r}.audio
+  }
+
+
 # }}}
 
 # functions (one-liners) {{{
@@ -1404,21 +1421,6 @@ dubarchive() {
   unset greeting_message
   unfunction loading is_root_shell
 # }}}
-
-# Quickfix: http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=558171
-ssh() { command env -u LC_CTYPE ssh "$@" }
-
-2mp3() {
-  if [[ $1 == '--help' || $1 == '-h' || -z $1 ]]; then
-    print "usage: $0 <audio-video-file>"
-    print "\twill create a mp3 file with the same name but .mp3 extension"
-    print "available files:"
-    command ls --color=auto *.(^mp3)(.e_'[[ ! -e $REPLY:r.mp3 ]]'_) | nl
-    return 0
-  fi
-  ffmpeg -i $1 -ac 2 -ar 44100 -ab 192k ${1:r}.mp3
-}
-extract-audio() { ffmpeg -i $1 -acodec copy ${1:r}.audio }
 
 # {{{ If there's something else to clean up locally...
   if [[ -r $HOME/.zsh/zshrc.local.end ]]; then
