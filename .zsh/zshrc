@@ -1431,6 +1431,8 @@ dubarchive() {
 # }}}
 
 # autostart.bat {{{
+  diff -q - $HOME/.configs.git/HEAD <<<"ref: refs/heads/local" &>/dev/null ||
+    print -P "%BWarning: not on local config branch!%b"
   [[ -z "$STY" && ! -z "$SSH_CONNECTION" ]] && /usr/bin/screen -d -r >/dev/null
   [[ $TTY == '/dev/tty1' ]] && exec startx
 # }}}
