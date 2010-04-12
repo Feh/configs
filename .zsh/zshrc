@@ -1291,10 +1291,6 @@ zle -N accept-line
 # Hashs
 ######################################################################
 
-  hash -d p=~/www/plenz.com
-  hash -d m=~/musik
-
-  hash -d lighty=/var/log/lighttpd
   hash -d doc=/usr/share/doc
   hash -d log=/var/log
   hash -d zsh=/usr/share/zsh/functions
