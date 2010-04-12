@@ -896,7 +896,13 @@ is_root_shell() { [[ $USER == root ]] }
   alias svnup='svn up'
 
 # 2009-11-14: git config versioning
-  alias conf='GIT_DIR=$HOME/.configs.git GIT_WORK_TREE=$HOME git'
+# FIXME: There's no real completion. Must pass env to _git :-(
+  conf() {
+    case $1 in
+      rm|clean) print "Dude, don't do that. It'll delete your \$HOME";;
+      *) command env GIT_DIR=$HOME/.configs.git GIT_WORK_TREE=$HOME git $@;;
+    esac
+  }
 # }}}
 
 # modules {{{
