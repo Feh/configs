@@ -1295,6 +1295,17 @@ zle -N accept-line
   zle -N jump-after-first-word _jump_after_first_word
   bindkey '^x1' jump-after-first-word
 
+# Das Wort löschen, in dem sich der Cursor gerade befindet.
+_cut_inner_word()
+{
+  setopt localoptions extendedglob
+  LBUFFER=${LBUFFER%%[^ ]#}
+  RBUFFER=${RBUFFER##[^ ]#}
+}
+zle -N cut-inner-word _cut_inner_word
+bindkey '^xc' cut-inner-word
+bindkey -M vicmd 'ciw' cut-inner-word
+
 # }}}
 
 # hashes {{{
