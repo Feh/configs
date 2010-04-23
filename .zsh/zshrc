@@ -1290,6 +1290,11 @@ zle -N accept-line
   zle -N display-pwd
   bindkey '^F' display-pwd
 
+# Unmittelbar vor das erste Kommandozeilenargument springen.
+  _jump_after_first_word() { CURSOR=$#BUFFER[(w)1] }
+  zle -N jump-after-first-word _jump_after_first_word
+  bindkey '^x1' jump-after-first-word
+
 # }}}
 
 # hashes {{{
