@@ -1002,9 +1002,8 @@ is_root_shell() { [[ $USER == root ]] }
     local expl context
     _wanted globbed-files expl 'most recent files' compadd -f *~.*(.omN[1,12])
   }
-  compdef _newest_files XX
-  bindkey '^Xl' newest-files
   zle -C newest-files complete-word _generic
+  bindkey '^Xl' newest-files
   zstyle ':completion:newest-files:*' completer _newest_files
   zstyle ':completion:newest-files:*' menu select yes
   zstyle ':completion:newest-files:*' matcher-list 'b:=*' # important
@@ -1012,11 +1011,12 @@ is_root_shell() { [[ $USER == root ]] }
 
 # 2007-10-03: complete word from history
   zle -C hist-complete complete-word _generic
+  bindkey '^N'  hist-complete
   zstyle ':completion:hist-complete:*' completer _history
   zstyle ':completion:hist-complete:*' sort false # newest match first
-  zstyle ':completion:hist-complete:*' range 10000:100
+  zstyle ':completion:hist-complete:*' range 12000:8000
+  zstyle ':completion:hist-complete:*' matcher-list 'b:=*'
   zstyle ':completion:hist-complete:*' remove-all-dups yes
-  bindkey '^N'  hist-complete
 
 # 2008-08-11
   autoload -U keeper && keeper && \
@@ -1026,15 +1026,15 @@ is_root_shell() { [[ $USER == root ]] }
     _wanted values expl 'single kept words' compadd -- ${(z)kept}
   }
   zle -C keep-single complete-word _generic
-  zstyle ':completion:keep-single:*' completer _kept_single_word
   bindkey '^Xk' keep-single
+  zstyle ':completion:keep-single:*' completer _kept_single_word
 
 # 2008-08-06: expansion
   zle -C custom-expand complete-word _generic
+  bindkey '^E' custom-expand
   zstyle ':completion:custom-expand:*' completer _expand
   zstyle ':completion:custom-expand:*' tag-order 'expansions all-expansions' -
   zstyle ':completion:custom-expand:*' group-order all-expansions expansions
-  bindkey '^E' custom-expand
 
 # 2008-08-16: massively useful: try to extract file names from previous
 # command. If there is none, also check the two commands before the previous.
@@ -1079,11 +1079,11 @@ is_root_shell() { [[ $USER == root ]] }
     fi
   }
   zle -C extract-files complete-word _generic
+  bindkey '^Xf' extract-files
   zstyle ':completion:extract-files:*' completer _extract_files
   zstyle ':completion:extract-files:*' matcher-list 'b:=*'
 # don't list directories unless there are no files
   zstyle ':completion:extract-files:*' tag-order files directories
-  bindkey '^Xf' extract-files
 
 
 # Für die Funktionen Start, Stop, Reload und Restart: Nur Dienste
