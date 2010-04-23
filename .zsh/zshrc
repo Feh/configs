@@ -188,11 +188,6 @@ is_root_shell() { [[ $USER == root ]] }
   HISTFILE=$HOME/.zsh_history # Speicherort der History
   is_root_shell && HISTFILE=$HOME/.zsh_history.root
 
-# Bei verbesserungen folgende Nachfrage:
-# %R -> aktueller Befehl,
-# %r -> Verbesserungsvorschlag
-  SPROMPT='zsh: correct '%R' to '%r' ? ([Y]es/[N]o/[E]dit/[A]bort) '
-
 # Farben, die 'ls' nutzen soll, werden auch in Completions genutzt (s.u.)
   export LS_COLORS='no=0:fi=0:di=32:ln=36:or=1;40:mi=1;40:pi=31:so=33:b'\
 'd=44;37:cd=44;37:ex=35:*.jpg=1;32:*.jpeg=1;32:*.JPG=1;32:*.gif=1;32:*.'\
@@ -272,6 +267,10 @@ is_root_shell() { [[ $USER == root ]] }
     print " %B${__git_project_name}%b on %B$(__git_branch_name)%b"
   }
 
+# Bei verbesserungen folgende Nachfrage:
+# %R -> aktueller Befehl,
+# %r -> Verbesserungsvorschlag
+  SPROMPT='zsh: correct '%R' to '%r' ? ([Y]es/[N]o/[E]dit/[A]bort) '
 
 # }}}
 
