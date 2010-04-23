@@ -223,13 +223,23 @@ is_root_shell() { [[ $USER == root ]] }
 
 # minimalistic prompt - way better!
   PROMPT='%B%U'${SSH_HOSTNAME:-zsh}'%u>%b '
-  RPROMPT='%1(j.%B(%j%)%b.)$(__git_prompt_info)$(__dir_is_writable)'
+  RPROMPT='%(?..%(130?::%S[%?]%s))%1(j.%B(%j%)%b.)$(__git_prompt_info)$(__dir_is_writable)'
   is_root_shell && PROMPT="%{$fg[red]%}$PROMPT%{$fg[red]%}"
 
   chpwd() {
     __update_dirstack
     __update_dir_is_writable
     __git_info
+  }
+
+# 2010-04-23: Trap interrupt and re-define the error core. This makes
+# sense if you want to display in your prompt the return value of a
+# command when it failed (%(?..%?)), but are annoyed that Ctrl-c
+# (interrupt) also causes to exit abnormally. With the above RPROMPT
+# definition, interrupts are sort of discarded...
+  TRAPINT()
+  {
+    return $(( 128 + $1 ))
   }
 
 # 2009-11-28: display a small exclamation mark at in prompt if
@@ -1463,6 +1473,9 @@ dubarchive() {
     print -P "%BWarning: not on local config branch!%b"
   [[ -z "$STY" && ! -z "$SSH_CONNECTION" ]] && /usr/bin/screen -d -r >/dev/null
   [[ $TTY == '/dev/tty1' ]] && exec startx
+
+# Avoid starting the shell with a "dirty" $?
+  true
 # }}}
 
 # vim:set sw=2 fdm=marker nowrap: EOF
