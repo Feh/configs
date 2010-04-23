@@ -1251,14 +1251,27 @@ is_root_shell() { [[ $USER == root ]] }
 # % <Tab>
 # linux-2.6.14.3        9p
 # fuse.tar.bz2          thinkpad.tar.gz
-  complete-or-list() {
-    [[ $#BUFFER != 0 ]] && { zle complete-word ; return 0 }
-    echo
-    ls
-    zle reset-prompt
-  }
-  zle -N complete-or-list
-  bindkey '^I' complete-or-list
+complete-or-list() {
+  [[ $#BUFFER != 0 ]] && { zle complete-word ; return 0 }
+  zle list-choices
+}
+zle -N complete-or-list
+bindkey '^I' complete-or-list
+_command_position()
+{
+  if [[ -z $BUFFER && -z $PREBUFFER ]]; then
+    local expl
+    _description files expl 'files in current directory'
+    _files "$expl[@]"
+  else
+    _autocd
+  fi
+}
+compdef _command_position -command-
+zstyle ':completion:*' insert-tab pending
+zstyle -a ':completion:*:messages' format message_style
+zstyle ':completion:*:*:-command-:*' format $message_style
+unset message_style
 
 # 2008-08-02: replace global aliases as they are typed.
 # good behaviour? don't think so. I switched to _expand_alias
