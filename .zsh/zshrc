@@ -1277,7 +1277,7 @@ _command_position()
   fi
 }
 compdef _command_position -command-
-zstyle ':completion:*' insert-tab pending
+zstyle ':completion:*' insert-tab false
 zstyle -a ':completion:*:messages' format message_style
 zstyle ':completion:*:*:-command-:*' format $message_style
 unset message_style
