@@ -490,6 +490,8 @@ globalkeys = awful.util.table.join(
     awful.key({}, "XF86LaunchF", function () awful.util.spawn("amixer set Master 3+>/dev/null") end),
     -- toggling mute is not easy with amixer!
     awful.key({}, "XF86LaunchE", function () awful.util.spawn("amixer set Master 0 >/dev/null") end),
+    -- lock screen
+    awful.key({ modkey }, "F4", function () awful.util.spawn("/home/feh/bin/fehlock") end),
 
     -- MOCP/music control
     awful.key({ modkey,           }, "n", function () awful.util.spawn("mocp -f") end),
