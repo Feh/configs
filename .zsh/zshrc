@@ -1136,7 +1136,7 @@ is_root_shell() { [[ $USER == root ]] }
     zstyle ':completion:*:(ssh|scp):*:hosts' ignored-patterns 'ip6-*' '*.(mi|imp).fu-berlin.de'
   zstyle ':completion:*:(ssh|scp):*:users' users feh julius plenz
 # 2008-08-30: coloring for scp calls
-  zstyle ':completion::*:scp:*' list-colors \
+  zstyle ':completion::*:(scp|rsync):*' list-colors \
     "=(#b)(*)/=0="${${${(s.:.)LS_COLORS}[(r)di=<->]}/di=/} \
     '='${^${(M)${(s.:.)LS_COLORS}:#\**}}
 
