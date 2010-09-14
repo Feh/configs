@@ -481,17 +481,13 @@ globalkeys = awful.util.table.join(
             if client.focus then client.focus:raise() end
         end),
     -- awful.key({ modkey,           }, "w", function () mymainmenu:show(true)        end),
-    -- the special keys
     awful.key({}, "Menu", nil, function () awful.util.spawn("/home/feh/bin/dpms-all") end),
-    awful.key({}, "XF86LaunchB", function () awful.util.spawn("mocp -G") end),
-    awful.key({}, "XF86LaunchA", function () awful.util.spawn("mocp -r") end),
-    awful.key({}, "XF86LaunchC", function () awful.util.spawn("mocp -f") end),
-    awful.key({}, "XF86LaunchD", function () awful.util.spawn("amixer set Master 3->/dev/null") end),
-    awful.key({}, "XF86LaunchF", function () awful.util.spawn("amixer set Master 3+>/dev/null") end),
-    -- toggling mute is not easy with amixer!
-    awful.key({}, "XF86LaunchE", function () awful.util.spawn("amixer set Master 0 >/dev/null") end),
+    -- Mod4 == Super_[RL]
+    awful.key({ "Mod4" }, "Down", function () awful.util.spawn("amixer set Master 3->/dev/null") end),
+    awful.key({ "Mod4" }, "Up",   function () awful.util.spawn("amixer set Master 3+>/dev/null") end),
     -- lock screen
     awful.key({ modkey }, "F4", function () awful.util.spawn("/home/feh/bin/fehlock") end),
+    awful.key({}, "F9", function () awful.util.spawn("/home/feh/bin/lookitup") end),
 
     -- MOCP/music control
     awful.key({ modkey,           }, "n", function () awful.util.spawn("mocp -f") end),
