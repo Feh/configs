@@ -291,8 +291,8 @@ is_root_shell() { [[ $USER == root ]] }
   loading functions
 
 # autoload own functions. _*-functions will be loaded by the compinit builtin
+  fpath=(~/.zfunc $fpath)
   (: ~/.zfunc/(^_*)(.)) 2>|/dev/null && \
-  fpath=(~/.zfunc $fpath) && \
   autoload -U ${fpath[1]}/(^_*)(.:t)
   autoload -U zcalc zmv zargs
 
