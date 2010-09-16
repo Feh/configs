@@ -920,6 +920,10 @@ is_root_shell() { [[ $USER == root ]] }
   alias checkinstall='sudo checkinstall -D' # rule tool ;D
   alias svnup='svn up'
 
+# 2010-09-16: these days I use rsync a lot...
+  alias R='rsync -avhP'
+  alias Rd='rsync -avhP --delete'
+
 # 2009-11-14: git config versioning
 # FIXME: There's no real completion. Must pass env to _git :-(
   conf() {
