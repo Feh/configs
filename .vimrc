@@ -323,9 +323,9 @@ set backspace=2
 fixdel
 
 " Pseudoüberschriften in Textdokumenten
-map <Leader>un yyp:s/./=/g<CR>
+map <Leader>un yyp:s/./=/g<Bar>nohl<CR>
 " Pseduokästen aus #-Zeichen
-map <Leader>## ^I#<Esc>yyP:s/./\#/g<CR>yyjpk^l
+map <Leader>## ^I#<Esc>yyP:s/./\#/g<Bar>nohl<CR>yyjpk^l
 
 " für ccal
 map <Leader>Cal a,d 00<Esc>:s/-/ /g<CR>A Beschreibung<Esc>^wwww
@@ -428,5 +428,9 @@ iab &ndash; &#8211;
  map <F9>  :ped refcard_osp_style.txt<CR>
  map <F10> :pc<CR>
 
+noremap <Leader>= I=<space><esc>A<space>=<esc>
+noremap <Leader>== I==<space><esc>A<space>==<esc>
+noremap <Leader>=3 I===<space><esc>A<space>===<esc>
+noremap <Leader>=4 I====<space><esc>A<space>====<esc>
 
 " EOF
