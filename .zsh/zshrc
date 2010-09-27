@@ -1246,6 +1246,7 @@ is_root_shell() { [[ $USER == root ]] }
   bindkey -M vicmd u undo
 
   bindkey '^XH' run-help
+  autoload run-help-git
 
 # 2008-07-07: insert date
   insert-date() { LBUFFER+="$(date +%F)" }
