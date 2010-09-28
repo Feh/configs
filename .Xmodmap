@@ -1,6 +1,6 @@
 remove lock = Caps_Lock
 !keycode 49 = dead_diaeresis asciitilde
-keycode 49 = grave  asciitilde
+keycode 49 = dead_grave  asciitilde
 keycode 115 = Alt_L
 ! skip back
 keycode 144 = XF86LaunchA
