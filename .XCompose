@@ -1,0 +1,8 @@
+<dead_grave> <dead_grave> : "`" grave
+<dead_grave> <a> : adiaeresis
+<dead_grave> <o> : odiaeresis
+<dead_grave> <u> : udiaeresis
+<dead_grave> <A> : Adiaeresis
+<dead_grave> <O> : Odiaeresis
+<dead_grave> <U> : Udiaeresis
+<dead_grave> <s> : ssharp
