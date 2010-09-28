@@ -1,4 +1,5 @@
-<dead_grave> <dead_grave> : "`" grave
+<dead_grave> <dead_grave> : "``" # double-grave to bypass screen/vim
+<dead_grave> <space> : "`" grave
 <dead_grave> <a> : adiaeresis
 <dead_grave> <o> : odiaeresis
 <dead_grave> <u> : udiaeresis

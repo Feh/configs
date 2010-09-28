@@ -414,15 +414,15 @@ map #d Go-- <CR>
 
 iab &ndash; &#8211;
 
-" 2007-09-19; like screen
- inoremap `a ä
- inoremap `A Ä
- inoremap `o ö
- inoremap `O Ö
- inoremap `u ü
- inoremap `U Ü
- inoremap `s ß
- inoremap `` `
+" 2007-09-19; like screen (OBSOLETE, see cfb4c83)
+" inoremap `a ä
+" inoremap `A Ä
+" inoremap `o ö
+" inoremap `O Ö
+" inoremap `u ü
+" inoremap `U Ü
+" inoremap `s ß
+" inoremap `` `
 
 " 2008-03-10
  map <F9>  :ped refcard_osp_style.txt<CR>
