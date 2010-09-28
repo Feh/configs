@@ -913,6 +913,16 @@ is_root_shell() { [[ $USER == root ]] }
       *) command env GIT_DIR=$HOME/.configs.git GIT_WORK_TREE=$HOME git $@;;
     esac
   }
+
+# 2010-09-28: git aliases
+  alias gis='git status'
+  alias gicm='git ci -m'
+  alias giu='git remote update'
+  alias gik='git k' # gitk --all
+  alias gil='git log'
+  alias gitt='git tree'
+  alias gid='git df' # diff
+  alias gidc='git dfc' # diff --cached
 # }}}
 
 # modules {{{
