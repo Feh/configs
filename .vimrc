@@ -221,9 +221,10 @@ au FileType mail set ai et ts=4 tw=70 comments=b:#,:%,fb:-,n:>,n:) nosm nonu
 au FileType man set ai et ts=4 nosm nonu nolist
 " LaTeX - ft=latex
 au FileType tex set ai et tw=70 sw=2
-au FileType tex imap // \
-au FileType tex imap << {
-au FileType tex imap >> }
+"" Don't need these with US keyboard...
+" au FileType tex imap // \
+" au FileType tex imap << {
+" au FileType tex imap >> }
 au FileType tex imap "" "`"'<Left><Left>
 au FileType tex set  makeprg=latex\ %
 
