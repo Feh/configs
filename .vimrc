@@ -413,7 +413,8 @@ map #a :$r!agrep -d'^-- $' '.' ~/.sig/signatures<S-Left><S-Left><right>
 map #s :$r!agrep -d'^-- $' '.' ~/.sig/signatures<S-Left><S-Left><right>
 map #d Go-- <CR>
 
-iab &ndash; &#8211;
+" 2010-09-30: don't know why I put that mapping there - it confuses, though
+" iab &ndash; &#8211;
 
 " 2007-09-19; like screen (OBSOLETE, see cfb4c83)
 " inoremap `a ä
