@@ -435,4 +435,8 @@ noremap <Leader>== I==<space><esc>A<space>==<esc>
 noremap <Leader>=3 I===<space><esc>A<space>===<esc>
 noremap <Leader>=4 I====<space><esc>A<space>====<esc>
 
+if getcwd() =~ 'gitbuch'
+    source $HOME/.vimrc-osp
+endif
+
 " EOF
