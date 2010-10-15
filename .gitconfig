@@ -23,5 +23,6 @@
 	status = auto
 [merge]
 	tool = vimdiff
+	log = true
 [rerere]
 	enabled = true
