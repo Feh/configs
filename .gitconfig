@@ -17,6 +17,7 @@
 	cim = commit -m
 	fm = merge --ff-only
 	nfm = merge --no-ff
+	install-myhooks = !~/.gitstuff/install-myhooks
 [color]
 	branch = auto
 	diff = auto
