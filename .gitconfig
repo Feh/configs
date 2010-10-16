@@ -26,3 +26,5 @@
 	log = true
 [rerere]
 	enabled = true
+[diff]
+	renames = true
