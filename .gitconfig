@@ -29,3 +29,5 @@
 	enabled = true
 [diff]
 	renames = true
+[myhooks]
+	umlautcheck = false
