@@ -13,7 +13,8 @@
 	k = ! gitk --all
 	ch = cherry -v
 	b = branch -av
-	i = ! git init && git commit --allow-empty -m 'initial commit'
+	i = ! git init && git commit --allow-empty -m 'initial commit' && \
+		git install-myhooks
 	cim = commit -m
 	fm = merge --ff-only
 	nfm = merge --no-ff
