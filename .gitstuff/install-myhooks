@@ -1,0 +1,19 @@
+#!/bin/sh
+
+hookdir="$HOME/.gitstuff/myhooks"
+
+if ! [ -d "$hookdir" ]; then
+    echo >&2 "Cannot find hook directory"
+    exit 1
+fi
+
+if ! git rev-parse --git-dir >/dev/null 2>&1; then
+    echo >&2 "Not inside git repo!"
+    exit 1
+fi
+
+gitdir=`git rev-parse --git-dir`
+echo -n "Installing git hooks, press return to continue (^C aborts) "
+read dummy
+
+cp -vf "$hookdir"/* "$gitdir"/hooks

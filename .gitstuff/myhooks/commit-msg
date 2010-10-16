@@ -1,0 +1,11 @@
+#!/bin/sh
+
+checkumlauts=`git config --bool myhooks.umlautcheck`
+if [ "x$checkumlauts" = "xtrue" ]; then
+    if head -n 1 "$1" | grep -q '[äöüßÄÖÜ]' ; then
+        echo >&2 "Umlaute in der ersten Zeile der Commit-Message!"
+        exit 1
+    fi
+fi
+
+true
