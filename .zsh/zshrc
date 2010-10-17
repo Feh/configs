@@ -272,10 +272,16 @@ is_root_shell() { [[ $USER == root ]] }
     print ${${${${(f)"$(git branch --no-color \
       2>/dev/null)"}:#[^*]*}##\* }:-no branch}
   }
+  __git_status_dirty() {
+    [[ -n "$(git status -uno --porcelain)" ]] && \
+      print -n "%{$fg[red]%}★" || print -n "%{$fg[green]%}∴"
+    print "%{$fg[default]%}"
+  }
   __git_prompt_info() {
     [[ __git_repo -eq 1 ]] || return
     [[ -z "$__git_project_name" ]] && __git_info
-    print " %B${__git_project_name}%b on %B$(__git_branch_name)%b"
+    print " %B$(__git_status_dirty)%b %B${__git_project_name}%b" \
+      "on %B$(__git_branch_name)%b"
   }
 
 # Bei verbesserungen folgende Nachfrage:
