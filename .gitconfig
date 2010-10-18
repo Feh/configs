@@ -20,6 +20,7 @@
 	nfm = merge --no-ff
 	install-myhooks = !~/.gitstuff/install-myhooks
 	int = branch --no-merged
+	mod = diff --name-status
 [color]
 	branch = auto
 	diff = auto
