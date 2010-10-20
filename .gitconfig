@@ -34,3 +34,5 @@
 	renames = true
 [myhooks]
 	umlautcheck = false
+[push]
+	default = tracking
