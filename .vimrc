@@ -435,6 +435,13 @@ noremap <Leader>== I==<space><esc>A<space>==<esc>
 noremap <Leader>=3 I===<space><esc>A<space>===<esc>
 noremap <Leader>=4 I====<space><esc>A<space>====<esc>
 
+" wiki2beamer environments
+noremap <Leader>w2b I<[block]{}<esc>o[block]><esc>kf{a
+noremap <Leader>w2v ?====<cr>A[containsverbatim]<esc>:nohl<cr><C-O>I<[verbatim]<esc>o[verbatim]><esc>O
+noremap <Leader>w2i I<<< ,scale=<++>>>><esc>F<;a
+noremap <Leader>w2c I<[center]<esc>o[center]><esc>O
+
+
 if getcwd() =~ 'gitbuch'
     source $HOME/.vimrc-osp
 endif
