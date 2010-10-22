@@ -1327,6 +1327,17 @@ zle -N accept-line
   bindkey '^xc' cut-inner-word
   bindkey -M vicmd 'ciw' cut-inner-word
 
+# 2010-10-22: zsh-users/15470
+  rationalise-dot() {
+    if [[ $LBUFFER = *.. ]]; then
+      LBUFFER+=/..
+    else
+      LBUFFER+=.
+        fi
+  }
+  zle -N rationalise-dot
+  bindkey . rationalise-dot
+
 # }}}
 
 # hashes {{{
