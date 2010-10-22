@@ -1317,15 +1317,15 @@ zle -N accept-line
   bindkey '^x1' jump-after-first-word
 
 # Das Wort löschen, in dem sich der Cursor gerade befindet.
-_cut_inner_word()
-{
-  setopt localoptions extendedglob
-  LBUFFER=${LBUFFER%%[^ ]#}
-  RBUFFER=${RBUFFER##[^ ]#}
-}
-zle -N cut-inner-word _cut_inner_word
-bindkey '^xc' cut-inner-word
-bindkey -M vicmd 'ciw' cut-inner-word
+  _cut_inner_word()
+  {
+    setopt localoptions extendedglob
+    LBUFFER=${LBUFFER%%[^ ]#}
+    RBUFFER=${RBUFFER##[^ ]#}
+  }
+  zle -N cut-inner-word _cut_inner_word
+  bindkey '^xc' cut-inner-word
+  bindkey -M vicmd 'ciw' cut-inner-word
 
 # }}}
 
@@ -1354,7 +1354,7 @@ bindkey -M vicmd 'ciw' cut-inner-word
 # LOGCHECK=120
 # WATCHFMT='%n %a %l from %m at %t.'
 
-# 2006-04-24: 
+# 2006-04-24:
   flv2mpeg() {
     if [[ -z "$1" || ! -e "$1" ]]; then
       echo Usage: $0 VideoFile.flv
@@ -1421,9 +1421,9 @@ bindkey -M vicmd 'ciw' cut-inner-word
   {
     perl <<-EOPERL
     my @a = ("a".."z","A".."Z","0".."9",(split //, q{#@,.<>$%&()*^}));
-    for (1..10) { 
+    for (1..10) {
         print join "", map { \$a[rand @a] } (1..rand(3)+7);
-        print qq{\n} 
+        print qq{\n}
     }
 # the following line has to start with a regular tab charater! :(
 	EOPERL
