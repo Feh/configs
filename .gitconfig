@@ -12,15 +12,18 @@
 	tree = log --oneline --graph --decorate --all
 	k = ! gitk --all
 	ch = cherry -v
+	cp = cherry-pick
 	b = branch -av
 	i = ! git init && git commit --allow-empty -m 'initial commit' && \
 		git install-myhooks
 	cim = commit -m
 	fm = merge --ff-only
 	nfm = merge --no-ff
+	ft = ff-track
 	install-myhooks = !~/.gitstuff/install-myhooks
 	int = branch -a -vv --no-merged
 	mod = diff --name-status
+	remote-tags = "! git ls-remote -t origin | sed 's,^.*refs/tags/,,;s/\\^.*$//' | uniq"
 [color]
 	branch = auto
 	diff = auto
