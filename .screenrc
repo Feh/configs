@@ -6,7 +6,7 @@
  startup_message off
  silencewait 15
  msgwait 2
- vbell on
+ vbell off
  nethack on # extended, nethack-like messages
  shell /bin/zsh
 #sorendition kG # black on green
@@ -32,7 +32,7 @@
 #hardstatus alwayslastline "%w"
 
  activity              "%C -> %n%f %t activity!"
- bell                  "%C -> %n%f %t bell!"
+ bell                  "%C -> %n%f %t bell!^G"
  vbell_msg             " *beep* "
 
  escape ^aa
