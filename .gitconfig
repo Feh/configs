@@ -24,6 +24,7 @@
 	int = branch -a -vv --no-merged
 	mod = diff --name-status
 	remote-tags = "! git ls-remote -t origin | sed 's,^.*refs/tags/,,;s/\\^.*$//' | uniq"
+	fixup = commit --amend -C HEAD
 [color]
 	branch = auto
 	diff = auto
