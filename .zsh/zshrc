@@ -1391,8 +1391,8 @@ zle -N accept-line
     done
   }
 
-# vortrags-xterm
-  alias VX="xterm -fg white -bg black -font '-*-terminus-medium-*-*-*-20-*-*-*-*-*-iso10646-*'"
+# presentation urxvt: big font, no transparency
+  alias VX="urxvt +tr -fg white -bg black -font '-*-terminus-medium-*-*-*-20-*-*-*-*-*-iso10646-*'"
 
 # 2008-03-05
   histgrep () { fc -fl -m "*(#i)$1*" 1 | grep -i --color $1 }
