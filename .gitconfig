@@ -25,10 +25,12 @@
 	mod = diff --name-status
 	remote-tags = "! git ls-remote -t origin | sed 's,^.*refs/tags/,,;s/\\^.*$//' | uniq"
 	fixup = commit --amend -C HEAD
+	track = branch --set-upstream
 [color]
 	branch = auto
 	diff = auto
 	status = auto
+	ui = auto
 [merge]
 	tool = vimdiff
 	log = true
