@@ -479,6 +479,15 @@ is_root_shell() { [[ $USER == root ]] }
     ffmpeg -i $1 -acodec copy ${1:r}.audio
   }
 
+# 2010-11-24: pretty print `df' output
+# (thanks to Axel B. for showing me!)
+  df() {
+    if [[ -z "$*" ]]; then
+      command df -TPh | column -t
+    else
+      command df $*
+    fi
+  }
 
 # }}}
 
