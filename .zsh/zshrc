@@ -932,6 +932,13 @@ is_root_shell() { [[ $USER == root ]] }
   alias gitt='git tree -23'
   alias gid='git df' # diff
   alias gidc='git dfc' # diff --cached
+
+# 2010-11-27: tech support says: "Sadly, M Player is not allowed with our
+# stream, we have a protection service that blocks certain players, as a lot of
+# people have been ripping our stream, and stealing the music. Sorry about
+# this, Please use another player, like winamp, itunes, vlc or others." - OK!
+  alias filthfm="mplayer -prefer-ipv4 -user-agent \
+    'VLC media player' http://lemon.citrus3.com:8062"
 # }}}
 
 # modules {{{
