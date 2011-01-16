@@ -362,7 +362,8 @@ mytasklist.buttons = awful.util.table.join(
     vicious.register(memwidget, vicious.widgets.mem, '$1', 13)
     awful.widget.layout.margins[memwidget.widget] = { top = 3, bottom = 3 }
 
-    vicious.enable_caching(vicious.widgets.fs)
+    -- 5226d10 API: function enable_caching() is now cache()
+    vicious.cache(vicious.widgets.fs)
     hd_img = widget({ type = "imagebox", align = "right" })
     hd_img.image = image("/home/feh/.awesome-icons/mem.png")
     hdwidget = awful.widget.progressbar({ layout = awful.widget.layout.horizontal.rightleft })
@@ -372,7 +373,7 @@ mytasklist.buttons = awful.util.table.join(
     hdwidget:set_border_color(nil)
     hdwidget:set_color(theme.fg_normal)
     -- hdwidget:set_gradient_colors({ '#00ff00', '#c3d72c', '#ff0000' })
-    vicious.register(hdwidget, vicious.widgets.fs, '${/ usep}', 599)
+    vicious.register(hdwidget, vicious.widgets.fs, '${/ used_p}', 599)
     awful.widget.layout.margins[hdwidget.widget] = { top = 3, bottom = 3 }
 
     wlan_img = widget({ type = "imagebox", align = "right" })
@@ -382,7 +383,7 @@ mytasklist.buttons = awful.util.table.join(
     wlan_info = widget({ type = 'textbox', align = 'right' })
     vicious.register(wlan_info, vicious.widgets.wifi, '${ssid}(${link}):', 13, "eth0")
     -- race condition when defined inside the loop
-    vicious.enable_caching(vicious.widgets.net)
+    vicious.cache(vicious.widgets.net)
     net = { widget({ type = 'textbox', align = 'right' }),
             widget({ type = 'textbox', align = 'right' }) }
     vicious.register(net[1], vicious.widgets.net,
@@ -394,7 +395,7 @@ mytasklist.buttons = awful.util.table.join(
     temp_img = widget({ type = "imagebox", align = "right" })
     temp_img.image = image("/home/feh/.awesome-icons/temp.png")
     temp = widget({ type = "textbox", align = "right" })
-    vicious.register(temp, vicious.widgets.thermal, '$1°C', 23, 'THM0')
+    vicious.register(temp, vicious.widgets.thermal, '$1°C', 23, 'thermal_zone0')
 
     bat_img = widget({ type = "imagebox", align = "right" })
     bat_img.image = image("/home/feh/.awesome-icons/power-bat.png")
