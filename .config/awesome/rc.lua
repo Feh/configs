@@ -497,6 +497,13 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Shift"   }, "i", function () awful.util.spawn("/home/feh/bin/mocp_song_change.sh") end),
     awful.key({ modkey, "Control", "Shift"   }, "m", function () awful.util.spawn(terminal .. " -name mocp -e mocp -y") end),
 
+    awful.key({ modkey }, "g",
+              function ()
+                  awful.prompt.run({ prompt = "Google: " },
+                  mypromptbox[mouse.screen].widget,
+                  function (s) awful.util.spawn("/home/feh/bin/glucky '" .. s .. "'") end, nil, nil)
+              end),
+
     awful.key({ modkey, "Shift"   }, "u", function () awful.util.spawn("/home/feh/bin/clip-bit-ly") end),
     awful.key({ modkey,           }, "w",
         function ()
