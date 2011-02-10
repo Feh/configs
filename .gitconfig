@@ -19,13 +19,13 @@
 	cim = commit -m
 	fm = merge --ff-only
 	nfm = merge --no-ff
-	ft = ff-track
 	install-myhooks = !~/.gitstuff/install-myhooks
 	int = branch -a -vv --no-merged
 	mod = diff --name-status
 	remote-tags = "! git ls-remote -t origin | sed 's,^.*refs/tags/,,;s/\\^.*$//' | uniq"
 	fixup = commit --amend -C HEAD
 	track = branch --set-upstream
+	ft = merge --ff-only @{u}
 	lu = log ..@{u}
 [color]
 	branch = auto
