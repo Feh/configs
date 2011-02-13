@@ -22,7 +22,7 @@
 	install-myhooks = !~/.gitstuff/install-myhooks
 	int = branch -a -vv --no-merged
 	mod = diff --name-status
-	remote-tags = "! git ls-remote -t origin | sed 's,^.*refs/tags/,,;s/\\^.*$//' | uniq"
+	remote-tags = "!f() { git ls-remote -t \"$1\" | sed 's,^.*refs/tags/,,;s/\\^.*$//' | uniq; } ; f"
 	fixup = commit --amend -C HEAD
 	track = branch --set-upstream
 	ft = merge --ff-only @{u}
