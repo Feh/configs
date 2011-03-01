@@ -1202,6 +1202,9 @@ is_root_shell() { [[ $USER == root ]] }
 # there's no match, try everything else)
   zstyle ':completion::*:-command-:*:*' tag-order '! aliases functions'
 
+# 2011-03-01
+  compdef _pdf zathura
+
 # }}}
 
 # key bindings {{{
