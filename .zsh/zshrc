@@ -929,7 +929,7 @@ is_root_shell() { [[ $USER == root ]] }
   alias giu='git remote update'
   alias gik='LC_ALL=C git k' # gitk --all
   alias gil='git log'
-  alias gitt='git tree -23'
+  alias gitt='git t --all -23'
   alias gid='git df' # diff
   alias gidc='git dfc' # diff --cached
 

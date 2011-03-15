@@ -9,7 +9,7 @@
 	df = diff
 	dfc = diff --cached
 	lg = log -p
-	tree = log --oneline --graph --decorate --all
+	t = log --oneline --graph --decorate
 	k = ! env LC_ALL=C gitk --all
 	ch = cherry -v
 	cp = cherry-pick
