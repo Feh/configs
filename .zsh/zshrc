@@ -939,6 +939,9 @@ is_root_shell() { [[ $USER == root ]] }
 # this, Please use another player, like winamp, itunes, vlc or others." - OK!
   alias filthfm="mplayer -prefer-ipv4 -user-agent \
     'VLC media player' http://lemon.citrus3.com:8062"
+
+# 2011-03-19
+  alias clt11="$BROWSER http://chemnitzer.linux-tage.de/2011/vortraege/plan"
 # }}}
 
 # modules {{{
