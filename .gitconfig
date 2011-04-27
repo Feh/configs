@@ -39,6 +39,7 @@
 	enabled = true
 [diff]
 	renames = true
+	mnemonicprefix = true
 [myhooks]
 	umlautcheck = false
 [push]
