@@ -27,6 +27,7 @@
 	track = branch --set-upstream
 	ft = merge --ff-only @{u}
 	lu = log ..@{u}
+	todo = !git rev-parse --symbolic --branches | xargs git show-branch --topics master
 [color]
 	branch = auto
 	diff = auto
