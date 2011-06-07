@@ -44,3 +44,5 @@
 	umlautcheck = false
 [push]
 	default = tracking
+[rebase]
+	stat = true
