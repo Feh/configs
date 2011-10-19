@@ -1376,6 +1376,11 @@ zle -N accept-line
   zle -N rationalise-dot
   bindkey . rationalise-dot
 
+# 2011-10-19: not hard per se - but I stumble about mis-quoting a lot with
+# these URLs that seem to contain more ampersand signs than letters. ;-)
+  autoload -U url-quote-magic
+  zle -N self-insert url-quote-magic
+
 # }}}
 
 # hashes {{{
