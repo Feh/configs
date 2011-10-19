@@ -1381,6 +1381,12 @@ zle -N accept-line
   autoload -U url-quote-magic
   zle -N self-insert url-quote-magic
 
+# completions might miss the point
+zle -C complete-files complete-word _generic
+zstyle ':completion:complete-files:*' completer _files
+zstyle ':completion:complete-files:*' force-list always
+bindkey "^X^I" complete-files
+
 # }}}
 
 # hashes {{{
