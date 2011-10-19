@@ -2,10 +2,15 @@ map P :tab prefs<CR>
 set novisualbell
 set defsearch=google
 set showstatuslinks
-set ssli=2
+set ssli=command
+
+set guioptions=bCrsc
+set autocomplete=
 
 se nextpattern=\\bnext\\b,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b,\\bweiter\\b,\\bvor\\b,\\bNäch
 se previouspattern=\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$,\\bVorhe,\\bZurück
 
 set editor='urxvt -e vim '
-echo ".vimperatorrc sourced!"
+
+# http://code.google.com/p/dactyl/issues/detail?id=640
+set! javascript.options.methodjit.chrome=false
