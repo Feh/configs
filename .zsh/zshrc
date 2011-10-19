@@ -44,7 +44,7 @@ is_root_shell() { [[ $USER == root ]] }
   # [[ $SHELL == "/bin/zsh-static" ]] || zmodload -i zsh/zprof
 
   add-to-path() { path+=("$@") }
-  local hostname=$(hostname)
+  local hostname=$(cat /etc/hostname)
 
   [[ ! -z "$SSH_TTY" ]] && export SSH_HOSTNAME=$hostname
 
@@ -1386,6 +1386,7 @@ zle -N accept-line
   hash -d doc=/usr/share/doc
   hash -d log=/var/log
   hash -d zsh=/usr/share/zsh/functions
+  hash -d s=/dev/shm
 
 # }}}
 

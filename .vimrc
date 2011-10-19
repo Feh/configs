@@ -296,6 +296,8 @@ iab du          Du
 iab DIr         Dir
 iab Linx        Linux
 iab WIen        Wien
+iab bennen      benennen
+iab Aufgen      Augen
 
 " Svens coole Tips:
 imap <Leader>** <c-o>B*<c-o>E<right>*
