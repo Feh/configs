@@ -12,5 +12,5 @@ se previouspattern=\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$,\\bVorhe,\\
 
 set editor='urxvt -e vim '
 
-# http://code.google.com/p/dactyl/issues/detail?id=640
+" http://code.google.com/p/dactyl/issues/detail?id=640
 set! javascript.options.methodjit.chrome=false
