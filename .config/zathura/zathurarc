@@ -1,0 +1,4 @@
+map <Return> toggle_fullscreen
+set inputbar_bgcolor white
+set inputbar_fgcolor black
+set default_bgcolor gray
