@@ -184,9 +184,11 @@ map <Leader>hi    gg}j^2ldwuOHi, <Esc>pxa!<CR><Esc>j
 map <Leader>moin  gg}j^2ldwuOMoin, <Esc>pxa!<CR><Esc>j
 
 " 2012-01-11: git diff - obtain local or remote change
-map doL :diffget .LOCAL.<CR>
-map doR :diffget .REMOTE.<CR>
-map dU :diffupdate<CR>
+map <Leader>doL :diffget .LOCAL.<CR>
+map <Leader>dol :diffget .LOCAL.<CR>
+map <Leader>doR :diffget .REMOTE.<CR>
+map <Leader>dor :diffget .REMOTE.<CR>
+map <Leader>dU :diffupdate<CR>
 
 " Narrow/Wide Text
 " This is a /really/ useful feature. Let's say, you get a Email from a
