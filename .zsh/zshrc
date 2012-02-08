@@ -958,6 +958,9 @@ is_root_shell() { [[ $USER == root ]] }
 
 # 2011-03-19
   alias clt11="$BROWSER http://chemnitzer.linux-tage.de/2011/vortraege/plan"
+
+# 2012-02-08
+  alias ack=ack-grep
 # }}}
 
 # modules {{{
