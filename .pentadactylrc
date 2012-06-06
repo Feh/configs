@@ -7,6 +7,8 @@ set ssli=command
 set guioptions=bCrsc
 set autocomplete=
 
+set strictfocus='chrome:*':laissez-faire,*:despotic
+
 se nextpattern=\\bnext\\b,^>$,^(>>|»)$,^(>|»),(>|»)$,\\bmore\\b,\\bweiter\\b,\\bvor\\b,\\bNäch
 se previouspattern=\\bprev|previous\\b,^<$,^(<<|«)$,^(<|«),(<|«)$,\\bVorhe,\\bZurück
 
