@@ -1416,6 +1416,14 @@ zstyle ':completion:complete-files:*' completer _files
 zstyle ':completion:complete-files:*' force-list always
 bindkey "^X^I" complete-files
 
+# 2012-06-06: quick git commands
+  bindkey -s "^G " "git diff\n"
+  bindkey -s "^G^@" "git diff\n"  # ctrl-space
+  bindkey -s "^G." "git diff --cached\n"
+  bindkey -s "^G^G" "git status\n"
+  bindkey -s "^Gc" "git commit -v\n"
+  bindkey -s "^Ga" "git add \t"
+
 # }}}
 
 # hashes {{{
