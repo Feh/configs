@@ -55,6 +55,8 @@ set dictionary=/usr/share/dict/ngerman,/usr/share/dict/words
 set uc=50
 " Incasesensitive search
 set incsearch
+" Highlight search
+set hlsearch
 " no Visual Bells
 set novb
 " That's _really_ cool, try it!
@@ -357,13 +359,6 @@ set pastetoggle=<F12>
 " Riesen-Tab...
 imap <Leader>. <Esc>klf wh:se ve=all<CR>jr :set ve=insert<CR>a
 
-" 2005-07-04: http://www.vim.org/tips/tip.php?tip_id=956
-" Quote motions for operators: da" will delete a quoted string.
-omap i" :normal vT"ot"<CR>
-omap a" :normal vF"of"<CR>
-omap i' :normal vT'ot'<CR>
-omap a' :normal vF'of'<CR>
-
 " Akronyme - eine kleine Sammlung
 iab HTMLa <acronym title="HyperText Markup Language">HTML</acronym>
 iab XHTMLa <acronym title="eXtensible HyperText Markup Language">XHTML</acronym>
@@ -424,19 +419,6 @@ map #a :$r!agrep -d'^-- $' '.' ~/.sig/signatures<S-Left><S-Left><right>
 map #s :$r!agrep -d'^-- $' '.' ~/.sig/signatures<S-Left><S-Left><right>
 map #d Go-- <CR>
 
-" 2010-09-30: don't know why I put that mapping there - it confuses, though
-" iab &ndash; &#8211;
-
-" 2007-09-19; like screen (OBSOLETE, see cfb4c83)
-" inoremap `a ä
-" inoremap `A Ä
-" inoremap `o ö
-" inoremap `O Ö
-" inoremap `u ü
-" inoremap `U Ü
-" inoremap `s ß
-" inoremap `` `
-
 " 2008-03-10
  map <F9>  :ped refcard_osp_style.txt<CR>
  map <F10> :pc<CR>
@@ -456,5 +438,7 @@ noremap <Leader>w2c I<[center]<esc>o[center]><esc>O
 if getcwd() =~ 'gitbuch'
     source $HOME/.vimrc-osp
 endif
+
+nmap <silent> <Leader>/ :nohlsearch<CR>
 
 " EOF
