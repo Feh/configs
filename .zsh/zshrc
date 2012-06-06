@@ -961,6 +961,9 @@ is_root_shell() { [[ $USER == root ]] }
 
 # 2012-02-08
   alias ack=ack-grep
+
+# 2012-05-25
+  alias pf="perldoc -f"
 # }}}
 
 # modules {{{
@@ -1573,6 +1576,7 @@ dubarchive() {
     print -P "%BWarning: not on local config branch!%b"
   [[ -z "$TMUX" && ! -z "$SSH_CONNECTION" ]] && tm main
   [[ $TTY == '/dev/tty1' ]] && exec startx
+  [[ $PWD != $HOME ]] && RPROMPT="%/"
 
 # Avoid starting the shell with a "dirty" $?
   true
