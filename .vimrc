@@ -89,6 +89,8 @@ hi Normal ctermbg=NONE
 hi Comment ctermfg=red
 " set t_Co=16 to get rid of the bold characters
 hi MatchParen ctermbg=4
+" variables, preproc statements... white instead of blue
+hi PreProc ctermfg=white cterm=bold
 
 " Use CSS!
 let html_use_css = 1
