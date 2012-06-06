@@ -1,4 +1,5 @@
 map <Return> toggle_fullscreen
-set inputbar_bgcolor white
-set inputbar_fgcolor black
-set default_bgcolor gray
+set inputbar-bg white
+set inputbar-fg black
+set default-bg gray
+set scroll-wrap
