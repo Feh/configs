@@ -1,0 +1,23 @@
+# bindings
+bind diff K previous
+bind diff J next
+bind diff < scroll-page-up
+bind diff > scroll-page-down
+bind generic ^B scroll-page-up
+bind generic ^F scroll-page-down
+
+# settings
+set show-date = relative
+
+# colors
+color graph-commit white default
+color date green default
+color author green default bold
+color main-head white blue bold
+color main-local-tag yellow black
+color main-ref white green
+color main-remote white magenta
+color main-tag black yellow
+color main-tracked magenta default
+
+# vim:set ft=sh:
