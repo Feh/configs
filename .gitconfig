@@ -47,3 +47,6 @@
 	default = tracking
 [rebase]
 	stat = true
+	autosquash = true
+[core]
+	trustctime = false
