@@ -1,0 +1,76 @@
+#!/usr/bin/perl
+
+#use AnyEvent;
+use strict;
+use warnings;
+use feature qw(:5.10);
+use AnyEvent::I3 qw(:all);
+use Getopt::Long;
+
+# workspace definitions
+my @workspaces = (qw<
+    1:main
+    2:dev
+    3:
+    4:
+    5:
+    6:
+    7:
+    8:
+    9:www
+    10:www
+>);
+
+# connect
+#sub i3path {
+#    chomp(my $p = qx(i3 --get-socketpath));
+#    return $p;
+#}
+my $i3 = i3();
+$i3->connect->recv or die "Error connecting to i3";
+
+sub i3cmd {
+    my $cmd = shift;
+    my $r = @{$i3->message(TYPE_COMMAND, $cmd)->recv}[0];
+    say $cmd . ": " . ($r->{'error'} || 'unknown error') if not $r->{'success'};
+    return $r;
+}
+
+# get workspace name with number $want;
+# if it doesn't exist, return default from @workspaces
+sub wsname {
+    my $want = shift;
+    my $ws;
+
+    my $r = $i3->get_workspaces->recv;
+    # use Data::Dumper;
+    # print Dumper $r;
+
+    if($want) {
+        $ws = (grep { $_->{'num'} == $want } @$r)[0];
+    } else {
+        $ws = (grep { $_->{'focused'} } @$r)[0];
+    }
+    return $ws->{'name'} if $ws;
+    return $workspaces[$want - 1] || $workspaces[0];
+}
+
+# check range and whether moving or selecting ...
+my %opts = ();
+Getopt::Long::Configure ("bundling");
+GetOptions( 'f|follow' => \$opts{'f'},
+            'r|rename' => \$opts{'r'},
+            'm|move=n' => \$opts{'m'},
+    ) or die("error with getopt");
+
+if($opts{'m'}) {
+    my $name = wsname($opts{'m'});
+    i3cmd("move container to workspace \"$name\"");
+    i3cmd("workspace \"$name\"") if $opts{'f'}; # "follow" moved windows
+} elsif($opts{'r'}) {
+    my $oldname = wsname();
+    my $name = qx(~/.i3/i3-dmenu -p 'workspace name: ' </dev/null);
+    i3cmd("rename workspace \"$oldname\" to " . (split /:/=>$oldname)[0] . ":$name");
+} else {
+    i3cmd("workspace " . wsname(shift));
+}

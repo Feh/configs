@@ -1,0 +1,167 @@
+# i3 config file
+
+# Preliminaries {{{
+set $mod Mod1
+set $font -schumacher-clean-medium-r-normal--0-0-75-75-c-0-iso10646-1
+# default: set $font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+
+floating_modifier $mod
+font $font
+# }}}
+
+# Window style / colors {{{
+new_window 1pixel
+#                       border  backgr  text    indic
+client.focused          #508500 #206500 #c0c0c0 #80a500
+client.focused_inactive #508500 #206500 #c0c0c0 #80a500
+client.unfocused        #555555 #333333 #c0c0c0 #ffffff
+client.urgent           #ff0000 #ff0000 #ffffff #ffffff
+# }}}
+
+# Workspace/output definitions {{{
+workspace "1:main" output VGA1
+workspace "2:dev" output VGA1
+workspace "10:www" output VGA1
+workspace "11:mucke" output VGA1
+workspace "12:log" output VGA1
+workspace "13:net" output VGA1
+
+workspace "9:www" output HDMI3
+
+assign [class="(?i)firefox"] 10:www
+assign [class="(?i)iceweasel"] 10:www
+# }}}
+
+# Key bindings: i3 management {{{
+bindsym $mod+Ctrl+C reload
+bindsym $mod+Ctrl+R restart
+bindsym $mod+Shift+E exit
+# }}}
+
+# Key bindings: external commands {{{
+bindsym $mod+Return exec urxvt
+bindsym $mod+p exec ~/.i3/i3-dmenu_run
+bindsym Mod4+Up   exec amixer set Master 3+>/dev/null
+bindsym Mod4+Down exec amixer set Master 3->/dev/null
+bindsym Menu exec xset dpms force off
+# }}}
+
+# Key bindings: external commands {{{
+# move windows/containers
+bindsym $mod+BackSpace focus output left
+bindsym $mod+o       move container to output left
+bindsym $mod+Shift+o move workspace to output left
+
+# select workspaces
+bindsym $mod+Escape workspace back_and_forth
+bindsym $mod+w workspace 10:www
+bindsym $mod+Shift+w workspace 9:www
+bindsym $mod+Shift+m workspace 11:mucke
+bindsym $mod+Ctrl+l workspace 12:logs
+bindsym $mod+Ctrl+n workspace 13:network
+
+# manage clients
+bindsym $mod+Shift+C kill
+# }}}
+
+# Key bindings: Client Movement / Focus {{{
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+H move left
+bindsym $mod+Shift+J move down
+bindsym $mod+Shift+K move up
+bindsym $mod+Shift+L move right
+
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+Shift+a focus parent
+# }}}
+
+# Key bindings: Splitting / Layouts / Toggles {{{
+bindsym $mod+Shift+minus split h
+bindsym $mod+minus split v
+bindsym $mod+f fullscreen
+
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+e layout default
+
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+# }}}
+
+# Key bindings: Workspace switching {{{
+# switch to workspace
+bindsym $mod+1 exec ~/.i3/i3-workspace 1
+bindsym $mod+2 exec ~/.i3/i3-workspace 2
+bindsym $mod+3 exec ~/.i3/i3-workspace 3
+bindsym $mod+4 exec ~/.i3/i3-workspace 4
+bindsym $mod+5 exec ~/.i3/i3-workspace 5
+bindsym $mod+6 exec ~/.i3/i3-workspace 6
+bindsym $mod+7 exec ~/.i3/i3-workspace 7
+bindsym $mod+8 exec ~/.i3/i3-workspace 8
+bindsym $mod+9 exec ~/.i3/i3-workspace 9
+bindsym $mod+0 exec ~/.i3/i3-workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+exclam       exec ~/.i3/i3-workspace --follow --move 1
+bindsym $mod+Shift+at           exec ~/.i3/i3-workspace --follow --move 2
+bindsym $mod+Shift+numbersign   exec ~/.i3/i3-workspace --follow --move 3
+bindsym $mod+Shift+dollar       exec ~/.i3/i3-workspace --follow --move 4
+bindsym $mod+Shift+percent      exec ~/.i3/i3-workspace --follow --move 5
+bindsym $mod+Shift+asciicircum  exec ~/.i3/i3-workspace --follow --move 6
+bindsym $mod+Shift+ampersand    exec ~/.i3/i3-workspace --follow --move 7
+bindsym $mod+Shift+asterisk     exec ~/.i3/i3-workspace --follow --move 8
+bindsym $mod+Shift+parenleft    exec ~/.i3/i3-workspace --follow --move 9
+bindsym $mod+Shift+parenright   exec ~/.i3/i3-workspace --follow --move 10
+
+# rename current workspace
+bindsym $mod+Shift+T exec ~/.i3/i3-workspace -r
+# }}}
+
+# Status Bar {{{
+bar {
+    output VGA1
+    status_command i3status --config=~/.i3status.conf
+    colors {
+        background #000000
+        statusline #ffffff
+        focused_workspace  #609500 #206500 #c0c0c0
+        active_workspace   #307500 #206500 #c0c0c0
+        inactive_workspace #555555 #333333 #c0c0c0
+        urgent_workspace   #ff0000 #ff0000 #ffffff
+    }
+}
+
+bar {
+    output LVDS1
+    output HDMI3
+    status_command i3status --config=~/.i3status.short.conf
+    colors {
+        background #000000
+        statusline #ffffff
+        focused_workspace  #609500 #206500 #c0c0c0
+        active_workspace   #307500 #206500 #c0c0c0
+        inactive_workspace #555555 #333333 #c0c0c0
+        urgent_workspace   #ff0000 #ff0000 #ffffff
+    }
+}
+# }}}
+
+# Scratchpad {{{
+bindsym $mod+Shift+q move scratchpad
+bindsym $mod+q scratchpad show
+# }}}
+
+# vim:set ft=conf fdm=marker et:

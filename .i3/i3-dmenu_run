@@ -1,0 +1,2 @@
+#!/bin/sh
+exec dmenu_run -b -fn "-schumacher-clean-medium-r-normal-13-0-0-75-75-c-0-*-*" -nb "#121212" -nf "#66ff00" -sb "#296500" -sf "#d0d7d7" "$@"
