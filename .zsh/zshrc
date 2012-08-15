@@ -562,7 +562,7 @@ is_root_shell() { [[ $USER == root ]] }
 # Change XTerm title
   settitle() {
     case $TERM in
-    xterm*|*rxvt)
+    xterm*|*rxvt*)
       print -n "\033]0;$@\007\r";;
       # \r = carriage return. ugly hack. better ideas?
     *)
