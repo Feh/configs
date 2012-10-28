@@ -1,3 +1,19 @@
 #!/bin/sh
 
+validgo() {
+    d="$(git show :"$1" | gofmt -d)"
+    [ -z "$d" ] && return 0
+    echo "$d"
+    echo
+    echo "File $1 contains improper Go syntax;"
+    echo "please fix with 'gofmt -w $1' before committing!"
+    return 1
+}
+
 git diff --cached --check || exit 1
+
+git diff-index --name-only --diff-filter=ACM HEAD | while read f; do
+    if [ "${f##*.}" = "go" ]; then
+        validgo "$f" || exit 1 # exit in subshell!
+    fi
+done || exit 1 # make the hook fail
