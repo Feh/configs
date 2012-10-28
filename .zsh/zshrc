@@ -156,6 +156,7 @@ is_root_shell() { [[ $USER == root ]] }
   export BC_ENV_ARGS=$HOME/.bcrc # scale=4
   export GREP_OPTIONS='-i --color=auto'
   export GREP_COLOR='1;32' # spidergreeeeeeeen!
+  export MANWIDTH=80
 
   export LC_ALL=${LC_ALL:-en_US.UTF-8}
   export LC_PAPER=${LC_PAPER:-a4}
@@ -169,7 +170,7 @@ is_root_shell() { [[ $USER == root ]] }
 
 # Mails
   unset  MAILCHECK
-  export REPORTTIME=${REPORTTIME:-5}
+  export REPORTTIME=${REPORTTIME:-2}
 
 # 30 Verzeichnisse passen auf den Stack, der automatisch bei
 # jedem 'cd' erweitert wird, allerdings nur, wenn die Option
