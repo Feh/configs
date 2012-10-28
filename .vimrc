@@ -129,10 +129,10 @@ imap YDATE <C-R>=strftime("%a %b %d %T %Z %Y")<CR>
 imap <F1> <Esc>
 
 " force using hjkl
-:noremap <Up>       :echoerr "Use k instead!"<CR>
-:noremap <Down>     :echoerr "Use j instead!"<CR>
-:noremap <Left>     :echoerr "Use l instead!"<CR>
-:noremap <Right>    :echoerr "Use h instead!"<CR>
+" :noremap <Up>       :echoerr "Use k instead!"<CR>
+" :noremap <Down>     :echoerr "Use j instead!"<CR>
+" :noremap <Left>     :echoerr "Use l instead!"<CR>
+" :noremap <Right>    :echoerr "Use h instead!"<CR>
 
 " Personal homepage, email
 " iab Ym jp@cvmx.de
