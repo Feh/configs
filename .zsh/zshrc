@@ -1431,6 +1431,20 @@ bindkey "^X^I" complete-files
   bindkey -s "^Gc" "git commit -v\n"
   bindkey -s "^Ga" "git add \t"
 
+# Delete last path component, from http://www.zsh.org/mla/users/2005/msg01314.html
+  backward-delete-to-slash() {
+    integer pos=$CURSOR
+    while (( pos > 1 )); do
+      if [[ $LBUFFER[--pos] = / ]]; then
+        LBUFFER=${LBUFFER[1,pos]}
+        return 0
+      fi
+    done
+    return 1
+  }
+  zle -N backward-delete-to-slash
+  bindkey "^T" backward-delete-to-slash
+
 # }}}
 
 # hashes {{{
