@@ -1253,7 +1253,7 @@ is_root_shell() { [[ $USER == root ]] }
       _message "not running inside tmux!"
       return 1
     fi
-    w=( ${(u)=$(tmux capture-pane \; show-buffer \; delete-buffer)} )
+    w=( ${(u)=$(tmux capture-pane -J -p)} )
     _wanted values expl 'words from current tmux pane' compadd -a w
   }
   zle -C tmux-pane-words-prefix   complete-word _generic
