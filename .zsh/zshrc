@@ -943,7 +943,7 @@ is_root_shell() { [[ $USER == root ]] }
 # 2010-09-28: git aliases
   alias gis='git status'
   alias gicm='git ci -m'
-  alias giu='git remote update'
+  alias giu='git remote update --prune'
   alias gik='LC_ALL=C git k' # gitk --all
   alias gil='git log'
   alias gitt='git t --all -23'
