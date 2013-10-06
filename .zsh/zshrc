@@ -1284,6 +1284,8 @@ is_root_shell() { [[ $USER == root ]] }
 # die Zsh, eine hostory-Suche zu starten.
   bindkey "^[[A"   up-line-or-search
   bindkey "^[[B" down-line-or-search
+  bindkey "^[OA"   up-line-or-search
+  bindkey "^[OB" down-line-or-search
 # 2005-04-13: Aus der GRML-Zshrc: ^P fügt das letzte Wort ein.
   insert-last-typed-word() { zle insert-last-word -- 0 -1 }; \
   zle -N insert-last-typed-word
