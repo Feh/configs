@@ -1080,6 +1080,10 @@ is_root_shell() { [[ $USER == root ]] }
   zstyle ':completion:hist-complete:*' matcher-list 'b:=*'
   zstyle ':completion:hist-complete:*' remove-all-dups yes
 
+# the "usual" history search
+  bindkey '^R' history-incremental-search-backward
+  bindkey '^X^R' history-incremental-search-forward
+
 # 2008-08-11
   autoload -U keeper && keeper && \
   alias -g K=' | keep' && alias rk='r K'
