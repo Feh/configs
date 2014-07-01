@@ -74,7 +74,7 @@ is_root_shell() { [[ $USER == root ]] }
 
   ulimit -u 1024
 # ulimit -v `cat /proc/meminfo | head -1 | tr -s ' ' | cut -d' ' -f2`
-  ulimit -v ${${(s. .)${(M)${(f)"$(</proc/meminfo)"}##MemTotal: *}}[2]}
+# ulimit -v ${${(s. .)${(M)${(f)"$(</proc/meminfo)"}##MemTotal: *}}[2]}
 
 # }}}
 
