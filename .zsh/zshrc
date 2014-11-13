@@ -1452,6 +1452,46 @@ bindkey "^X^I" complete-files
   zle -N backward-delete-to-slash
   bindkey "^T" backward-delete-to-slash
 
+# "Bracketed paste mode", adapted from http://www.zsh.org/mla/users/2011/msg00367.html
+  bindkey -N paste
+  bindkey -R -M paste "^@"-"\M-^?" paste-insert
+  bindkey '^[[200~' _start_paste
+  bindkey -M paste '^[[201~' _end_paste
+  # insert "; " rather than carriage returns when pasting newlines
+  # -> no unwillfull execution of commands
+  bindkey -M paste -s '^M' ' ; '
+
+  zle -N _start_paste
+  zle -N _end_paste
+  zle -N paste-insert _paste_insert
+  zle -N zle-line-init _zle_line_init
+  zle -N zle-line-finish _zle_line_finish
+
+  _start_paste() {
+    bindkey -A paste main
+  }
+
+  _end_paste() {
+    bindkey -v
+    LBUFFER+=$_paste_content
+    unset _paste_content
+  }
+
+  _paste_insert() {
+    _paste_content+=$KEYS
+  }
+
+  _zle_line_init() {
+    # Tell terminal to send escape codes around pastes.
+    [[ $TERM == rxvt-unicode || $TERM == xterm || $TERM == screen ]] && printf '\e[?2004h'
+  }
+
+  _zle_line_finish() {
+    # Tell it to stop when we leave zle, so pasting in other programs
+    # doesn't get the ^[[200~ codes around the pasted text.
+    [[ $TERM == rxvt-unicode || $TERM == xterm || $TERM == screen ]] && printf '\e[?2004l'
+  }
+
 # }}}
 
 # hashes {{{
