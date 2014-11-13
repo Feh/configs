@@ -1433,6 +1433,7 @@ bindkey "^X^I" complete-files
   bindkey -s "^G " "git diff\n"
   bindkey -s "^G^@" "git diff\n"  # ctrl-space
   bindkey -s "^G." "git diff --cached\n"
+  bindkey -s "^Gw" "git diff --word-diff\n"
   bindkey -s "^G^G" "git status\n"
   bindkey -s "^Gc" "git commit -v\n"
   bindkey -s "^Ga" "git add \t"
