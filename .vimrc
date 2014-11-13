@@ -230,22 +230,11 @@ au FileType mail set ai et ts=4 tw=70 comments=b:#,:%,fb:-,n:>,n:) nosm nonu
 
 " MAN-Pages - ft=man
 au FileType man set ai et ts=4 nosm nonu nolist
-" LaTeX - ft=latex
-au FileType tex set ai et tw=70 sw=2
-"" Don't need these with US keyboard...
-" au FileType tex imap // \
-" au FileType tex imap << {
-" au FileType tex imap >> }
-au FileType tex imap "" "`"'<Left><Left>
-au FileType tex set  makeprg=latex\ %
+au FileType gitcommit set et tw=72
 
 " LaTeX: Often typed combos
 au FileType tex map ,end yyp^ldwiend<Esc>^
 au FileType tex map ,End yyp^f}lD^wdwiend<Esc>^
-au FileType tex imap <C-E> \emph{}<Esc>i
-au FileType tex imap <C-D> \cmd{}<Esc>i
-au FileType tex imap $$ <C-O>$
-
 
 au FileType cpp set cindent makeprg=g++\ -Wno-deprecated\ -o\ %<\ %
 au FileType cpp set ts=8 sw=8
