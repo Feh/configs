@@ -40,9 +40,10 @@ bindsym $mod+Shift+E exit
 
 # Key bindings: external commands {{{
 bindsym $mod+Return exec urxvt
+bindsym $mod+Shift+Return exec urxvt +tr -fg black -bg white -font '-*-terminus-medium-*-*-*-20-*-*-*-*-*-iso10646-*'
 bindsym $mod+p exec ~/.i3/i3-dmenu_run
-bindsym Mod4+Up   exec amixer set Master 3+>/dev/null
-bindsym Mod4+Down exec amixer set Master 3->/dev/null
+bindsym Mod4+Up   exec amixer -c 0 set Master 3+>/dev/null
+bindsym Mod4+Down exec amixer -c 0 set Master 3->/dev/null
 bindsym Menu exec xset dpms force off
 # }}}
 
