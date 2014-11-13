@@ -6,6 +6,7 @@
 	ci = commit
 	br = branch
 	co = checkout
+	dw = diff --word-diff
 	df = diff
 	dfc = diff --cached
 	lg = log -p
@@ -23,16 +24,12 @@
 	int = branch -a -vv --no-merged
 	mod = diff --name-status
 	remote-tags = "!f() { git ls-remote -t \"$1\" | sed 's,^.*refs/tags/,,;s/\\^.*$//' | uniq; } ; f"
-	fixup = commit --amend -C HEAD
+	fixup = commit --amend --no-edit
 	track = branch --set-upstream
 	ft = merge --ff-only @{u}
 	lu = log ..@{u}
 	todo = !git rev-parse --symbolic --branches | xargs git show-branch --topics master
-[color]
-	branch = auto
-	diff = auto
-	status = auto
-	ui = auto
+	ack = !git -c color.grep.filename=\"green bold\" -c color.grep.match=\"black yellow\" -c color.grep.linenumber=\"yellow bold\" grep -n --break --heading --color=always --untracked
 [merge]
 	tool = vimdiff
 	log = true
@@ -44,9 +41,11 @@
 [myhooks]
 	umlautcheck = false
 [push]
-	default = tracking
+	default = simple
 [rebase]
 	stat = true
 	autosquash = true
 [core]
 	trustctime = false
+[interactive]
+	singlekey = true
