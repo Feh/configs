@@ -30,6 +30,8 @@
 	lu = log ..@{u}
 	todo = !git rev-parse --symbolic --branches | xargs git show-branch --topics master
 	ack = !git -c color.grep.filename=\"green bold\" -c color.grep.match=\"black yellow\" -c color.grep.linenumber=\"yellow bold\" grep -n --break --heading --color=always --untracked
+	puh = !cowsay -f duck \"puh… puh… what do you mean?\"
+	pus = !cowsay -f duck \"pus… pus… what do you mean?\"
 [merge]
 	tool = vimdiff
 	log = true
