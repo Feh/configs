@@ -67,7 +67,7 @@ set smarttab
 set smartindent
 set fdm=marker
 " :h 'fo'
-set fo=tcrqln " ft=mail?
+set fo=tcrqlnj " ft=mail?
 " Allow the last two lines to be socalled "modelines" in which
 " you can type commands vim executes on opening the file.
 set modeline
@@ -211,6 +211,9 @@ vmap <Leader><     <Esc>:set tw-=2<cr>gvgqgv
 vmap  < <gv
 vmap  > >gv
 
+" select just pasted text
+noremap gV `[v`]
+
 map gn :set nu!<CR>
 " map gn :set nu<CR>
 " map gN :set nonu<CR>
@@ -236,8 +239,8 @@ au FileType gitcommit set et tw=72
 au FileType tex map ,end yyp^ldwiend<Esc>^
 au FileType tex map ,End yyp^f}lD^wdwiend<Esc>^
 
-au FileType cpp set cindent makeprg=g++\ -Wno-deprecated\ -o\ %<\ %
-au FileType cpp set ts=8 sw=8
+au FileType c set noet ts=8 sw=8
+au FileType cpp set noet ts=8 sw=8
 
 " http://larve.net/people/hugo/2001/02/email-uri-refs/
 "source ~/.vim/vimurls.vim
