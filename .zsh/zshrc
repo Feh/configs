@@ -153,8 +153,7 @@ is_root_shell() { [[ $USER == root ]] }
 
   export LESS=XFRaeiM # the XFR is important here: don't mess with the terminal!
   export BC_ENV_ARGS=$HOME/.bcrc # scale=4
-  export GREP_OPTIONS='-i --color=auto'
-  export GREP_COLOR='1;32' # spidergreeeeeeeen!
+  export GREP_COLORS="ms=01;32"
   export MANWIDTH=80
 
   HISTSIZE=15000 # Größe der History
@@ -416,6 +415,8 @@ is_root_shell() { [[ $USER == root ]] }
 
   alias ls='ls --color=auto'
   alias ll='ls -lA' # -A excludes "." and "..", else behave likes "-a"
+
+  alias grep="grep -i --color=auto"
 
 # 2005-12-24: Hide certain commands from being saved to history
 # (uses hist_ignore_space option)
