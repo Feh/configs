@@ -75,24 +75,16 @@ set modelines=2
 " Dont automatically wrap
 set tw=0
 " Include @ and dot in word-keys
-set iskeyword=@,48-57,_,192-255,-,.,@-@
+set iskeyword=@,48-57,_,192-255,-,@-@
 " Incasesensitive search
 set ignorecase
 " <419c9cd0$0$25316$9b4e6d93@newsread2.arcor-online.net>
 setlocal cinkeys-=0#  "??
 
-" Colorscheme Murphy looks really cool
-color murphy
-" Enable Syntax-Highlighting
-hi Normal ctermbg=NONE
+set t_Co=256
 syntax on
-" Transparent Terminals, easier-to-read coments
-hi Normal ctermbg=NONE
-hi Comment ctermfg=red
-" set t_Co=16 to get rid of the bold characters
+colorscheme PaperColor
 hi MatchParen ctermbg=4
-" variables, preproc statements... white instead of blue
-hi PreProc ctermfg=white cterm=bold
 
 " Use CSS!
 let html_use_css = 1
@@ -432,5 +424,29 @@ if getcwd() =~ 'gitbuch'
 endif
 
 nmap <silent> <Leader>/ :nohlsearch<CR>
+
+imap <Esc>Op 0
+imap <Esc>Oq 1
+imap <Esc>Or 2
+imap <Esc>Os 3
+imap <Esc>Ot 4
+imap <Esc>Ou 5
+imap <Esc>Ov 6
+imap <Esc>Ow 7
+imap <Esc>Ox 8
+imap <Esc>Oy 9
+
+map <Esc>Op 0
+map <Esc>Oq 1
+map <Esc>Or 2
+map <Esc>Os 3
+map <Esc>Ot 4
+map <Esc>Ou 5
+map <Esc>Ov 6
+map <Esc>Ow 7
+map <Esc>Ox 8
+map <Esc>Oy 9
+
+let &colorcolumn=join(range(81,999),",")
 
 " EOF

@@ -156,9 +156,9 @@ is_root_shell() { [[ $USER == root ]] }
   export GREP_COLORS="ms=01;32"
   export MANWIDTH=80
 
-  HISTSIZE=15000 # Größe der History
-  SAVEHIST=10000 # Maximale Anzahl der Einträge, die gespeichert werden
-  HISTFILE=$HOME/.zsh_history # Speicherort der History
+  HISTSIZE=50000
+  SAVEHIST=50000
+  HISTFILE=$HOME/.zsh_history
   is_root_shell && HISTFILE=$HOME/.zsh_history.root
 
 # Farben, die 'ls' nutzen soll, werden auch in Completions genutzt (s.u.)
@@ -366,7 +366,7 @@ is_root_shell() { [[ $USER == root ]] }
   compctl -F funced
 
 # 2008-03-05
-  histgrep () { fc -fl -m "*(#i)$1*" 1 | grep -i --color $1 }
+  histgrep () { fc -ifl -m "*(#i)$1*" 1 | grep -i --color $1 }
 
 # }}}
 
