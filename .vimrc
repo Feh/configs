@@ -83,6 +83,7 @@ setlocal cinkeys-=0#  "??
 
 set t_Co=256
 syntax on
+set background=dark
 colorscheme PaperColor
 hi MatchParen ctermbg=4
 
